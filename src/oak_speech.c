@@ -27,8 +27,6 @@
 #include "constants/songs.h"
 #include "constants/vars.h"
 
-#if IS_FRLG || ALL_REGIONS
-
 #define INTRO_SPECIES SPECIES_NIDORAN_F
 
 enum
@@ -619,19 +617,11 @@ static const u8 *const sControlsGuide_Pages2And3_Strings[CONTROLS_GUIDE_STRINGS_
 
 static const u8 *const sMaleNameChoices[] =
 {
-#if defined(FIRERED) || ALL_REGIONS // Region merge: EMERALD build (IS_FRLG==0) would otherwise take the LeafGreen #else; force FireRed-canon Oak-intro name presets.
     gNameChoice_Red,
     gNameChoice_Fire,
     gNameChoice_Ash,
     gNameChoice_Kene,
     gNameChoice_Geki,
-#else
-    gNameChoice_Green,
-    gNameChoice_Leaf,
-    gNameChoice_Gary,
-    gNameChoice_Kaz,
-    gNameChoice_Toru,
-#endif
     gNameChoice_Jak,
     gNameChoice_Janne,
     gNameChoice_Jonn,
@@ -650,13 +640,8 @@ static const u8 *const sMaleNameChoices[] =
 
 static const u8 *const sFemaleNameChoices[] =
 {
-#if defined(FIRERED) || ALL_REGIONS // Region merge: EMERALD build (IS_FRLG==0) would otherwise take the LeafGreen #else; force FireRed-canon Oak-intro name presets.
     gNameChoice_Red,
     gNameChoice_Fire,
-#else
-    gNameChoice_Green,
-    gNameChoice_Leaf,
-#endif
     gNameChoice_Omi,
     gNameChoice_Jodi,
     gNameChoice_Amanda,
@@ -678,17 +663,10 @@ static const u8 *const sFemaleNameChoices[] =
 
 static const u8 *const sRivalNameChoices[] =
 {
-#if defined(FIRERED) || ALL_REGIONS // Region merge: EMERALD build (IS_FRLG==0) would otherwise take the LeafGreen #else; force FireRed-canon Oak-intro name presets.
     gNameChoice_Green,
     gNameChoice_Gary,
     gNameChoice_Kaz,
     gNameChoice_Toru
-#else
-    gNameChoice_Red,
-    gNameChoice_Ash,
-    gNameChoice_Kene,
-    gNameChoice_Geki
-#endif
 };
 
 enum
@@ -1570,7 +1548,6 @@ static void Task_OakSpeech_FadeOutPlayerPic(u8 taskId)
         if (tTimer != 0)
             tTimer--;
         else
-#if ALL_REGIONS
         {
             // Region merge: the rival is pre-named GARY (rivalName is set in new_game.c, which
             // runs AFTER the intro), so the "remember, your rival is <name>" segment would print
@@ -1583,9 +1560,6 @@ static void Task_OakSpeech_FadeOutPlayerPic(u8 taskId)
             gTasks[taskId].tTrainerPicFadeState = 1;
             gTasks[taskId].func = Task_OakSpeech_ReshowPlayersPic;
         }
-#else
-            gTasks[taskId].func = Task_OakSpeech_FadeInRivalPic;
-#endif
     }
 }
 
@@ -1604,12 +1578,6 @@ static void Task_OakSpeech_FadeInRivalPic(u8 taskId)
     ChangeBgX(2, 0, BG_COORD_SET);
     gTasks[taskId].tTrainerPicPosX = 0;
     gSpriteCoordOffsetX = 0;
-#if !ALL_REGIONS
-    // Region merge: don't show the rival's face during the Oak intro. The pic slot
-    // was already blanked by ClearTrainerPic in Task_OakSpeech_FadeOutPlayerPic, so
-    // the "remember your rival is <name>" text fades in over an empty platform.
-    LoadTrainerPic(RIVAL_PIC, 0);
-#endif
     CreateFadeOutTask(taskId, 2);
     gTasks[taskId].func = Task_OakSpeech_AskRivalsName;
 }
@@ -1620,7 +1588,6 @@ static void Task_OakSpeech_AskRivalsName(u8 taskId)
 
     if (tTrainerPicFadeState != 0)
     {
-#if ALL_REGIONS
         // Region merge: rival naming prompt removed. The rival's name is fixed per region
         // (BLUE for Kanto, set in new_game.c), so skip the name-choice menu + naming screen:
         // show the rival pic + "remember, your rival is <name>" and go straight to the end.
@@ -1629,11 +1596,6 @@ static void Task_OakSpeech_AskRivalsName(u8 taskId)
         StringExpandPlaceholders(gStringVar4, gOakSpeech_Text_RememberRivalsName);
         OakSpeechPrintMessage(gStringVar4, sOakSpeechResources->textSpeed, TRUE);
         gTasks[taskId].func = Task_OakSpeech_FadeOutRivalPic;
-#else
-        OakSpeechPrintMessage(gOakSpeech_Text_WhatWasHisName, sOakSpeechResources->textSpeed, FALSE);
-        sOakSpeechResources->hasPlayerBeenNamed = TRUE;
-        gTasks[taskId].func = Task_OakSpeech_MoveRivalDisplayNameOptions;
-#endif
     }
 }
 
@@ -1976,15 +1938,6 @@ static void CB2_ReturnFromNamingScreen(void)
             else
                 LoadTrainerPic(FEMALE_PLAYER_PIC, 0);
         }
-#if !ALL_REGIONS
-        else
-        {
-            // Region merge: rival naming is removed, so this return-from-naming path
-            // never carries a named rival; never show the rival's face in the intro.
-            LoadTrainerPic(RIVAL_PIC, 0);
-        }
-#endif
-#if ALL_REGIONS
         // Region merge: the rival segment is skipped, and vanilla only resets this +60
         // slide-in offset in Task_OakSpeech_FadeInRivalPic - so the pic and platform sat
         // 60px right of center through the whole name confirm, then jumped to center at
@@ -1993,11 +1946,6 @@ static void CB2_ReturnFromNamingScreen(void)
         gTasks[taskId].tTrainerPicPosX = 0;
         gSpriteCoordOffsetX = 0;
         ChangeBgX(2, 0, BG_COORD_SET);
-#else
-        gTasks[taskId].tTrainerPicPosX = -60;
-        gSpriteCoordOffsetX += 60;
-        ChangeBgX(2, 0xFFFFC400, BG_COORD_SET);
-#endif
         CreatePikachuOrPlatformSprites(taskId, SPRITE_TYPE_PLATFORM);
         gTasks[taskId].tNameNotConfirmed = TRUE;
         break;
@@ -2356,5 +2304,3 @@ static void GetDefaultName(u8 hasPlayerBeenNamed, u8 nameChoice)
 #undef tBlendTarget2
 #undef tUnusedState
 #undef tFadeTimer
-
-#endif // IS_FRLG || ALL_REGIONS

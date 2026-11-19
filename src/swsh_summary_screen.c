@@ -364,7 +364,7 @@ static void PrintSkillsPageText(void);
 static void PrintStatLabels(void);
 static void PrintExpPointsNextLevel(void);
 static void PrintBattleMoves(void);
-static void Task_PrintBattleMoves(u8);
+static void Task_PrintMoves(u8);
 #if SWSH_SUMMARY_SHOW_CONTEST_PAGES
 static void PrintConditionsPageText(void);
 static void Task_PrintConditionsPage(u8);
@@ -379,7 +379,6 @@ static void CreateMaxConditionSparkles(void);
 static void DestroyMaxConditionSparkles(void);
 #endif
 static void PrintContestMovesPageText(void);
-static void Task_PrintContestMoves(u8);
 static void PrintMemoPageText(void);
 static void Task_PrintMemoPage(u8);
 static void PrintMoveNameAndPP(u8);
@@ -471,10 +470,7 @@ static const u8 sText_Speed_Title[]             = _("Speed");
 static const u8 sText_ViewIVs[]                 = _("View IV");
 static const u8 sText_ViewEVs[]                 = _("View EV");
 static const u8 sText_ViewStats[]               = _("View Stats");
-static const u8 sText_Exp[]                     = _("Exp.");
-static const u8 sText_NextLv[]                  = _("Next Lv.");
 static const u8 sText_RentalPkmn[]              = _("Rental Pokémon");
-static const u8 sText_None[]                    = _("None");
 static const u8 sText_Egg[]                     = _("Egg");
 static const u8 sText_Nature[]                  = _("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5}");
 static const u8 sText_MintNature[]              = _("{DYNAMIC 0}{DYNAMIC 2} {EMOJI_LEAF}{DYNAMIC 1}");
@@ -844,11 +840,11 @@ static void (*const sTextPrinterTasks[])(u8 taskId) =
 {
     [PSS_PAGE_INFO] = Task_PrintInfoPage,
     [PSS_PAGE_SKILLS] = Task_PrintSkillsPage,
-    [PSS_PAGE_BATTLE_MOVES] = Task_PrintBattleMoves,
+    [PSS_PAGE_BATTLE_MOVES] = Task_PrintMoves,
 #if SWSH_SUMMARY_SHOW_CONTEST_PAGES
     [PSS_PAGE_CONDITIONS] = Task_PrintConditionsPage,
 #endif
-    [PSS_PAGE_CONTEST_MOVES] = Task_PrintContestMoves,
+    [PSS_PAGE_CONTEST_MOVES] = Task_PrintMoves,
     [PSS_PAGE_MEMO] = Task_PrintMemoPage,
 };
 
@@ -4765,7 +4761,7 @@ static void PrintBattleMoves(void)
     }
 }
 
-static void Task_PrintBattleMoves(u8 taskId)
+static void Task_PrintMoves(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -5529,51 +5525,6 @@ static void PrintContestMovesPageText(void)
             PrintMoveDescription(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
         }
     }
-}
-
-static void Task_PrintContestMoves(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-
-    switch (data[0])
-    {
-    case 1:
-        PrintMoveNameAndPP(0);
-        break;
-    case 2:
-        PrintMoveNameAndPP(1);
-        break;
-    case 3:
-        PrintMoveNameAndPP(2);
-        break;
-    case 4:
-        PrintMoveNameAndPP(3);
-        break;
-    case 5:
-        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-            PrintNewMoveDetailsOrCancelText();
-        break;
-    case 6:
-        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-        {
-            if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES)
-                data[1] = sMonSummaryScreen->newMove;
-            else
-                data[1] = sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex];
-        }
-        break;
-    case 7:
-        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-        {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
-                PrintMoveDescription(data[1]);
-        }
-        break;
-    case 8:
-        DestroyTask(taskId);
-        return;
-    }
-    data[0]++;
 }
 
 static void PrintMoveNameAndPP(u8 moveIndex)

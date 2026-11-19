@@ -18,23 +18,13 @@ static const u8 sButtons_Gfx[][4 * TILE_SIZE_4BPP] = {
     [BUTTON_R]      = INCBIN_U8("graphics/party_menu/swsh/button_r.4bpp"),
 };
 
-static const struct OamData sOamData_Button = {
-    .size = SPRITE_SIZE(32x8),
-    .shape = SPRITE_SHAPE(32x8),
-    .priority = 0,
-};
 
-#if SWSH_PARTY_MENU == TRUE
 static const u32 sStatusGfx_Icons_SwSh[] = INCBIN_U32("graphics/party_menu/swsh/status_icons.4bpp.smol");
 // Palette loaded to keep with vanilla structure, but not actually used
 static const u16 sStatusPal_Icons_SwSh[] = INCBIN_U16("graphics/party_menu/swsh/status_icons.gbapal");
 
 static const u32 sHeldItemGfx[]          = INCBIN_U32("graphics/party_menu/swsh/hold_icons.4bpp");
 const u16 gHeldItemPalette[]             = INCBIN_U16("graphics/party_menu/swsh/hold_icons.gbapal");
-#else
-static const u32 sHeldItemGfx[]          = INCBIN_U32("graphics/party_menu/hold_icons.4bpp");
-const u16 gHeldItemPalette[]             = INCBIN_U16("graphics/party_menu/hold_icons.gbapal");
-#endif
 
 static const u32 sHoverCursorGfx[]        = INCBIN_U32("graphics/party_menu/swsh/hover_cursor.4bpp.smol");
 static const u32 sSelectFrameGfx[]        = INCBIN_U32("graphics/party_menu/swsh/select_frame.4bpp.smol");
@@ -1449,11 +1439,6 @@ static const struct CompressedSpriteSheet sSpriteSheet_MessageWindow =
     .tag = TAG_MESSAGE_WINDOW,
 };
 
-static const struct SpritePalette sSpritePal_MessageWindow =
-{
-    .data = gHeldItemPalette,
-    .tag = TAG_HELD_ITEM,
-};
 
 static const struct SpriteTemplate sSpriteTemplate_MessageWindow =
 {
@@ -1610,11 +1595,7 @@ static const union AnimCmd *const sSpriteTemplate_StatusCondition[] =
 
 static const struct CompressedSpriteSheet sSpriteSheet_StatusIcons =
 {
-#if SWSH_PARTY_MENU == TRUE
     .data = sStatusGfx_Icons_SwSh,
-#else
-    .data = gStatusGfx_Icons,
-#endif
     .size = 0x400,
     .tag = TAG_STATUS_ICONS
 };

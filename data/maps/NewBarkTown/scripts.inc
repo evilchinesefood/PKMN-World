@@ -4,7 +4,6 @@
 NewBarkTown_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, NewBarkTown_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, NewBarkTown_OnFrame
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
 
 NewBarkTown_OnFrame::
@@ -279,10 +278,6 @@ NewBarkTown_Text_PlayersHouse:
 
 NewBarkTown_Text_ElmsHouse:
 	.string "PROF.ELM'S HOUSE$"
-
-@ Slice shim: shared ON_RESUME handler referenced by NewBark/Cherrygrove/Route29/Route30
-SetTimeEncounters::
-	end
 
 @ Slice shim: Elm's intro pokenav call text (source lived in out-of-slice Blackthorn)
 BlackthornCity_Text_ElmCall:

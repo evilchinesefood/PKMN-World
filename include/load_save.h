@@ -57,8 +57,6 @@ void LoadPlayerBag(void);
 void SavePlayerBag(void);
 void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey);
 void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey);
-#if ALL_REGIONS
-void MigrateSaveFormatIfNeeded(void);
 void ResyncClearedObstacleTable(void);
 void StampRegionSaveChecksum(void);
 bool32 VerifyRegionSaveChecksum(void);
@@ -67,6 +65,5 @@ bool32 VerifyRegionSaveChecksum(void);
 // hold Johto/Kanto story progress and zeroing a playthrough over one flipped bit is worse than
 // the corruption. Read it to surface the state (debug menu, BizHawk harness), not to "fix" it.
 extern bool8 gRegionSaveCorrupt;
-#endif
 
 #endif // GUARD_LOAD_SAVE_H

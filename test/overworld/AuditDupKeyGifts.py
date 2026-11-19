@@ -69,9 +69,6 @@ ALLOWLIST = {
     # Celio's Tri-Pass beats are one scene and its missed-pass retry, keyed on the same flags.
     ("data/maps/OneIsland_PokemonCenter_1F_Frlg/scripts.inc", "OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene", "ITEM_TRI_PASS"):
         "first Celio scene; the retry below runs only when this one could not give",
-    # The Mega Ring re-give is reached only from a checkitem miss in the Director's repeat talk.
-    ("data/maps/RegionHub_2F/scripts.inc", "BattleNet_EventScript_Director", "ITEM_MEGA_RING"):
-        "first talk only (FLAG_BNET_DIRECTOR_INTRO); the re-give below runs on a checkitem miss",
 }
 
 

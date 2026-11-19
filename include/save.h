@@ -41,7 +41,7 @@
 // rather than a new SAVE_STATUS so every EMPTY consumer (Sav2_ClearSetDefault, RtcReset,
 // reload paths) keeps its exact behavior; only the main menu reads this to explain itself.
 #define SAVE_VERSION_REFUSAL_NONE    0
-#define SAVE_VERSION_REFUSAL_TOO_OLD 1 // pre-SAVE_FORMAT_LAYOUT_MIN: layout predates the v7 reshape
+#define SAVE_VERSION_REFUSAL_TOO_OLD 1 // Below this build's supported layout floor.
 #define SAVE_VERSION_REFUSAL_TOO_NEW 2 // stamped by a newer build: this binary can't know its layout
 
 // Special sector id value for certain save functions to

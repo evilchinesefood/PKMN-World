@@ -91,8 +91,6 @@
 
 
 
-#if SWSH_PARTY_MENU
-
 enum {
     MENU_SUMMARY,
     MENU_SWITCH,
@@ -11366,5 +11364,3 @@ s8 Test_UpdatePartySelectionSingleLayout(s8 slotId, s8 movementDir, bool8 choose
     return slotId;
 }
 #endif // TESTING
-
-#endif // SWSH_PARTY_MENU

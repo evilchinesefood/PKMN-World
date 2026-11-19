@@ -384,18 +384,12 @@ OlivinePort_Text_SailorGetOnBoard:
     .string "We're departing soon.\n"
     .string "Please get on board.$"
 
-OlivinePort_Text_CantBoard:
-    .string "Sorry. You can't board now.$"
-
 OlivinePort_Text_WhereSail:
     .string "Where would you like to sail?$"
 
 OlivinePort_Text_AskBoard:
     .string "Welcome to FAST SHIP S.S.AQUA.\p"
     .string "Will you be boarding today?$"
-
-OlivinePort_Text_AskTicket:
-    .string "May I see your S.S.TICKET?$"
 
 OlivinePort_Text_ComeAgain:
     .string "We hope to see you again!$"
@@ -433,7 +427,3 @@ OlivinePort_Text_Youngster:
 OlivinePort_Text_CooltrainerF:
     .string "There are lots of POKéMON in KANTO.\p"
     .string "I wish I could go…$"
-
-OlivinePort_Text_SailorBeforeHOF:
-    .string "We don't want you to fall into the\n"
-    .string "sea, so you're not allowed in.$"

@@ -97,9 +97,6 @@ Route35GoldenrodGate_Text_RandyWeirdTree:
 	.string "blocking the road.\p"
 	.string "I wonder if it's been cleared?$"
 
-Route35GoldenrodGate_Text_CantCarryMoreMon:
-	.string "You can't carry another POKéMON…$"
-
 Route35GoldenrodGate_Text_RandyNeverMind:
 	.string "Oh… Never mind, then…$"
 

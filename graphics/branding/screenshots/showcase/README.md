@@ -31,5 +31,3 @@ python3 test/overworld/visual-features/run_fixture.py --repo . --fixture /tmp/pw
 python3 test/overworld/visual-features/build_fixture.py --repo . --rom pokemonworld.gba --elf pokemonworld.elf --out /tmp/pw-showcase/options-fixture
 python3 test/overworld/visual-features/run_fixture.py --repo . --fixture /tmp/pw-showcase/options-fixture --suite test/overworld/world-menu-theme/capture-options.lua --out /tmp/pw-showcase/options
 ```
-
-The six older screenshots one directory above remain as historical branding assets.

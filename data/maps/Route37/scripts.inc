@@ -1,12 +1,5 @@
 Route37_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route37_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route37_OnTransition: 
-	end
-
-
 
 Route37_EventScript_TwinAnn::
 	trainerbattle_double TRAINER_ANN_AND_ANNE, Route37_Text_TwinsAnnAndAnne1_Seen, Route37_Text_TwinsAnnAndAnne1_Beaten, Route104_Text_GinaNotEnoughMons
@@ -121,10 +114,6 @@ Route37_Text_Sunny_Meet:
 	.string "If you can guess my favorite day,\n"
 	.string "I'll give you a reward.$"
 
-Route37_Text_Sunny_GiveGift1:
-	.string "I was told to give you this if I saw\n"
-	.string "you!$"
-
 Route37_Text_Sunny_GiveGift2:
 	.string "I was told to give you this if I saw\n"
 	.string "you!$"
@@ -145,10 +134,6 @@ Route37_Text_Sunny_Sunday:
 	.string "MONICA, TUSCANY, WESLEY, ARTHUR,\l"
 	.string "FRIEDA and SANTOS.\p"
 	.string "They're all older than me!$"
-
-Route37_Text_Sunny_NotSunday:
-	.string "SUNNY: Isn't today Sunday?\n"
-	.string "Um… I forgot!$"
 
 Route37_Text_Sign:
 	.string "ROUTE 37\n"

@@ -15,9 +15,10 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-RESERVED = {'PW_SUITE', 'PW_ROM_NAME', 'PW_ROM_HASH', 'PW_OUT', 'PW_SAVE', 'PW_SYMBOLS'}
+RESERVED = {'PW_SUITE', 'PW_ROM_NAME', 'PW_ROM_HASH', 'PW_OUT', 'PW_SAVE', 'PW_SYMBOLS', 'PW_CASE_NAME'}
 # These exact historical saves test refusal; their sector layout predates SavePatch's ABI.
 LEGACY_FIXTURES = {
+    'v13.srm': '5762348bd56796c5c50d7194f2f7706c6bb6655ec32356e00944b0c348625526',
     'v3.srm': '47c07cdae410569cb8b1df6dbd5d8c0936649b6a12666b5df878af3d2a3fa178',
 }
 
@@ -135,8 +136,6 @@ def run_case(args):
     name = args.case_name or suite.stem
     if not re.fullmatch(r'[A-Za-z0-9_-]+', name):
         raise ValueError('case name must contain letters, digits, underscore or hyphen')
-    if os.environ.get('CI') and (name == 'VerifyOwnerSave' or suite.stem == 'VerifyOwnerSave'):
-        raise ValueError('personal-save coverage is not permitted in CI')
     parent = Path(args.out).resolve()
     parent.mkdir(parents=True, exist_ok=True)
     case = Path(tempfile.mkdtemp(prefix=name + '-', dir=parent))
@@ -171,7 +170,7 @@ def run_case(args):
                 raise ValueError(f'invalid or reserved case setting: {key}')
             env[key] = value
         rom_md5 = digest(rom, 'md5').upper()
-        env.update(PW_SUITE=str(suite), PW_ROM_NAME='Verify1', PW_ROM_HASH=rom_md5, PW_OUT=str(out) + '/', PW_SYMBOLS=str(symbols))
+        env.update(PW_CASE_NAME=name, PW_SUITE=str(suite), PW_ROM_NAME='Verify1', PW_ROM_HASH=rom_md5, PW_OUT=str(out) + '/', PW_SYMBOLS=str(symbols))
         emulator = args.emulator or os.environ.get('MGBA_HEADLESS') or shutil.which('mgba-headless')
         if not emulator:
             raise ValueError('mgba-headless not found; use the documented pinned bootstrap')
@@ -205,23 +204,20 @@ def read_inventory():
     rows = list(csv.DictReader((HERE / 'cases.tsv').open(), delimiter='\t'))
     names = [row['name'] for row in rows]
     suites = [row['suite'] for row in rows]
-    if len(names) != len(set(names)) or len(suites) != len(set(suites)) or not names:
-        raise ValueError('canonical case names and suite paths must be nonempty and unique')
+    if len(names) != len(set(names)) or len(rows) != len({(r['suite'], r['fixture']) for r in rows}) or not names:
+        raise ValueError('canonical names and suite/fixture combinations must be unique')
     helpers = {'lib.lua', 'mgba_shim.lua', 'symbols.lua', 'frontier_facility.lua', 'frontier_rentals.lua'}
     discovered = {'lua/' + p.name for p in (HERE / 'lua').glob('*.lua') if p.name not in helpers}
     if set(suites) != discovered:
         raise ValueError(f'canonical inventory mismatch: unclassified={sorted(discovered - set(suites))}; missing={sorted(set(suites) - discovered)}')
     if any(r['scope'] not in {'required', 'manual'} or r['smoke'] not in {'0', '1'} for r in rows):
         raise ValueError('invalid canonical scope or smoke membership')
-    required_smoke = {'SmokeBoot', 'WorldTitle', 'StoryProgress', 'RegionalTravelMigration'}
+    required_smoke = {'SmokeBoot', 'WorldTitle', 'StoryProgress', 'RefuseV13'}
     if {r['name'] for r in rows if r['smoke'] == '1' and r['scope'] == 'required'} != required_smoke:
         raise ValueError('canonical smoke selection changed')
     fixtures = {
-        'RegionalTravelMigration': 'lua/fixtures/v10regionaldirty.srm',
-        'VerifyV7Migrate': 'lua/fixtures/v7dirty.srm',
         'MigrateFixtures': 'lua/fixtures/v3.srm',
-        'VerifyMapRenumber': 'lua/fixtures/v7renumber.srm',
-        'FamilyOptionsMigration': 'generated:family-options/v11-hard.srm',
+        'RefuseV13': 'lua/fixtures/v13.srm',
     }
     by_name = {r['name']: r for r in rows}
     for name, fixture in fixtures.items():
@@ -236,23 +232,18 @@ def inventory(profile, out, excluded=False):
     if excluded:
         print(','.join(r['name'] for r in rows if r not in selected))
         return
-    generated = Path(out) / 'family-options'
-    if any(r['fixture'].startswith('generated:') for r in selected):
-        subprocess.run([sys.executable, str(HERE / 'MakeFamilyOptionsFixtures.py'), '--output', str(generated)], check=True, stdout=sys.stderr)
     for row in selected:
         suite = HERE / row['suite']
-        if not suite.is_file() or row['name'] == 'VerifyOwnerSave':
+        if not suite.is_file():
             raise ValueError(f'invalid canonical suite: {row["name"]}')
         fixture = row['fixture']
         if fixture == 'fresh':
             path = '-'
-        elif fixture == 'generated:family-options/v11-hard.srm':
-            path = generated / 'v11-hard.srm'
-        elif fixture.startswith('generated:'):
-            raise ValueError(f'unknown fixture generator: {fixture}')
         else:
             path = HERE / fixture
         if path != '-':
+            if path.name in LEGACY_FIXTURES and digest(path) != LEGACY_FIXTURES[path.name]:
+                raise ValueError(f'historical fixture changed: {path.name}')
             check_fixture(path)
         print(f'{row["name"]}\t{suite}\t{path}')
 

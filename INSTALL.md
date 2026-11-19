@@ -9,7 +9,7 @@ This repository **is** the project — you do not clone anything else. Building 
 - **Output ROM:** `pokemonworld.gba` — 32 MB, ROM header title `POKEMON WRLD`, game code `BPEE`
   (`Makefile:2-3`)
 - **Toolchain:** modern only — `arm-none-eabi-gcc` + newlib. **agbcc is not used**; the Makefile
-  hardcodes `-DMODERN=1` and `make agbcc` deliberately exits with an error (`Makefile:345-348`).
+  hardcodes `-DMODERN=1` and `make agbcc` deliberately exits with an error.
 
 For a project overview see [README.md](README.md); for the feature set see [FEATURES.md](FEATURES.md).
 
@@ -20,7 +20,7 @@ For a project overview see [README.md](README.md); for the feature set see [FEAT
 | Requirement | Why |
 | --- | --- |
 | `arm-none-eabi-gcc` + binutils (`as`, `ld`, `objcopy`, `objdump`, `nm`) | compiles and links the ROM |
-| newlib for `arm-none-eabi` (`libc.a`, `libnosys.a`) | the modern link pulls `-lc -lnosys` (`Makefile:202`) |
+| newlib for `arm-none-eabi` (`libc.a`, `libnosys.a`) | the Makefile links the modern ROM with `-lc -lnosys` |
 | `make` | GNU make. macOS's bundled 3.81 works — see the caveat in §6 |
 | a host C compiler (`cc` / `gcc`) | builds the 13 host tools in `tools/` |
 | `libpng` **development headers** | `tools/gbagfx` and `tools/rsfont` `#include <png.h>` |
@@ -151,30 +151,10 @@ run this the pre-push gate is silently absent:
 test/overworld/hooks/install.sh
 ```
 
-It symlinks `test/overworld/hooks/pre-push` into `.git/hooks/`. That hook runs the source-only
-checks below (a few seconds, no ROM build) that catch edits which build and boot cleanly and then
-break in play:
-
-| Check | Catches |
-| --- | --- |
-| `test/overworld/ValidateGen13.py` | references to disabled species |
-| `test/overworld/story-progress/run.py` | Story progress resolver giving the wrong objective at a story boundary (compiles the game's resolver with the host C compiler) |
-| `test/overworld/ValidateScripts.py` | bare-integer script-pointer arguments |
-| `test/overworld/ValidateOwMonPlacements.py` | bad overworld-Pokémon placements |
-| `test/overworld/ValidateMapEvents.py` | object events with the wrong sprite / trainer / team |
-| `test/overworld/ValidateMetatileBounds.py` | map blocks that point past their tilesets' metatiles |
-| `test/overworld/GenObstacleTable.py --check` | a stale cleared-obstacle table |
-| `test/overworld/SavePatch.py --check` | save-format constants that have drifted from the tree |
-| `test/overworld/ValidateDoorAnims.py --max 0` | animated-door warps with no `sDoorAnimGraphicsTable` row |
-| `test/overworld/ValidateTilesetPalettes.py` | tileset palette arrays that overrun their bounds |
-| `test/overworld/ValidateCelioGifts.py` | Celio's gifts lost to a full bag |
-| `test/overworld/ValidateGreedyGifts.py` | exclusive-choice gifts sharing one flag |
-| `test/overworld/ValidateRegionMap.py` | misplaced region-map icons |
-| `test/overworld/ValidateLanceMultiBattle.py` | a broken Rocket HQ multi battle with Lance |
-| `test/overworld/ValidateZoneStructure.py` | structural errors in registered maps (layouts, warps, connections, encounters) |
-| `test/overworld/ValidateDeadEvoItems.py` | marts selling an evolution item that evolves nothing obtainable |
-
-`make validate` runs these and more. CI runs the full host list in `test/validate-host.py` in the `validate` job.
+The installer symlinks the [pre-push hook](test/overworld/hooks/pre-push) into
+`.git/hooks/`. The hook runs a subset of the source checks before each push.
+For the full list used by CI, see [the host validator](test/validate-host.py).
+Run it locally with `python3 test/validate-host.py` or `make validate`.
 
 ---
 
@@ -207,7 +187,7 @@ From the repository root:
 make modern -j8            # build pokemonworld.gba
 ```
 
-`modern` is an explicit alias for the default target (`Makefile:340`) — plain `make` does exactly
+`modern` is an explicit alias for the default target — plain `make` does exactly
 the same thing. It is the spelling used by `test/overworld/mgba-run.sh` and `test/overworld/lua/MANIFEST.md`,
 so it is the one used here too.
 

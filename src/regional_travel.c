@@ -183,22 +183,6 @@ bool32 RegionalTravel_RecordDeparture(enum Region source)
     return TRUE;
 }
 
-void RegionalTravel_Migrate(void)
-{
-    u32 i, zero = 0;
-    memset(TravelSave(), 0, sizeof(*TravelSave()));
-    TravelSave()->nextIdentity = 1;
-    for (i = 0; i < PARTY_SIZE; i++)
-        SetMonData(&gSaveBlock1Ptr->playerParty[i], MON_DATA_REGIONAL_ID, &zero);
-    for (i = 0; i < TOTAL_BOXES_COUNT * IN_BOX_COUNT; i++)
-        SetBoxMonData(GetBoxedMonPtr(i / IN_BOX_COUNT, i % IN_BOX_COUNT), MON_DATA_REGIONAL_ID, &zero);
-    for (i = 0; i < DAYCARE_MON_COUNT; i++)
-        SetBoxMonData(&gSaveBlock1Ptr->daycare.mons[i].mon, MON_DATA_REGIONAL_ID, &zero);
-    SetBoxMonData(&gSaveBlock3Ptr->region.route5DayCareMon.mon, MON_DATA_REGIONAL_ID, &zero);
-    for (i = 0; i < MAX_FUSION_STORAGE; i++)
-        SetMonData(&gPokemonStoragePtr->fusions[i], MON_DATA_REGIONAL_ID, &zero);
-}
-
 #define MAP_KEY(map) ((MAP_GROUP(map) << 8) | MAP_NUM(map))
 enum Region RegionalTravel_PhysicalRegion(void)
 {

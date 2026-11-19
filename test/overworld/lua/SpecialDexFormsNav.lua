@@ -15,6 +15,7 @@ local S = require("symbols")
 local F = require("lib").new(S, "SpecialDexFormsNav")
 
 local FLAG_SYS_POKEDEX_GET = 0x949
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local USM_ICO_POKEDEX = 0
 local PIKACHU_LIST_INDEX = 24
 -- WIN_NAVIGATION_BUTTONS in src/pokedex_plus_hgss.c: BG2, tilemap (0,18), 20x2, baseBlock 641.
@@ -74,6 +75,7 @@ F.run(function()
   local opt = F.sb2() + S.SaveBlock2.optionsU16
   F.w16(opt, (F.r16(opt) & ~7) | 3)
   flag(FLAG_SYS_POKEDEX_GET, true)
+  flag(FLAG_SYS_DEXNAV_GET, true)
   F.dbg(); F.sel(7); F.sel(2); F.idle(60); F.bOut(4)   -- Pokedex Flags All
   F.dbg(); F.sel(7); F.sel(5); F.idle(60); F.bOut(4)   -- Toggle National Dex
   F.w8(F.sb2() + 0x19, 1)                               -- pokedex.mode = DEX_MODE_NATIONAL

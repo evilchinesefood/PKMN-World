@@ -12,11 +12,11 @@ and collision checks used by the suites.
 
 ## Coverage and shared files
 
-Most cases start a fresh game. Migration/refusal cases use tracked or generated fixtures.
+Most cases start a fresh game. Refusal cases use tracked historical saves.
 These scenarios are debug-assisted and can modify RAM or use debug travel. They are not a
 natural playthrough or complete campaign-balance test.
 
-Smoke selects SmokeBoot, WorldTitle, StoryProgress, and RegionalTravelMigration.
+Smoke selects SmokeBoot, WorldTitle, StoryProgress, and RefuseV13.
 StoryProgress reads all three campaign reminders while travelling between Kanto, Johto,
 Hoenn, and the hub, then saves, reboots, and Continues. Its companion host checks live in
 [story-progress](../story-progress/).
@@ -26,14 +26,13 @@ Hoenn, and the hub, then saves, reboots, and Continues. Its companion host check
 | `lib.lua` | Shared boot, input, navigation, assertion, screenshot, and verdict helpers. |
 | `symbols.lua` | Generated build addresses, ABI offsets, and ROM identity. Never committed. |
 | `mgba_shim.lua` | mGBA compatibility entry point. Loads the selected suite and immutable symbols. |
-| `XRegionDamageFixtures.lua` | Fixture producer for the two `XRegionSaveRepair` suites. Runs only on a pre-fix build, from that build's tree (`manual`). |
 
 ## Run a focused suite or sweep
 
 ```sh
 make modern -j8
 test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua pokemonworld.gba
-test/overworld/mgba-run.sh test/overworld/lua/VerifyV7Migrate.lua pokemonworld.gba test/overworld/lua/fixtures/v7dirty.srm
+test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
 test/overworld/run-all.sh pokemonworld.gba
 ```
 
@@ -51,10 +50,7 @@ passed/total assertion counts. A FAIL, crash, timeout, missing verdict, or bad b
 Missing or corrupt required fixtures fail the sweep. The summary lists selected, passed,
 failed, and excluded coverage and the exact input identities.
 
-`VerifyOwnerSave` is an explicit local-only check, excluded from both canonical profiles and CI.
-The runners never search for `pokemonworld.sav`. To check a personal save deliberately, pass
-its path as the focused runner's third argument; the runner tests a disposable copy. This
-optional result must be reported separately from the canonical sweep.
+No runner automatically selects a personal save.
 
 ## Explicit controls and input guards
 
@@ -165,7 +161,6 @@ is clean; keep it that way.
 | [`CapacityArrivals.lua`](#capacityarrivalslua) | fresh new game | Fourteen Pokémon givers in three regions with the party and every PC box full, accepted and mashed at Instant and Mid text: nothing given or moved, control back; with one free slot the gift lands there once and takes the typed nickname. |
 | [`BattleNetShardEdges.lua`](#battlenetshardedgeslua) | fresh new game | The Battle Net BP clerk, stone vendor and Director at short, exact and full-pocket balances, and menu mashes that must conserve BP and shards. |
 | [`IndigoVictoryRoadExits.lua`](#indigovictoryroadexitslua) | fresh new game | Victory Road's top exit and the league town above it join both ways on foot in Johto, Kanto and Hoenn; the Johto Indigo Plateau's south stairs lead down Route 23 to the cave mouth. |
-| [`FamilyOptionsMigration.lua`](#familyoptionsmigrationlua) | generated v11 Hard Mode fixture | Continue initializes only new rate bits and preserves preferences, money, Pokemon, and location. |
 | [`PromptSafetyEvIv.lua`](#promptsafetyevivlua) | fresh new game | Intro skips difficulty selection; outfit B stays on the picker; EV/IV START flips page. |
 | [`RedGyarados.lua`](#redgyaradoslua) | fresh new game | Lake of Rage Red Gyarados is MON\|SHINY\|GYARADOS in the overworld and in battle. |
 | [`Route41SeaReturn.lua`](#route41seareturnlua) | fresh new game | The Route 40/41 strait is two-way: surf north from a Route 41 sea arrival onto Route 40 past its arrow row. |
@@ -191,10 +186,7 @@ is clean; keep it that way.
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
 | [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
-| [`VerifyV7Migrate.lua`](#verifyv7migratelua) | `fixtures/v7dirty.srm` | The v7→v8 ladder step runs, and the stale `mapView` does not repaint the old room. |
-| [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm` | A pre-v7 save is *refused* at load, not half-loaded. |
-| [`VerifyOwnerSave.lua`](#verifyownersavelua) | explicit personal-save path, local only | A real mid-playthrough save survives the v9 break. |
-| [`VerifyMapRenumber.lua`](#verifymaprenumberlua) | `fixtures/v7renumber.srm` (generated) | The v9 map-renumber migration repoints persisted warps. |
+| [`MigrateFixtures.lua`](#migratefixtureslua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
 discrimination check was run it is recorded in the entry. (The other tier the harness
@@ -207,11 +199,11 @@ symbols + lib load on a fresh build; boot to hub, empty party, step + object dum
 
 ### `HubIntroTour.lua`
 
-Issue #41's World Transit intro tour, all five reachable paths on one fresh new game: the warp-in offer fires with **no input at all** on a brand-new game (the thing a `coord_event` alone cannot do, because coord events only fire on a step); declining releases the player on the crest, sets `FLAG_HUB_INTRO_TOUR_DONE` and stops the crest triggers for good; the Charm Curator's re-offer, declined, falls straight through to his normal HUB PASS + POKéVIAL gives; accepted, it walks the player back to the crest and runs all nine stops (#59 added the BATTLE NET terminal and the flagship stairs) **in order** (the stop index only advances, so a tile matching a later stop early cannot fake a pass); the guide ends back at (22,7) facing down with **no stale held movement** — the issue-#42 trap — and stays there across a map reload; and with the flag cleared by hand, the crest `coord_event` still catches a walk-on, standing in for a legacy save that never saw the intro.
+A fresh game offers the tour on arrival. Declining releases the player on the crest. The Curator offers a replay before handing out the Hub Pass and Pokévial. The suite accepts the replay from two different adjacent tiles, checks all nine stops in order, then reloads the map and checks the guide's position, facing and movement state.
 
 ### `HubIntroTourFollower.lua`
 
-The same escort with a **follower POKéMON out**. RegionHub has 14 object events against an `OBJECT_EVENTS_COUNT` of 16, so player + follower fills the sprite budget exactly, and a ~47-step scripted walk under that had never been run. Proves the follower spawns at all, that all nine stops (#59 added the BATTLE NET terminal and the flagship stairs) still run with it out, that it is back out beside the player at the end, and that the guide still gets home. It also pins the **mechanism**: `ScrCmd_applymovement` pockets the follower for the whole escort (`ScriptHideFollower`, because nothing sets `FLAG_SAFE_FOLLOWER_MOVEMENT` here), so the suite asserts zero visible frames *and* a ≤1 tile gap over any frame it is visible — if a future change stops pocketing it, the visible count leaves zero and the gap check starts doing real work. **★ `active` is not `visible`:** a pocketed follower stays active in `gObjectEvents` parked on its last tile, so an active-only check reads it as still on the map and reports a phantom desync that grows as the player walks away. Read `invisible` (`ObjectEvent.flags1` bit 5).
+The player brings a follower to the Curator and accepts his replay. All nine stops must run in order. The suite samples follower visibility and distance during the walk, then checks the guide is home after the tour and the player has control.
 
 ### `EscortStress.lua`
 
@@ -340,8 +332,8 @@ doors (`0x396` at (5,8) (4,44) (14,51),
 `0x3FC` at (10,28) (22,51) (65,31) — the West tileset's ids, registered for the West tileset only);
 Bellchime Trail's Tin Tower door (`0x333` at (35,41), registered for Ecruteak City's tileset only);
 Dragon's Den's shrine entrance (`0x2FF` at (31,46), which is the *only* warp into
-`MAP_DRAGONS_DEN_SHRINE`); the Johto Safari Zone hut (`0x2BF` at SafariZone2 (35,11), an id
-registered for Fuchsia City's tileset only); the four Mahogany-tileset doors that one row
+`MAP_DRAGONS_DEN_SHRINE`); the Johto Safari Zone gate (its physical `0x2D2` door plus a check that the Safari
+tileset has its own registration for the hut id `0x2BF` shared with Fuchsia City); the four Mahogany-tileset doors that one row
 repairs across two maps (`0x2A2` at Mahogany Town (15,10) (27,10) and Lake of Rage (15,4) (39,41),
 an id registered for Lavender Town's tileset only); and the five S.S. Aqua doors that a second row
 repairs across five maps (`0x281` at SSAqua 1F (29,1) and at (2,1) in each of the Player's Room,
@@ -351,23 +343,19 @@ negative controls** are what stop it being "a door exists": `bf_battle_tower_doo
 metatile id* as Bellchime's broken door behind a different tileset pointer; a plain walkable
 metatile beside each door must match no row; and `*_foreign_tileset_door_id_has_no_row` looks up an
 id that **is** in the table but only for tilesets this map does not use (`0x021` on Bellchime,
-`0x333` on Battle Frontier East and Safari Zone 2, `0x32B` on Dragon's Den, `0x2D2` on Mahogany
+`0x333` on Battle Frontier East and the Safari Zone gate, `0x32B` on Dragon's Den, `0x2D2` on Mahogany
 Town) — if the id half alone decided the match, those would resolve. Three more shapes were added
 with the later groups. **Cross-map twins**, the Ecruteak pattern repeated: Violet City's two `0x32B`
 dojo doors carry the artwork Dragon's Den's row borrows, and Lavender Town's three doors carry the
 very *same* id as Mahogany's, `0x2A2`, behind a different tileset pointer — each paired with an
 assertion that the two maps share **no** tileset, so the comparison cannot be vacuous.
-**`safari_johto_gate_door_id_resolves_on_this_tileset`**, the strongest of the lot: `0x2D2` is the
-*other* door in `gTileset_SafariZoneJohto` and predates the fix, so looking it up on SafariZone2
-runs the same map, the same pointer pair, the same walk and the same matcher as the repaired `0x2BF`
-lookup and resolves on both ROMs — the two differ in the row and nothing else (and
-`MAP_SAFARI_ZONE_GATE` is then visited so `0x2D2` is checked as a real `MB_ANIMATED_DOOR` at its own
-coordinates). And **`*_door_id_also_has_a_foreign_row`**, the form `checkNoDoorRow` cannot express:
+The Safari Zone gate now exercises its own physical `0x2D2` animated door and looks up the
+retired hut's `0x2BF` registration against the same live tileset. **`*_door_id_also_has_a_foreign_row`**, the form `checkNoDoorRow` cannot express:
 on Mahogany Town `0x2A2` *does* resolve after the fix, correctly, so "must not match" is the wrong
 assertion — what must hold is that a row carrying that id is bound to a tileset this map does not
 use (`&gTileset_LavenderTown`). That is what makes the positive read "the `&gTileset_MahoganyTown`
 row is present" rather than "`0x2A2` is a known door metatile": on the pre-fix ROM the id was in the
-table and the doors still never opened. Safari Zone 2 states the same against Fuchsia's `0x2BF` row.
+table and the doors still never opened. The Safari Zone gate checks the same condition against Fuchsia's `0x2BF` row.
 **Supplementary, clearly labelled:** `*_live_door_animation_runs` walks into one repaired door per
 map and watches `gTasks` for `Task_AnimateDoor`, whose only creator (`StartDoorAnimationTask`) is
 reached only after `GetDoorGraphics` returns non-NULL; it screenshots the door twelve frames in, on
@@ -740,85 +728,14 @@ south onto the door mat.
 so #195's only persisted observable was unreadable) and `SaveBlock1.registeredItem = 0x496`, both in
 `test/overworld/GenLuaSymbols.py`. Regenerating `symbols.lua` from the same ELF is otherwise byte-identical.
 
-### `VerifyV7Migrate.lua`
-
-The one test that could not be written after the fact (issue #59): `fixtures/v7.srm` was harvested from the last PRE-EDIT build — a fresh game debug-warped into Oldale's Pokémon Center and manually saved at (7,4), where the saved `mapView` window covers both the Town Map poster and the escalator this branch removed. Proves `SAVE_FORMAT_LAYOUT_MIN` stayed 7 (Continue loads the save instead of refusing it), the v7→v8 ladder step ran (`saveVersion` reads 8 in RAM), and — the part that needs the fixture — the stale `mapView` did NOT repaint the old room: the live map grid holds the terminal metatiles and stair fills at the exact edited cells. On any post-edit save `mapView` is already clean and that check would pass vacuously.
-
-> **Run it with `fixtures/v7dirty.srm`, not the `v7.srm` named above.** The entry describes
-> where the v7 fixture came from, and that history is correct — but `v7.srm` happens to hold
-> zeroes where `johtoTrainerFlags` lands, so the bank check passes there even with the memset
-> removed. `run-all.sh` hard-codes the dirtied copy. See [Fixtures](#fixtures).
-
 ### `MigrateFixtures.lua`
 
-That a pre-v7 save is **refused**, not half-loaded. Save format v7 reshaped SaveBlock1 and the owner chose new-saves-only, so `SAVE_FORMAT_LAYOUT_MIN` in `src/save.c` rejects older saves and the v0..v6 migration ladder is now unreachable. This suite was rewritten to assert the gate rather than a migration that can no longer happen. Any pre-v7 fixture works (v3/v4/v5 are all below the floor). As of save format v8 (issue #59) the LADDER is live again for exactly one step — v7 saves still load and get their `mapView` wiped on the way in — but that migration is proven by `VerifyV7Migrate.lua`, not here.
+The sweep runs this suite against two raw 128 KiB flash images. Each must reach New Game with the TOO_OLD reason, the current version stamp and clean region banks.
 
-> **Why the gate needs a test at all:** `bag` and `pcItems` both live in SaveBlock1 **chunk 0**, and
-> `SAVEBLOCK_CHUNK` only varies the *last* chunk's size. So chunks 0-2 keep size 3968, their stored
-> checksums still match the flash bytes, and a legacy save loads *successfully* into the shifted
-> layout — only chunk 3 fails. The result is a half-loaded save with silently misaligned flags and
-> vars. The checksum is not a gate; `SAVE_FORMAT_LAYOUT_MIN` is.
+- `v3.srm` exercises the historical incompatible layout.
+- `v13.srm` exercises the exact boundary. A fresh game on the outgoing v13 ROM (MD5 `dc182bb9fe4a366175c701234d440c20`) saved once from the Start menu at the World Transit hub. The fixture contains its flash bytes without mGBA's RTC trailer. The smoke profile includes this case.
 
-### `VerifyOwnerSave.lua`
-
-Salvage check for a **real mid-playthrough save** across the v9 break, run against the owner's battery save rather than a fixture. v9 does three things a save can notice and that save hits two: it appends `johtoTrainerFlags[]` to SaveBlock3 (un-checksummed tail, so it must be zeroed); it deletes two mid-group maps and renumbers 17 `gMapGroup_IndoorGoldenrod` and 3 `gMapGroup_MtSilver` mapNums, which are persisted in five `WarpData`s and in `objectEvents[]`; and it moves the Violet City and Route 32 heal coordinates, where `lastHealLocation` stores the COORDINATE and `GetHealLocationIndexByWarpData` matches on exact x/y, so a save holding the old pair silently stops matching the table and keeps whiting out to the old tile. Issue #51 explicitly accepted a save RESET for the renumber; this suite is the evidence that a migration was written instead and that a real save survives it. **The map-renumber half is VACUOUS here and the suite says so** — none of that save's warps are in either affected group, which is exactly why `VerifyMapRenumber.lua` exists. Where the save is STANDING and where it HEALS are separate facts; the standing map is overridable with `PW_EXPECT_GRP` / `PW_EXPECT_MAP` (defaults 75/6, Violet City) because a real save moves. **This suite cannot run on a fresh clone**: `pokemonworld.sav` is gitignored and untracked, and the project rule forbids committing a save harvested from a real playthrough. It is excluded from the canonical case list and CI. Run it only as an explicit focused local check with a selected save path.
-
-### `VerifyMapRenumber.lua`
-
-The v9 deletions were not last in their groups, so every map after them renumbered down by one — 17 maps in `gMapGroup_IndoorGoldenrod` and 3 in `gMapGroup_MtSilver`. This suite proves the migration repoints the persisted indices: `lastHealLocation` 84/19 must read 84/18 and `escapeWarp` 97/11 must read 97/10, neither may land past the end of its now-shorter group, and `saveVersion` must read 9. Its own header records that it was verified to discriminate — without `MigrateDeletedTwinMaps()` both read back unchanged. The input is a **crafted** save: pre-deletion indices written into two warps with the SaveBlock1 sector checksum recomputed (SaveBlock1 **is** checksummed, unlike the SaveBlock3 banks). It was originally crafted from the owner's real save, which is why it could never be committed and why this suite sat unrunnable for anyone. `test/overworld/MakeRenumberFixture.py` now generates the same fixture from the tracked fresh-new-game `v7.srm`, so it carries no personal data and regenerates byte-for-byte — run `python3 test/overworld/MakeRenumberFixture.py --check` to assert the committed copy still matches. The generator refuses to write unless a no-op gather+writeback round trip is byte-identical to its input, because a wrong slot mapping or checksum arithmetic would otherwise yield a plausible but bogus fixture. Because the fresh save starts where `v7.srm` does, the suite's expected boot group is **2**, not Violet's 75; that constant is what `F.boot()` waits for and getting it wrong reports BOOT FAIL and looks exactly like a corrupt save.
-
----
-
-## Fixtures
-
-`fixtures/*.srm` are raw **131072-byte** battery saves (already mGBA's `.sav` format — converting is
-a rename). Each `vN.srm` is a **fresh new game** built at that format version's commit, so there is
-no personal data and they are deterministic. The fixtures are committed. Their BizHawk-era
-generator script and its in-emulator harvester were removed on 2026-11-16, along with the unused
-v4 and v5 saves. Git history has them.
-
-| Fixture | Used by | Role |
-|---|---|---|
-| `v3.srm` | `MigrateFixtures.lua` | Refusal input — the sweep passes this one. |
-| `v7.srm` | — | The original hand-harvested v7 save. Kept, but **not** what the sweep runs. |
-| `v7dirty.srm` | `VerifyV7Migrate.lua` | The live migration input. |
-
-> **`VerifyV7Migrate` must use `v7dirty.srm`, not `v7.srm`.** `v7.srm` happens to hold zeroes where
-> `johtoTrainerFlags` lands, so the bank check passes there **even with the memset removed** — an
-> indistinguishable vacuous pass. The canonical case list selects `v7dirty.srm` for exactly this reason; if
-> you invoke the suite by hand, pass the same file.
-
-Since the v7 layout gate (`SAVE_FORMAT_LAYOUT_MIN`), the pre-v7 fixtures are **refusal** inputs:
-`MigrateFixtures.lua` asserts they are turned away at load, not migrated, because the v0→v6 ladder
-steps are unreachable. `v7.srm` was hand-harvested from the last pre-#59 build (debug warp + in-game
-save) and cannot be regenerated — treat it and its dirtied twin as irreplaceable. When the format is
-bumped again, harvest a fixture of the outgoing version the same way and extend the migration suite
-with the new ladder step.
-
-`VerifyMapRenumber` uses tracked `fixtures/v7renumber.srm`, generated from `v7.srm` by
-`MakeRenumberFixture.py`. RegionalTravelMigration uses tracked `v10regionaldirty.srm`.
-FamilyOptionsMigration uses a generated v11 fixture in the unique run directory.
-The canonical list owns these mappings. No required case depends on a personal save.
-
-Gaps in the version ladder, documented rather than silent:
-
-- **v2** — its introducing commit (`12e04c20`) does not build with the current tree
-  (`ItemUseOutOfBattle_SkyCharm` was declared a commit later); a historical commit is never patched
-  to harvest a fixture.
-- **v1** — its commit (`37af5518`) predates the region hub, so a fresh new game runs the full classic
-  Hoenn intro (truck → clock → Birch → starter) before the START menu can save; driving that
-  headlessly wasn't attempted. v1 is the only entry point that would exercise the v1→v2 (`usmSaved`)
-  and v2→v3 (`kantoTrainerFlags`) ladder steps as a starting version.
-
-**Sabotage-test note (folded #21):** fresh-new-game fixtures have mostly-zero SaveBlock3 banks, so
-each `savedVersion < N` ladder step (which *zeros* a newly-appended field) is a no-op on them —
-removing a step is not caught, because the field was already zero. That is the whole reason
-`v7dirty.srm` exists. What these fixtures DO catch is **layout drift**: `MigrateFixtures.lua` reads
-each bank at its named offset, so a field inserted or reordered before a bank shifts the reads and
-the exact `== 0` / `== version` asserts fail loudly. A stronger step-level sabotage would require a
-played (non-fresh) save, which would put personal data in the repo — out of scope.
-
----
+When a release requires a clean save, raise the layout floor and capture a refusal fixture on the outgoing build before changing it. Preserve the historical fixture hashes in NativeRunner.
 
 ## Host-side validators
 
@@ -996,8 +913,7 @@ with exhaustion, it is just that nothing tested across four rounds got past 27/6
 **★ Harness trap this probe found:** `mgba-headless` autoload chokes on the 16-byte mGBA RTC
 trailer. A 131,088-byte `.sav` does not fail loudly — it silently boots to **NEW GAME**, so a probe
 that believes it is driving a real save is driving a fresh file. Truncate to the raw 131,072-byte
-flash image; `VerifyOwnerSave.lua` went 0/1 -> 7/7 on nothing but that. Always run
-`VerifyOwnerSave.lua` as the control before trusting any real-save measurement.
+flash image before using it as a fixture.
 
 ### `DayNightCrossingProbe.lua`
 Drives the Johto day/night flip across the crossing: 3 alignments (flip before / on / after the
@@ -1042,24 +958,11 @@ Prerequisite setup is not evidence of natural acquisition, and the forced battle
 is not a gameplay balance test. The dock-to-shuttle route must pass through reception:
 there is no walkable north path from the dock across the building wall.
 
-### `RegionalTravelMigration.lua`
-
-Issue #377 in-game migration acceptance. Requires
-`fixtures/v10regionaldirty.srm`; provenance is in `fixtures/v10regional.md`. Loads a
-checksummed version-10 save with dirty identity-padding and appended-history bytes,
-checks the original boxed individual exactly after cleanup and empty regional history,
-then proves that Continue inside a Center does not synthesize entry while a later actual
-door entry records the Center. Measured **10/10**; no save fixture means this test must
-not be counted as run. Offline complementary tests are
-`../TestRegionalTravelMigration.py`, including all 433 saved owners and all 24 substructure
-orders.
-
 ### `FamilyOptions.lua`
 
 Exercises every rate and text selection in both directions, including wraparound. Verifies staged
 values, unchanged adjacent settings, real save/Continue, and global settings across Kanto, Johto,
-and Hoenn travel. Captures each row for native label review. `TestFamilyOptionsMigration.py`
-checks the offline v12 migration separately; target C tests verify the game migration and layout.
+and Hoenn travel. Captures each row for native label review. Target C tests verify the option layout.
 
 ### `FamilyOptionsFieldStress.lua`
 
@@ -1110,14 +1013,6 @@ popup, the bike music fading in), and those keys are logged and skipped; BG colo
 are night lights the day/night blend rewrites, and OBJ palettes are compared only for tags loaded
 both before and after. `PW_SOS_ONLY=<text>` runs the matching states. Passed **178/178**; it found
 no restore defect.
-
-### `FamilyOptionsMigration.lua`
-
-Loads a generated supported save through Continue and verifies option bits, text selection,
-wallet, original Pokemon, and location. The canonical run uses the v11 Hard Mode fixture.
-`MakeFamilyOptionsFixtures.py --output DIR` generates v7 through v12 cases with the old bit
-set and clear. Pass `--env PW_FAMILY_VERSION=7 --env PW_FAMILY_HARD=1` to the focused runner for an additional v7 case, or select the corresponding version and old-bit values. These are
-disposable derivatives of the tracked fresh-game fixture, not personal saves.
 
 ### `FamilyBattleOptions.lua`
 
@@ -2069,12 +1964,8 @@ Selphy's wish at Resort Gorgeous must name a Pokemon the player can show. With e
 species seen (written to the Pokedex) and Selphy at home, the suite talks to her five times with
 real input: each request must be a seen, enabled base species, and showing that species (from the
 debug Give menu) must earn the butler's reward; leaving and re-entering the house clears her
-"just fulfilled" flag between rounds. A last case loads Galarian Ponyta, a request the unfixed ROM
-wrote, and Selphy must replace it. Before the fix `SampleResortGorgeousMon` drew any species id:
-40% of 40 sampled requests were forms (Megas, Unown letters, regional forms, Pikachu forms) that
-the exact-species party check refuses forever, and 23 of the 40 showed the
-`SRC/POKEMON.C: DISABLED SPECIES` assert screen first. **7/11** on the unfixed ROM, **53/53** with
-the fix.
+"just fulfilled" flag between rounds.
+
 ### `SpecialChecklistPaging.lua`
 
 Right on the Special Pokémon checklist's first page must turn to page 2 from every row. Real input
@@ -2700,17 +2591,6 @@ the suite opens the PokéNav from the Start menu with real input on Route 106, i
 in Pallet Town and reads the map option's sprite tile relative to the Condition option's (Hoenn
 0x000, Johto 0x1A0, Kanto 0x1C0); it screenshots the menu with its help line and the full and zoomed
 maps with their headers. Unfixed **10/12** (Johto and Kanto read 0x000), fixed **12/12**.
-### `HealMigrationContinue.lua`
-
-The Azalea, Goldenrod and Safari Zone Gate heal points moved off the Center door onto the apron
-after save format v9 shipped, and `MigrateMovedHealLocations` re-points a stored door tile on load.
-Each case writes the old door coordinate into `lastHealLocation` and an older `saveVersion` (9, 10,
-11 or 12), saves from the Start menu, soft resets and continues, so the repair runs on the real load
-path. It then loses a debug battle: the whiteout must run the nurse's cutscene inside that Center,
-not drop the player on the door outside, and control must return. Version 12 is a save written by a
-build between the v12 bump and the repair. Measured **121/121** fixed and **115/121** on the unfixed
-ROM, where the repair ran only below v12 and all three v12 cases whited out onto the door.
-`--env PW_HEAL_ONLY=<text>` runs matching cases (`azalea`, `v12`).
 ### `LittleCupRules.lua`
 
 The Battle Net Little Cup room at the Hub 2F streak attendant, with real input. Each case builds a
@@ -2806,9 +2686,7 @@ Alph left Devon's fossil scientist mute (his script knows only Lileep and Anorit
 `end`), and a Root Fossil handed in at Devon came back as a Lileep from the Johto researcher. With
 real input the suite hands a Helix Fossil in at Alph, talks to Devon's scientist (greeting, nothing
 handed out), collects the Omanyte at Alph, hands a Root Fossil in at Devon, checks the Alph researcher
-greets and hands out nothing, and collects the Lileep at Devon. Last, a Kabuto pending in the shared
-pair (the only form a save from before the split can hold) must come back at Alph. **20/24** on the
-unfixed ROM, **24/24** with the fix.
+greets and hands out nothing, and collects the Lileep at Devon.
 
 ### `JohtoPortedMenus.lua`
 
@@ -3454,33 +3332,6 @@ name "can learn CUT". Measured **4/8** on the unfixed ROM and **8/8** fixed. Rou
 (HM moves "can't" be forgotten, against `P_CAN_FORGET_HIDDEN_MOVE`) has no warp to reach him;
 `ValidateConfigRules.py` covers his line.
 
-### `XRegionSaveRepair.lua`
-
-#602 and #604 stop two cross-region writes, but a save already damaged keeps the damage: Goldenrod's
-first visit had cleared `FLAG_RECEIVED_BIKE` beside Rydel's bike, and the Johto PokeGear had set
-`FLAG_RECEIVED_POKENAV`, so a Center recorded Mr. Briney's cottage and a hub return docked him and
-Peeko there before the rescue. The v12 -> v13 step of `MigrateSaveFormatIfNeeded` repairs both on
-proof: a Mach or Acro Bike in the Bag or item PC restores the bike flag; the PokeNav flag with
-`VAR_DEVON_CORP_3F_STATE` still 0 (Devon's scene sets both) and no Dewford visit (every first voyage
-lands there) clears it, zeroes `VAR_BRINEY_LOCATION`, re-hides Briney and Peeko and drops them from a
-save's live object list. The fixture `v12xregiondamaged.srm` was written by the pre-fix build driving
-the old scripts (`fixtures/v12xregion.md`) and saved inside the cottage with both standing. The suite
-Continues it and reads the flags, the cottage on Continue and after walking back in, a Rustboro
-Center visit and Rydel (a new-bike offer is answered Acro). **Control:** Devon's real PokeNav scene,
-then a v12 stamp, Start-menu save, reset and Continue: the legitimate flag, shore and bike stay.
-**Discrimination:** unfixed 20/28 (bike flag clear, Briney and Peeko in the cottage on Continue and
-after re-entry, shore 1, Rydel hands over an Acro Bike beside the Mach Bike), fixed 28/28. Mutants:
-the cottage object loop removed 27/28, the Devon guard removed 26/28. A save migrated offline with
-`SavePatch.py --migrate` also passes 28/28.
-### `XRegionSaveRepairVoyage.lua`
-
-The other half: `v12xregionvoyage.srm` has the PokeGear damage and an early Briney who already sailed
-the player to Dewford, and no bike. From Dewford on, the route depends on where the save put Briney,
-so the repair must leave him tracked; with no bike anywhere the bike flag must stay clear. The suite
-Continues in Dewford, reads the flags, and takes Rydel's first bike. **Oracle:** the PokeNav flag,
-`VAR_BRINEY_LOCATION = 1` and Briney's Dewford dock survive; Rydel gives the first Mach Bike. Passes
-11/11 on both the unfixed and the fixed build by design; with the Dewford guard removed it drops to
-9/11. `test/overworld/TestXRegionSaveRepair.py` checks the same files against SavePatch's mirror.
 ### `SummaryNoDynamaxRow.lua`
 
 Dynamax and Terastal are off in this Gen 1-3 game (`B_FLAG_DYNAMAX_BATTLE 0`, no Dynamax Band,
@@ -4512,7 +4363,7 @@ the water, registers one rod and presses SELECT; the suite reads `Task_Fishing`'
 foe (`gBattleMons[1]`) is in that map's `fishing_mons`, or in "Not even a nibble"; the rod is put away
 (player graphics restored), the field unlocks, a step away from the shore lands and the follower walks
 out beside the player. New Bark Town, Vermilion City and Route 104 must start at least one fishing
-battle across the three rods; Kanto Route 18, the Johto Safari Zone's `SafariZone1` and the Battle
+battle across the three rods; Kanto Route 18, Johto's Bellchime Trail and the Battle
 Frontier's west side have fishable water and no fishing table (the same in pokefirered, pokemonHnS and
 pokeemerald), so every rod there says "Not even a nibble". Eight seeded mash casts (`PW_FISH_SEED`,
 default 9001) press A, B, Start, Select, L, R and the D-pad through each cast, and four Super Rod casts

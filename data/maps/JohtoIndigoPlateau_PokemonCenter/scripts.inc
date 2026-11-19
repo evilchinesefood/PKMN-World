@@ -22,19 +22,8 @@ JohtoIndigoPlateau_PokemonCenter_Enter::
 
 JohtoIndigoPlateau_Pokecenter_OnTransition::
 	setrespawn HEAL_LOCATION_JOHTO_INDIGO_PLATEAU
-	@ Route 27's first-steps flagheap now hides the League Black Belt, but it is gated on
-	@ VAR_ROUTE27_STATE == 0 and so fires only once. A save that already passed that trigger
-	@ never receives the setflag, and for those players he would keep blocking (32,3) -- the
-	@ only tile the Elite Four door at (32,2) can be entered from -- forever. Re-assert it
-	@ here, idempotently, for anyone who has reached Route 27 at all. Before Route 27 he is
-	@ still the intended gatekeeper, so the state check matters.
-	call_if_ge VAR_ROUTE27_STATE, 1, JohtoIndigoPlateau_EventScript_HideLeagueBlackBelt
 	call_if_set FLAG_JOHTO_CHAMPION, JohtoIndigoPlateau_EventScript_ShowSilver
 	end
-
-JohtoIndigoPlateau_EventScript_HideLeagueBlackBelt::
-	setflag FLAG_HIDE_LEAGUE_BLACKBELT
-	return
 
 @ Route 27's first steps hide Silver. Upstream brought him back after a post-League battle in its
 @ own Mt. Moon, which this game's Kanto does not have, so he returns with the Johto title.

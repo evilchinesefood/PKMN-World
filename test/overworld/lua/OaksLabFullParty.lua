@@ -217,7 +217,7 @@ F.run(function()
   var(0xA0A8,6)
   F.check("approach the exit sailor",F.leg(29,3))
   F.face("Up");F.press("A",2);F.idle(50)
-  F.check("disembark at Vermilion",awaitMap(43,8,"vermilion_port"),where())
+  F.check("disembark at Vermilion",awaitMap(43,2,"vermilion_port"),where())
   drain()
   F.check("the voyage carries six into an active Kanto",active()==1 and count()==6,"active="..active().." count="..count())
 

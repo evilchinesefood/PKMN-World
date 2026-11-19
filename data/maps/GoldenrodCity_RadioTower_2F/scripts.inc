@@ -127,18 +127,6 @@ GoldenrodCity_RadioTower_2F_Text_TeacherRockets:
 GoldenrodCity_RadioTower_2F_Text_Jigglypuff:
 	.string "JIGGLYPUFF: Jiggly…$"
 
-GoldenrodCity_RadioTower_2F_Text_BlackBelt1:
-	.string "Sorry. Authorized personnel only\n"
-	.string "beyond this point.\p"
-	.string "It wasn't that way before.\p"
-	.string "There's something wrong with the\n"
-	.string "DIRECTOR…$"
-
-GoldenrodCity_RadioTower_2F_Text_BlackBelt2:
-	.string "Feel free to look around anywhere.\p"
-	.string "The DIRECTOR is nice again, just\n"
-	.string "as he was before.$"
-
 GoldenrodCity_RadioTower_2F_Text_GruntM4Seen:
 	.string "Three years ago, TEAM ROCKET was\n"
 	.string "forced to disband.\p"
@@ -198,6 +186,3 @@ GoldenrodCity_RadioTower_2F_Text_SalesSign:
 GoldenrodCity_RadioTower_2F_Text_OakTalkSign:
 	.string "PROF.OAK'S POKéMON TALK\p"
 	.string "The Hottest Show on the Air!$"
-
-GoldenrodCity_RadioTower_2F_Text_PokemonRadioSign:
-	.string "Anywhere, Anytime POKéMON Radio$"

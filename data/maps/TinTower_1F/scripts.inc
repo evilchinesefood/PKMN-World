@@ -98,27 +98,3 @@ TinTower_1F_Sage6_Text2:
 	.string "POKéMON known as UNOWN.\p"
 	.string "The POKéMON UNOWN must be sharing a\n"
 	.string "cooperative bond with SUICUNE.$"
-
-TinTower_1F_EusineHoOh_Text:
-	.string "I knew it.\p"
-	.string "I knew you'd get to see the POKéMON\n"
-	.string "of rainbow colors, <PLAYER>.\p"
-	.string "It happened just as I envisioned.\n"
-	.string "My research isn't bad, I might say.\p"
-	.string "I'm going to keep studying POKéMON\n"
-	.string "to become a famous POKéMANIAC!$"
-
-TinTower_1F_EusineSuicune_Text:
-	.string "EUSINE: Awesome! Too awesome, even!\n"
-	.string "I've never seen a battle that great.\p"
-	.string "That was truly inspiring to see.\n"
-	.string "SUICUNE was tough, but you were even\p"
-	.string "more incredible, <PLAYER>.\n"
-	.string "I heard SUICUNE's mystic power\p"
-	.string "summons a rainbow-colored POKéMON.\n"
-	.string "Maybe, just maybe, what went on today\p"
-	.string "will cause that POKéMON to appear.\n"
-	.string "I'm going to study the legends more.\p"
-	.string "Thanks for showing me that fantastic\n"
-	.string "battle.\p"
-	.string "Later, <PLAYER>!$"

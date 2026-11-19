@@ -73,7 +73,3 @@ SproutTower_Text_1F_Granny:
 SproutTower_Text_1F_Teacher:
 	.string "See the pillar shaking?\p"
 	.string "People are training upstairs.$"
-
-SproutTower_Text_1F_Statue:
-	.string "A POKéMON statue…\p"
-	.string "It looks very distinguished.$"

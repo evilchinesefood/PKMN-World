@@ -35,7 +35,6 @@ special	GetTradeSpecies	the expansion's trade specials take the trade in VAR_0x8
 special	ShowEasyChatScreen	VAR_0x8006 is read only for Hoenn TV and contest types; the questionnaire and profile pass VAR_0x8004/0x8005 as in FRLG
 ctype	EASY_CHAT_TYPE_PROFILE	this tree's easy chat, which every region shares; it also reports the result through SetSpecialEasyChatResult
 ctype	EASY_CHAT_TYPE_QUESTIONNAIRE	this tree's easy chat, which every region shares; it also reports the result through SetSpecialEasyChatResult
-label	CableClub_EventScript_*Attendant	link services are closed in this tree; every region's attendants say so
 label	EventScript_AwakenSnorlax	FRLG's Poke Flute fanfare is MUS_RG_POKE_FLUTE here
 label	EventScript_BagIsFull	the same line from this tree's shared strings
 label	EventScript_ChooseMonForInGameTrade	the expansion's trade convention (slot in VAR_0x8004, trade in VAR_0x8005); ChoosePartyMon waits implicitly
@@ -50,3 +49,4 @@ label	EventScript_SetSail	FRLG's Quest Log is not ported
 label	PokedexRating_EventScript_RateInPerson	FRLG's Quest Log is not ported
 label	EventScript_TryDarkenRuins	the same no-op return under this tree's name
 label	PokemonLeague_EventScript_OpenDoor*	FRLG's SE_RS_DOOR is Emerald's door sound, SE_DOOR here
+special	RunUnionRoom	the Union Room has no entrance or active session

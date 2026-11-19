@@ -1,10 +1,5 @@
 Route29_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route29_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route29_OnTransition: 
-	end
 
 Route29_Trigger_Monview::
 	special SpawnCameraObject
@@ -90,15 +85,6 @@ Route29_EventScript_TuscanyYes::
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_GOT_SILK_SCARF
 	msgbox Route29_Text_TuscanyGaveGift, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-Route29_EventScript_TuscanyNope::
-	msgbox Route29_Text_TuscanyNope, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-Route29_EventScript_TuscanyCancel::
 	closemessage
 	release
 	end
@@ -230,4 +216,3 @@ Route29_Text_TuscanyTuesday:
 Route29_Text_Sign1:
 	.string "ROUTE 29\p"
 	.string "CHERRYGROVE CITY - NEW BARK TOWN$"
-

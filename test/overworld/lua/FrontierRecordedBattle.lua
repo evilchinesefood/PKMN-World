@@ -33,7 +33,7 @@
 --   encore    Battle Tower doubles. On turn 1 Clefable Encores its ally Jolteon; on turn 2 Jolteon's
 --             move is chosen, Clefable's action menu is cancelled with B, and Jolteon chooses again.
 --             The cancel must remove all three of Jolteon's recorded bytes (action, slot, target).
---   legacy    continues the save passed to the runner (fixtures/palace_legacy_record.srm, a Palace
+--   legacy    starts a new game on the refused cartridge passed to the runner (fixtures/palace_legacy_record.srm, a Palace
 --             record made before turn seeding) and plays it. The trace must equal that ROM's own
 --             playback; PW_EXPECT_TRACE and PW_EXPECT_CHOICES override it for another fixture.
 --   overflow  Battle Tower singles. The first battle is recorded from the battle room's Record option;
@@ -521,9 +521,16 @@ local function resetSweep(lobby)
   F.idle(2)
 end
 
--- Continues a save whose Palace record was made before Frontier turn seeding and plays it.
+-- Play the pre-seeding Palace record left on a refused cartridge.
 local function playLegacyRecord()
-  assert(F.boot(FRONTIER), "the legacy save did not continue at the Frontier")
+  assert(F.boot(100), "refused cartridge did not start a fresh game at the hub")
+  F.check("old game progress was refused", F.r8(S.gSaveVersionRefusal) == 1)
+  -- The independent record in sector 31 survives until the first save. Open the pass
+  -- without saving to exercise that record against the new game's state.
+  setFlag(FLAG_SYS_FRONTIER_PASS)
+  setFlag(FLAG_SYS_POKEMON_GET)
+  -- The pass starts its cursor on the Frontier Map when opened at the Frontier.
+  assert(F.warpTo(0, 2, 6, 0, 2, 2, 0, 0, 0, FRONTIER, case.lobby, "oldRecordLobby"))
   local t = { choices = {}, isPlayback = true }
   F.check("the Start menu opens the Frontier Pass on Battle Record", openBattleRecord())
   local played, back = playRecord(t)

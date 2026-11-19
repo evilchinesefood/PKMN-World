@@ -85,20 +85,10 @@ void SetCurrentRegion(enum Region region)
 //
 // Prefer the PERSISTED SaveBlock2.currentRegion (task 21): it survives resets and is correct even
 // in the hub, where GetCurrentRegion() falls back to REGION_HOENN. Fall back to the map only for
-// saves that never recorded a region (pre-first-gate, or older saves from before the field
-// existed), and never clobber the mirror while standing in the hub.
+// a new game before its first gate crossing, and preserve the mirror inside the hub.
 void ResyncCurrentRegionFromMap(void)
 {
-    // Back-fill DexNav for saves made before it was enabled (commit 5f96268e, 2026-07-05). The
-    // Pokedex-give scripts now also setflag FLAG_SYS_DEXNAV_GET, but saves that already received
-    // the Pokedex passed that point and never got the flag, so the DexNav never appeared in the
-    // start menu. Runs on Continue/warp (idempotent): if you have the Pokedex, you have the DexNav.
-    if (FlagGet(FLAG_SYS_POKEDEX_GET) && !FlagGet(FLAG_SYS_DEXNAV_GET))
-        FlagSet(FLAG_SYS_DEXNAV_GET);
-
-    // Merged-game essential: any Pokedex holder should already have the National Dex (enabled at
-    // the early Oak/Birch/Elm dex-give scene). Belt-and-suspenders for any save that somehow
-    // reached the Pokedex without it. Guarded, so it's a no-op once enabled.
+    // Oak and Birch grant the regional Dex; enable the National Dex on the next field load.
     if (FlagGet(FLAG_SYS_POKEDEX_GET) && !IsNationalPokedexEnabled())
         EnableNationalPokedex();
 
@@ -113,7 +103,7 @@ void ResyncCurrentRegionFromMap(void)
     if (gSaveBlock2Ptr->currentRegion != REGION_NONE)
     {
         gCurrentRegion = gSaveBlock2Ptr->currentRegion;
-        SyncDifficultyForRegion(gCurrentRegion); // self-heal pre-Feature-C champion saves
+        SyncDifficultyForRegion(gCurrentRegion);
         return;
     }
 
@@ -122,7 +112,7 @@ void ResyncCurrentRegionFromMap(void)
         return;
 
     gCurrentRegion = GetCurrentRegion();
-    SyncDifficultyForRegion(gCurrentRegion); // pre-region-field champion saves need the tier too
+    SyncDifficultyForRegion(gCurrentRegion);
 }
 
 // Johto's day/night object pairs are gated on two HIDE flags, so the flag named for a time

@@ -17,7 +17,6 @@ void KeepBugContestLead(void);
 bool32 CanKeepBugContestNewMon(void);
 void KeepBugContestNewMon(struct Pokemon *mon);
 void CB2_EndBugContestBattle(void);
-void BugContestRetirePrompt(void);
 bool8 RemoveSafariBalls(void);
 bool8 ShowBugContestChosenMon(void);
 

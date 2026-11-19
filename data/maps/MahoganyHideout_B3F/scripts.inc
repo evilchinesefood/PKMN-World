@@ -388,10 +388,6 @@ MahoganyHideout_B3F_EventScript_FacingWest::
 	turnobject LOCALID_ROCKETHIDEOUT3_PETREL, DIR_EAST
 	return
 
-MahoganyHideout_B3F_EventScript_FacingNorth::
-	turnobject LOCALID_ROCKETHIDEOUT3_PETREL, DIR_SOUTH
-	return
-
 MahoganyHideout_B3F_EventScript_LeaveEast::
 	applymovement LOCALID_ROCKETHIDEOUT3_PETREL, MahoganyHideout_B3F_Movement_LeaveEast
 	waitmovement 0

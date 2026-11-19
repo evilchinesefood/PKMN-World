@@ -5,7 +5,6 @@ GoldenrodCity_NameRatersHouse_EventScript_ToggleShinies::
 	lock
 	msgbox GoldenrodCity_NameRatersHouse_Text_AskToggleShinies, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, GoldenrodCity_NameRatersHouse_EventScript_ToggleShiniesRefused
-	special ToggleShinyColors
 	msgbox GoldenrodCity_NameRatersHouse_Text_ToggleShinies, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -66,10 +65,8 @@ GoldenrodCity_NameRatersHouse_EventScript_RateMonNickname::
 	goto_if_eq VAR_RESULT, SPECIES_EGG, GoldenrodCity_NameRatersHouse_EventScript_CantRateEgg
 	special BufferMonNickname
 	@special IsMonOTIDNotPlayers
-	@goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_NameRatersHouse_EventScript_PlayerNotMonsOT
 	@specialvar VAR_RESULT, MonOTNameNotPlayer
 	special BufferMonNickname
-	@goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_NameRatersHouse_EventScript_PlayerNotMonsOT
 	msgbox GoldenrodCity_NameRatersHouse_Text_FineNameSuggestBetterOne, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, GoldenrodCity_NameRatersHouse_EventScript_ChangeNickname
 	goto_if_eq VAR_RESULT, NO, GoldenrodCity_NameRatersHouse_EventScript_DeclineNameRate
@@ -77,11 +74,6 @@ GoldenrodCity_NameRatersHouse_EventScript_RateMonNickname::
 
 GoldenrodCity_NameRatersHouse_EventScript_CantRateEgg::
 	msgbox GoldenrodCity_NameRatersHouse_Text_ThatIsMerelyAnEgg, MSGBOX_DEFAULT
-	release
-	end
-
-GoldenrodCity_NameRatersHouse_EventScript_PlayerNotMonsOT::
-	msgbox GoldenrodCity_NameRatersHouse_Text_MagnificentName, MSGBOX_DEFAULT
 	release
 	end
 
@@ -137,15 +129,6 @@ GoldenrodCity_NameRatersHouse_Text_NameNoDifferentYetSuperior:
 	.string "and yet, this is vastly superior!\p"
 	.string "How fortunate for you!$"
 
-GoldenrodCity_NameRatersHouse_Text_MagnificentName:
-	.string "Hmmm… {STR_VAR_1} it is!\p"
-	.string "This is a magnificent nickname!\n"
-	.string "It is impeccably beyond reproach!\p"
-	.string "You'll do well to cherish your\n"
-	.string "{STR_VAR_1} now and beyond.$"
-
 GoldenrodCity_NameRatersHouse_Text_ThatIsMerelyAnEgg:
 	.string "Now, now.\n"
 	.string "That is merely an EGG!$"
-
-

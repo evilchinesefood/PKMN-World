@@ -684,9 +684,6 @@ gSongTable::
 	song mus_hg_encounter_girl_2, MUSIC_PLAYER_BGM, 0
 	song mus_hg_encounter_suspicious_1, MUSIC_PLAYER_BGM, 0
 	song mus_hg_encounter_suspicious_2, MUSIC_PLAYER_BGM, 0
-	song mus_hg_encounter_sage, MUSIC_PLAYER_BGM, 0
-	song mus_hg_encounter_kimono_girl, MUSIC_PLAYER_BGM, 0
-	song mus_hg_encounter_rocket, MUSIC_PLAYER_BGM, 0
 
 	.align 2
 dummy_song_header:

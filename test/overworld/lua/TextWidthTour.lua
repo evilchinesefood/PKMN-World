@@ -22,6 +22,7 @@ local CONTEXT_RUNNING = 0
 local TEXT_SPEED_INSTANT = 3
 local SYS = 0x948
 local FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET, FLAG_SYS_POKENAV_GET = SYS, SYS + 1, SYS + 2
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local FLAG_SYS_GAME_CLEAR = SYS + 0x2B
 local FLAG_SYS_SAFARI_MODE = SYS + 0x2C
 local FLAG_SYS_FRONTIER_PASS = 0x9BA
@@ -300,7 +301,7 @@ F.run(function()
   giveMon(SPECIES_GYARADOS, 50, { MOVE_SURF, MOVE_PROTECT })
   F.check("party of three", F.r8(S.gPartiesCount) >= 3, "party=" .. F.r8(S.gPartiesCount))
   allDexFlags()
-  for _, f in ipairs({ FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET, FLAG_SYS_POKENAV_GET, FLAG_SYS_GAME_CLEAR }) do setFlag(f) end
+  for _, f in ipairs({ FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET, FLAG_SYS_DEXNAV_GET, FLAG_SYS_POKENAV_GET, FLAG_SYS_GAME_CLEAR }) do setFlag(f) end
   for _, it in ipairs(ITEMS) do addItem(it[1], it[2]) end
   setMoney(999999)
   F.ensureFree()
@@ -315,7 +316,8 @@ F.run(function()
     local b = {}; native(b, S.ShowStartMenu); b[#b + 1] = 0x02
     runScript(b); F.idle(60)
     snap("classic_start")
-    for i = 1, 7 do key("Down", 16); snap("classic_start_row" .. i) end
+    -- The acquired DexNav adds a row to the classic menu before Options.
+    for i = 1, 8 do key("Down", 16); snap("classic_start_row" .. i) end
     key("A", 10)
     for _ = 1, 150 do if optionTask() then break end F.idle(4) end
     F.check("Options opens from the classic Start menu", optionTask() ~= nil)

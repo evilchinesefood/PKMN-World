@@ -419,11 +419,6 @@ BlackthornGym_EventScript_GymGuy::
 	release
 	end
 	
-BlackthornGym_EventScript_GymGuy2::
-	msgbox BlackthornGym_Text_GuideWinText, MSGBOX_DEFAULT
-	release
-	end	
-
 BlackthornGym_Text_GuideText:
     .string "Yo! CHAMP in making!\p"
     .string "It's been a long journey, but we\n"
@@ -439,14 +434,6 @@ BlackthornGym_Text_GuideText:
 	.string "or FAIRY-type moves of your own if\l"
     .string "you want to win.\l"
     .string "You got this!$"
-
-BlackthornGym_Text_GuideWinText:
-    .string "You were great to beat CLAIR!\p"
-    .string "All that's left is the POKéMON\n"
-    .string "LEAGUE challenge.\p"
-    .string "You're on the way to becoming the\n"
-    .string "POKéMON CHAMPION!$"
-
 
 BlackthornGym_EventScript_Statue::
 	lock

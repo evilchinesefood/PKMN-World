@@ -23,7 +23,6 @@ CianwoodPokemoncenter_EventScript_FisherNormal::
 CianwoodPokemoncenter_EventScript_FisherGiveTentacool::
 	msgbox CianwoodPokemoncenter_Text_Fisher2, MSGBOX_DEFAULT
 	@HnS gift pokemon setup
-	callnative DisableStaticRandomizer
 	setvar VAR_TEMP_TRANSFERRED_SPECIES, SPECIES_TENTACOOL
 	bufferspeciesname STR_VAR_1, SPECIES_TENTACOOL
 	givemon SPECIES_TENTACOOL, 25
@@ -34,13 +33,11 @@ CianwoodPokemoncenter_EventScript_FisherGiveTentacool::
 	waitfanfare
 	call_if_eq VAR_TEMP_1, MON_GIVEN_TO_PC, Common_EventScript_TransferredToPC
 	setflag FLAG_GOT_TENTACOOL
-	callnative EnableStaticRandomizer
 	closemessage
 	release
 	end
 
 CianwoodPokemoncenter_EventScript_FisherNoRoom::
-	callnative EnableStaticRandomizer
 	goto Common_EventScript_NoMoreRoomForPokemon
 
 CianwoodPokemoncenter_Text_Fisher1:

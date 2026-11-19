@@ -17,7 +17,6 @@ macro	givemon	the expansion's long form; species, level and item keep their posi
 macro	setwildbattle	the expansion's form adds an optional second species for doubles; the first three keep their positions
 macro	baobacheckmon	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
 macro	buffermoncategory	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
-macro	checkrandomizer	HnS randomizer check; the randomizer is not ported, the callnative is a stub
 macro	givenamedmon	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
 macro	giveoddegg	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c
 macro	remove5mons	HnS custom command, reimplemented as a callnative in src/scrcmd_johto_compat.c

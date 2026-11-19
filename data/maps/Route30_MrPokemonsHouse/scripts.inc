@@ -64,8 +64,7 @@ MrPokemonHouse_EventScript_GiveEgg::
 	setflag FLAG_HIDE_SILVER_NEWBARKTOWN
 	setflag FLAG_SYS_POKEDEX_GET
 	setflag FLAG_SYS_DEXNAV_GET
-	checkrandomizer
-	call_if_eq VAR_RESULT, TRUE, MrPokemonHouse_EventScript_GiveNatDexRandomizer
+	setvar VAR_RESULT, FALSE
 	clearflag FLAG_HIDE_LAB_POLICEMAN
 	setvar VAR_CHERRYGROVE_CITY_STATE, 2
 	setrespawn HEAL_LOCATION_CHERRYGROVE_CITY
@@ -74,11 +73,6 @@ MrPokemonHouse_EventScript_GiveEgg::
 	clearflag FLAG_HIDE_CHERRYGROVE_GUIDE_GENT_HOUSE
 	release
 	end
-
-MrPokemonHouse_EventScript_GiveNatDexRandomizer::
-	setflag FLAG_SYS_NATIONAL_DEX
-	special EnableNationalPokedex
-	return
 
 MrPokemonHouse_EventScript_MrPokemon::
 	lock
@@ -105,12 +99,6 @@ MrPokemonHouse_EventScript_MrPokemon_RedScale_Accepted::
 	release
 	end
 
-
-MrPokemonHouse_EventScript_Computer::
-	lock
-	msgbox MrPokemonHouse_Text_BrokenComputer, MSGBOX_SIGN
-	release
-	end
 
 MrPokemonHouse_EventScript_Magazine::
 	lock
@@ -161,9 +149,6 @@ MrPokemonHouse_Text_Intro1:
 MrPokemonHouse_Text_Intro2:
 	.string "This is what I want PROF.ELM\n"
 	.string "to examine.$"
-
-MrPokemonHouse_Text_GotEgg:
-	.string "{PLAYER} received MYSTERY EGG.$"
 
 MrPokemonHouse_Text_Intro3:
 	.string "I know a couple who run a\n"
@@ -248,23 +233,12 @@ MrPokemonHouse_Text_Disappointed:
 	.string "That's disappointing.\n"
 	.string "That happens to be very rare.$"
 
-MrPokemonHouse_Text_ExpShare:
-	.string "I also have a special item\n"
-	.string "for you.$"
-
 MrPokemonHouse_Text_ForeignMagazines:
 	.string "It's packed with foreign\n"
 	.string "magazines.\p"
 	.string "Can't even read their titles…$"
 
-MrPokemonHouse_Text_BrokenComputer:
-	.string "It's a big computer.\n"
-	.string "Hmm. It's broken.$"
-
 MrPokemonHouse_Text_StrangeCoins:
 	.string "A whole pile of strange coins!\p"
 	.string "Maybe they're from another\n"
 	.string "country…$"
-
-MrPokemonHouse_Text_GotExpShare:
-	.string "{PLAYER} received EXP. SHARE!$"

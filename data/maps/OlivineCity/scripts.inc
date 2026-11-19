@@ -2,7 +2,6 @@
 
 OlivineCity_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, OlivineCity_MapScript_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, OlivineCity_OnFrame
 	.byte 0
 
@@ -255,8 +254,6 @@ OlivineCity_EventScript_EonTicketWomanChamp::
 	end
 
 OlivineCity_EventScript_EonTicketWomanAfter::
-	@ Only reachable with the ticket in the bag; heals saves that took it pre-flag-fix.
-	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
 	msgbox OlivineCity_Text_EonTicketWoman3, MSGBOX_DEFAULT
 	closemessage
 	release
@@ -298,10 +295,6 @@ OlivineCity_Text_YoungsterPokegear:
 	.string "it's a POKéNAV, right?\l"
 	.string "Wow, that's cool.$"
 
-OlivineCity_Text_YoungsterPokedex:
-	.string "Wow, you have a POKéDEX!\p"
-	.string "That is just so awesome.$"
-
 OlivineCity_Text_Sailor2:
 	.string "The league has JASMINE\n"
 	.string "pegged as the sixth\l"
@@ -331,11 +324,6 @@ OlivineCity_Text_LighthouseSign:
 	.string "OLIVINE LIGHTHOUSE\n"
 	.string "Also known as the GLITTER\l"
 	.string "LIGHTHOUSE$"
-
-OlivineCity_Text_BattleTowerSign:
-	.string "TRAINER HILL and\n"
-	.string "BATTLE TENTS AHEAD.\p"
-	.string "Opening Now!$"
 
 OlivineCity_Text_Machoke:
 	.string "MACHOKE: CHO!$"

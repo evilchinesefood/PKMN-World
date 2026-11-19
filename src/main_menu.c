@@ -720,13 +720,6 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
         {
         case SAVE_STATUS_OK:
             tMenuType = HAS_SAVED_GAME;
-#if LINK_MYSTERY_GIFT == TRUE
-            // Issue #59: with the Mystery Gift code compiled out the menu row
-            // must never appear -- a legacy save may still carry
-            // FLAG_SYS_MYSTERY_GIFT_ENABLE from the (now doorless) 2F man.
-            if (IsMysteryGiftEnabled())
-                tMenuType++;
-#endif
             // Surface the SaveBlock3 checksum verdict (computed at load, previously read by
             // nothing): the region banks are un-checksummed by the sector layer, so this
             // one-time warning is the only place drift ever becomes visible to the player.
@@ -749,10 +742,6 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
             CreateMainMenuErrorWindow(gText_SaveFileCorrupted);
             gTasks[taskId].func = Task_WaitForSaveFileErrorWindow;
             tMenuType = HAS_SAVED_GAME;
-#if LINK_MYSTERY_GIFT == TRUE
-            if (IsMysteryGiftEnabled() == TRUE)
-                tMenuType++;
-#endif
             break;
         case SAVE_STATUS_EMPTY:
         default:
@@ -1023,9 +1012,7 @@ static void Task_DisplayMainMenu(u8 taskId)
         }
         // The optional layouts put their last OPTION frame below the display and
         // scroll BG0/BG1 to reveal it, so there is no row left for a stamp without covering a
-        // menu item. Those two are unreachable while LINK_MYSTERY_GIFT is FALSE
-        // (see Task_MainMenuCheckSaveFile), but skip the stamp rather than break the
-        // layout for whoever turns it back on.
+        // menu item. The normal new-game and continue layouts have room for it.
         switch (gTasks[taskId].tMenuType)
         {
         case HAS_NO_SAVED_GAME:
@@ -1242,7 +1229,6 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
         {
         case ACTION_NEW_GAME:
         default:
-#if ALL_REGIONS
             // Region-switch: one region-agnostic Oak intro for every new game. The region is
             // chosen later by walking a hub gate (WarpToTruck lands the player in MAP_REGION_HUB).
             // The old 3-way region picker is removed.
@@ -1253,24 +1239,6 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             sCurrItemAndOptionMenuCheck = 0;
             StartNewGameSceneFrlg();
             return;
-#else
-            if (IS_FRLG)
-            {
-                DestroyTask(taskId);
-                FreeAllWindowBuffers();
-                if (action != ACTION_OPTION)
-                    sCurrItemAndOptionMenuCheck = 0;
-                else
-                    sCurrItemAndOptionMenuCheck |= OPTION_MENU_FLAG;  // entering the options menu
-                StartNewGameSceneFrlg();
-                return;
-            }
-
-            gPlttBufferUnfaded[0] = RGB_BLACK;
-            gPlttBufferFaded[0] = RGB_BLACK;
-            gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
-            break;
-#endif // ALL_REGIONS
         case ACTION_CONTINUE:
             gPlttBufferUnfaded[0] = RGB_BLACK;
             gPlttBufferFaded[0] = RGB_BLACK;
@@ -1282,24 +1250,6 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             SetMainCallback2(CB2_InitOptionMenu);
             DestroyTask(taskId);
             break;
-#if LINK_MYSTERY_GIFT == TRUE
-        case ACTION_MYSTERY_GIFT:
-            SetMainCallback2(CB2_InitMysteryGift);
-            DestroyTask(taskId);
-            break;
-#endif
-#if LINK_MYSTERY_EVENT == TRUE
-        case ACTION_MYSTERY_EVENTS:
-            SetMainCallback2(CB2_InitMysteryEventMenu);
-            DestroyTask(taskId);
-            break;
-#endif
-#if LINK_MYSTERY_GIFT == TRUE
-        case ACTION_EREADER:
-            SetMainCallback2(CB2_InitEReader);
-            DestroyTask(taskId);
-            break;
-#endif
         case ACTION_INVALID:
             gTasks[taskId].tCurrItem = 0;
             gTasks[taskId].func = Task_DisplayMainMenuInvalidActionError;

@@ -456,7 +456,8 @@ static u8 TryLoadSaveSlot(u16 sectorId, struct SaveSectorLocation *locations)
     else
     {
         status = GetSaveValidStatus(locations);
-        CopySaveSlotData(FULL_SAVE_SLOT, locations);
+        if (status == SAVE_STATUS_OK || status == SAVE_STATUS_ERROR)
+            CopySaveSlotData(FULL_SAVE_SLOT, locations);
     }
 
     return status;
@@ -506,6 +507,8 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
     u8 saveSlot1Status;
     u8 saveSlot2Status;
 
+    // The counter selects the physical slot during copying. A counter with the
+    // wrong parity would load a different slot than the one just validated.
     // Check save slot 1
     for (i = 0; i < NUM_SECTORS_PER_SLOT; i++)
     {
@@ -526,7 +529,8 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
 
     if (signatureValid)
     {
-        if (validSectorFlags == (1 << NUM_SECTORS_PER_SLOT) - 1)
+        if (validSectorFlags == (1 << NUM_SECTORS_PER_SLOT) - 1
+         && saveSlot1Counter % NUM_SAVE_SLOTS == 0)
             saveSlot1Status = SAVE_STATUS_OK;
         else
             saveSlot1Status = SAVE_STATUS_ERROR;
@@ -560,7 +564,8 @@ static u8 GetSaveValidStatus(const struct SaveSectorLocation *locations)
 
     if (signatureValid)
     {
-        if (validSectorFlags == (1 << NUM_SECTORS_PER_SLOT) - 1)
+        if (validSectorFlags == (1 << NUM_SECTORS_PER_SLOT) - 1
+         && saveSlot2Counter % NUM_SAVE_SLOTS == 1)
             saveSlot2Status = SAVE_STATUS_OK;
         else
             saveSlot2Status = SAVE_STATUS_ERROR;
@@ -863,6 +868,33 @@ bool8 WriteSaveBlock1Sector(void)
     return finished;
 }
 
+// An old slot may have a different final chunk size. HandleWriteSector zeroes
+// each sector before copying the chunk, so the checksum over the full data
+// area is identical to the checksum its writer stored. Check an entire slot
+// from one generation before attributing a failed layout check to its version.
+static bool32 IsIntactOlderSlot(u32 slot)
+{
+    u32 seen = 0, counter = 0;
+    u8 version = SAVE_FORMAT_VERSION;
+
+    for (u32 i = 0; i < NUM_SECTORS_PER_SLOT; i++)
+    {
+        ReadFlashSector(slot * NUM_SECTORS_PER_SLOT + i, gReadWriteSector);
+        if (gReadWriteSector->signature != SECTOR_SIGNATURE
+         || gReadWriteSector->id >= NUM_SECTORS_PER_SLOT
+         || (seen & (1u << gReadWriteSector->id))
+         || gReadWriteSector->counter % NUM_SAVE_SLOTS != slot
+         || (i != 0 && gReadWriteSector->counter != counter)
+         || gReadWriteSector->checksum != CalculateChecksum(gReadWriteSector->data, SECTOR_DATA_SIZE))
+            return FALSE;
+        seen |= 1u << gReadWriteSector->id;
+        counter = gReadWriteSector->counter;
+        if (gReadWriteSector->id == SECTOR_ID_SAVEBLOCK2)
+            version = gReadWriteSector->data[offsetof(struct SaveBlock2, saveVersion)];
+    }
+    return version < SAVE_FORMAT_LAYOUT_MIN;
+}
+
 u8 LoadGameSave(u8 saveType)
 {
     u8 status;
@@ -878,59 +910,39 @@ u8 LoadGameSave(u8 saveType)
     {
     case SAVE_NORMAL:
     default:
+        gSaveVersionRefusal = SAVE_VERSION_REFUSAL_NONE;
         status = TryLoadSaveSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
         gSaveFileStatus = status;
         gGameContinueCallback = NULL;
-#if ALL_REGIONS
-        // SAVE_STATUS_ERROR still fully populates SB1/2/3 from the surviving good slot,
-        // so a recovered pre-v6 save must migrate too (EMPTY/CORRUPT stay excluded).
+        // A recovered slot also contains a save whose version must be checked.
         if (status == SAVE_STATUS_OK || status == SAVE_STATUS_ERROR)
         {
-            // v7 layout gate. A save older than SAVE_FORMAT_LAYOUT_MIN predates the SaveBlock1
-            // reshape and CANNOT be migrated — its flags/vars are already sitting at the wrong
-            // offsets in RAM by the time we get here. Report it as EMPTY so the main menu offers
-            // NEW GAME only, rather than letting the player Continue into a half-loaded save.
-            // Reading saveVersion is safe: it is in SaveBlock2, which this break does not reshape.
-            // gSaveVersionRefusal records WHY, so the menu can explain instead of looking blank.
-            gSaveVersionRefusal = SAVE_VERSION_REFUSAL_NONE;
+            // The fixed version byte is readable even when the rest of the layout changed.
             if (gSaveBlock2Ptr->saveVersion < SAVE_FORMAT_LAYOUT_MIN)
-            {
                 gSaveVersionRefusal = SAVE_VERSION_REFUSAL_TOO_OLD;
-                gSaveFileStatus = SAVE_STATUS_EMPTY;
-                status = SAVE_STATUS_EMPTY;
-            }
             // Forward gate: a save stamped by a NEWER build may carry a reshaped layout this
             // binary can't know about. Without this it would half-load, then the next save
             // would re-stamp it with THIS build's version — permanently downgrading it.
             else if (gSaveBlock2Ptr->saveVersion > SAVE_FORMAT_VERSION)
-            {
                 gSaveVersionRefusal = SAVE_VERSION_REFUSAL_TOO_NEW;
-                gSaveFileStatus = SAVE_STATUS_EMPTY;
-                status = SAVE_STATUS_EMPTY;
-            }
             else
             {
-                // Check integrity BEFORE migrating: a ladder step rewrites the banks, which would
-                // make a corrupt SaveBlock3 checksum-clean afterwards and hide the damage.
-                // RAM-only: this describes THIS load, not the save, so it must not persist.
                 gRegionSaveCorrupt = !VerifyRegionSaveChecksum();
-                MigrateSaveFormatIfNeeded();
-                // Bind the obstacle bits to this build's generated table (see issue #16). Runs
-                // after the ladder so a migrated save is stamped too.
                 ResyncClearedObstacleTable();
+                CopyPartyAndObjectsFromSave();
             }
         }
-#endif
-        // AFTER the ladder, not before it. LoadObjectEvents() copies SaveBlock1.objectEvents[]
-        // into gObjectEvents[], and MigrateDeletedTwinMaps() rewrites the mapNum in exactly that
-        // array (src/load_save.c) -- so with the copy running first the renumber never reached a
-        // live object, and the next SaveObjectEvents() wrote the stale value straight back over
-        // the migrated one. A player who saved in one of the 20 renumbered rooms then had every
-        // NPC on that floor carrying a pre-deletion mapNum, so GetObjectEventIdByLocalIdAndMap()
-        // matched none of them and every applymovement/removeobject by local id silently no-op'd.
-        // Safe to defer: the ladder touches only SaveBlock1/2/3 and never reads gPlayerParty or
-        // gObjectEvents.
-        CopyPartyAndObjectsFromSave();
+        else if (status == SAVE_STATUS_CORRUPT && (IsIntactOlderSlot(0) || IsIntactOlderSlot(1)))
+        {
+            gSaveVersionRefusal = SAVE_VERSION_REFUSAL_TOO_OLD;
+        }
+        if (gSaveVersionRefusal != SAVE_VERSION_REFUSAL_NONE)
+        {
+            // Title Options and the intro read SaveBlock1 before NewGameInitData.
+            // A refused cartridge must start those screens with fresh settings.
+            ClearSav1();
+            status = gSaveFileStatus = SAVE_STATUS_EMPTY;
+        }
         break;
     case SAVE_HALL_OF_FAME:
         if (gHoFSaveBuffer != NULL)

@@ -2,12 +2,7 @@
 .set LOCALID_CHERRYGROVE_SILVER, 10
 
 CherrygroveCity_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, CherryGroveCity_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-CherryGroveCity_OnTransition::
-	end
 
 CherryGroveCity_EventScript_TriggerGent_Top::
 	lock
@@ -377,9 +372,6 @@ CherrygroveCity_Text_CitySign:
 	.string "CHERRYGROVE CITY\p"
 	.string "The City of Cute, Fragrant\n"
 	.string "Flowers$"
-
-CherrygroveCity_Text_GuideGentsHouseSign:
-	.string "GUIDE GENT'S HOUSE$"
 
 CherryGroveCity_Text_Staryu:
 	.string "STARYU: Yuuuuuuuu.$"

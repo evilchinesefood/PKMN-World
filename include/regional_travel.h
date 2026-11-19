@@ -66,7 +66,6 @@ enum RegionalTravelResult RegionalTravel_Preview(const struct RegionalTravelRequ
 enum RegionalTravelResult RegionalTravel_Commit(const struct RegionalTravelRequest *request);
 void RegionalTravel_RecordCenterEntry(void);
 void RegionalTravel_RestoreOpeningTeam(enum Region region);
-void RegionalTravel_Migrate(void);
 void RegionalTravel_ScrOpeningComplete(struct ScriptContext *ctx);
 void RegionalTravel_ScrCaptureDeparture(struct ScriptContext *ctx);
 void RegionalTravel_ScrPrepare(struct ScriptContext *ctx);

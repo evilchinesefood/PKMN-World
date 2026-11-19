@@ -169,12 +169,6 @@ INTENDED = {
         "HnS shows him after the first Hall of Fame to turn challengers away until Kanto's 16 badges. "
         "This tree's Kanto keeps its own League, so Route 27's first steps hide him for good; he stood "
         "on the only tile in front of the Elite Four door (2026-10-24 fix).",
-    ("UNSET-FLAG", "FLAG_FINITE_TMS"):
-        "HnS sets it from its tx_rac_menu challenge option, which was not ported; TMs are reusable here, "
-        "so the incense clerk's finite-TM branch never runs.",
-    ("UNSET-FLAG", "FLAG_UNLOCK_BIRDS"):
-        "HnS sets it after Ho-Oh at its Navel Rock to swap Victory Road B2F to the Moltres layout. Here "
-        "SwitchToModern sets the layout the map already uses, so the dead branch changes nothing.",
     ("UNSET-FLAG", "FLAG_MOSSDEEP_GYM_SWITCH_1"): "pokeemerald sets the R/S switch flags only in unreferenced labels too.",
     ("UNSET-FLAG", "FLAG_MOSSDEEP_GYM_SWITCH_2"): "pokeemerald sets the R/S switch flags only in unreferenced labels too.",
     ("UNSET-FLAG", "FLAG_MOSSDEEP_GYM_SWITCH_3"): "pokeemerald sets the R/S switch flags only in unreferenced labels too.",
@@ -216,7 +210,7 @@ def resolve_ids(root, names):
                                 capture_output=True, text=True, check=True).stdout.split()
     except (OSError, subprocess.CalledProcessError):
         listed = [os.path.relpath(p, root) for p in glob.glob(os.path.join(root, "include/constants/*.h"))]
-    src = "".join(f'#include "{h[len("include/"):]}"\n' for h in sorted(listed))
+    src = "".join(f'#include "{h[len("include/"):]}"\n' for h in sorted(listed) if os.path.isfile(os.path.join(root, h)))
     # The name goes in a string literal, which the preprocessor leaves alone.
     src += "".join(f'"{n}" {n}\n' for n in sorted(names))
     with tempfile.TemporaryDirectory() as td:
@@ -272,7 +266,7 @@ def tracked(root, *patterns):
     try:
         out = subprocess.run(["git", "ls-files", "--", *patterns], cwd=root, capture_output=True,
                              text=True, check=True).stdout.split()
-        return [os.path.join(root, p) for p in out]
+        return [os.path.join(root, p) for p in out if os.path.isfile(os.path.join(root, p))]
     except (OSError, subprocess.CalledProcessError):
         # Git pathspecs let `*` cross directories; `**` makes glob do the same.
         return [p for pat in patterns

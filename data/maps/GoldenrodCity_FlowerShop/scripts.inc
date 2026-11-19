@@ -1,30 +1,6 @@
 GoldenrodCity_FlowerShop_MapScripts::
 	.byte 0
 
-@ #208: the mint clerk is ungated. She was a Johto_EventScript_Nop stub from the Goldenrod port
-@ (53f21e0fff) -- visible post-Game-Clear but mute, because the HGSS seller script was never
-@ ported. Mints are commodity items already sold at the hub vitamin vendor, Goldenrod Dept 4F,
-@ Celadon Dept 5F and Lilycove Dept 4F, so a champion gate on a fifth vendor guarded nothing.
-@ Her object_event "flag" is now 0 rather than FLAG_MINTS_CLERK. The old OnTransition ran
-@ setflag FLAG_MINTS_CLERK (set = hidden) in the branch taken when the gate FAILED, so the bit is
-@ SET on a save whose most recent entry to this shop predates Game Clear. It is CLEAR on a save
-@ that has come in since (the postgame arm ran clearflag) and on one that never came in at all.
-@ Keeping the flag field would leave her hidden on that first group. Flag id 0 is unconditional
-@ spawn by construction: GetFlagPointer returns NULL for id 0
-@ (src/event_data.c:273), so it can never be read or written.
-@ One transient, not worth a migration: objectEventTemplates[] is persisted, and Continue refreshes
-@ only .script, not .flagId (src/overworld.c:596). A save made INSIDE this shop keeps the stale
-@ flagId for that one session; she appears on the next re-entry. Self-healing.
-@
-@ Both flags stay defined in johto_flags.h, but for DIFFERENT reasons -- do not collapse them:
-@   FLAG_MINTS_CLERK (0xE4) is genuinely dirty. Live saves carry it SET (above), so handing 0xE4
-@     to a future flag would inherit a pre-set garbage bit. Reserved.
-@   FLAG_MINTS_ENABLED (0xE5) is provably CLEAR on every save that has ever existed: it has had no
-@     writer at any point in this repo's history (git log -S finds none), which is why the old
-@     call_if_set arm was dead code. Reusing 0xE5 would in fact be safe; it is kept only so the
-@     pair stays legible next to its sibling.
-@ Neither is kept to avoid renumbering -- the bank assigns literal slices and already has a hole
-@ at 0xD6, so deleting a define shifts nothing.
 GoldenrodCity_FlowerShop_EventScript_MintClerk::
 	lock
 	faceplayer

@@ -3,12 +3,7 @@
 .set LOCALID_ICEPATH4_STUCK_SWINUB, 4
 
 IcePath_B3F_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, IcePath_B3F_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-IcePath_B3F_OnTransition: 
-	end
 
 IcePath_B3F_Trigger_Swinub_Jump::
 	goto_if_set FLAG_DAY_POKEMON, IcePath_B3F_Trigger_Night

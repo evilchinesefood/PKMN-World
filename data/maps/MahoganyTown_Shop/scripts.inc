@@ -235,16 +235,6 @@ MahoganyTown_Shop_Text_Granny:
 MahoganyMart1F_Text_Pharmacist_Lance:
     .string "ROCKETS have hijacked my basement!$"
 
-MahoganyMart1F_Text_BlackBelt:
-    .string "Heheh! The experi- ment worked like\n"
-    .string "a charm.\p"
-    .string "MAGIKARP are just worthless, but\n"
-    .string "GYARADOS are big moneymakers.$"
-
-MahoganyMart1F_Text_BlackBelt_Lance:
-    .string "Urrgh…\p"
-    .string "That guy's POKéMON are tough…$"
-
 MahoganyMart1F_Text_Lance_HyperBeam:
     .string "LANCE: DRAGONITE, HYPER BEAM.$"
 

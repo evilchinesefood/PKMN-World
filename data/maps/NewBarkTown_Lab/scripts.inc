@@ -177,7 +177,6 @@ NewBarkTown_Lab_EventScript_ChikoritaBall::
 	end
 
 NewBarkTown_Lab_EventScript_ChikoritaBall_Choice::
-	callnative DisableStaticRandomizer
 	setvar VAR_STARTER_MON_JOHTO, 0
 	setvar PLAYER_STARTER_SPECIES, SPECIES_CHIKORITA
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
@@ -199,7 +198,6 @@ NewBarkTown_Lab_EventScript_CyndaquilBall::
 	end
 
 NewBarkTown_Lab_EventScript_CyndaquilBall_Choice::
-	callnative DisableStaticRandomizer
 	setvar VAR_STARTER_MON_JOHTO, 1
 	setvar PLAYER_STARTER_SPECIES, SPECIES_CYNDAQUIL
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
@@ -221,7 +219,6 @@ NewBarkTown_Lab_EventScript_TotodileBall::
 	end
 
 NewBarkTown_Lab_EventScript_TotodileBall_Choice::
-	callnative DisableStaticRandomizer
 	setvar VAR_STARTER_MON_JOHTO, 2
 	setvar PLAYER_STARTER_SPECIES, SPECIES_TOTODILE
 	showmonpic PLAYER_STARTER_SPECIES, 10, 3
@@ -237,12 +234,10 @@ NewBarkTown_Lab_EventScript_DeclinedStarter::
 	hidemonpic
 	msgbox NewBarkTown_Lab_Text_DidntChooseStarter, MSGBOX_DEFAULT
 	closemessage
-	callnative EnableStaticRandomizer
 	release
 	end
 
 NewBarkTown_Lab_EventScript_ChoseStarter::
-	callnative EnableStaticRandomizer
 	hidemonpic
 	msgbox NewBarkTown_Lab_Text_ChoseStarter, MSGBOX_DEFAULT
 	@ The Hub Pass and the same-region Johto gate keep a party withdrawn at the hub PC, so the party
@@ -258,16 +253,11 @@ NewBarkTown_Lab_EventScript_ChoseStarter::
 	bufferspeciesname STR_VAR_1, PLAYER_STARTER_SPECIES
 	message NewBarkTown_Lab_Text_ReceivedStarter
 	waitfanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, NewBarkTown_Lab_EventScript_ChoseStarter_NicknameStarter_Nuzlocke
 	msgbox NewBarkTown_Lab_Text_Nickname, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, NewBarkTown_Lab_EventScript_NicknameStarter
 	goto NewBarkTown_Lab_EventScript_StarterReceived
 	end
 
-NewBarkTown_Lab_EventScript_ChoseStarter_NicknameStarter_Nuzlocke::
-	message NewBarkTown_Lab_Text_Nickname
-	waitmessage
 NewBarkTown_Lab_EventScript_NicknameStarter::
 	goto_if_eq VAR_TEMP_6, MON_GIVEN_TO_PC, NewBarkTown_Lab_EventScript_NicknameBoxedStarter
 	call Common_EventScript_GetGiftMonPartySlot
@@ -734,10 +724,6 @@ NewBarkTown_Lab_Text_ElmDirections1:
 	.string "there, so you can't miss it.$"
 
 
-NewBarkTown_Lab_Text_ElmLetYourMonBattle:
-	.string "If a wild POKéMON appears,\n"
-	.string "let your POKéMON battle it!$"
-
 NewBarkTown_Lab_Text_ElmDirections2:
 	.string "If a wild POKéMON appears, let\n"
 	.string "your POKéMON battle it!\p"
@@ -745,20 +731,6 @@ NewBarkTown_Lab_Text_ElmDirections2:
 	.string "should heal it with the machine\l"
 	.string "to my right, or at the POKéCENTER.\p"
 	.string "I'm counting on you!$"
-
-NewBarkTown_Lab_Text_GotElmsNumber:
-	.string "{PLAYER} got ELM's phone\n"
-	.string "number.$"
-
-NewBarkTown_Lab_Text_ElmDescribesMrPokemon:
-	.string "MR. POKéMON goes everywhere and\n"
-	.string "finds rarities.\p"
-	.string "Too bad they're just rare and\n"
-	.string "not very useful…$"
-
-NewBarkTown_Lab_Text_ElmPokeBall:
-	.string "It contains a POKéMON caught\n"
-	.string "by PROF.ELM.$"
 
 @THEFT================================================================================
 
@@ -802,23 +774,9 @@ NewBarkTown_Lab_Text_ElmStudyingEgg:
 	.string "I'll call if I learn anything\l"
 	.string "about that EGG!$"
 
-NewBarkTown_Lab_Text_ElmAideHasEgg:
-	.string "ELM: {PLAYER}? Didn't you meet\n"
-	.string "my assistant?\p"
-	.string "He should have met you with\n"
-	.string "the EGG at VIOLET CITY's\p"
-	.string "POKéMON CENTER.\p"
-	.string "You must have just missed him.\n"
-	.string "Try to catch him there.$"
-
 NewBarkTown_Lab_Text_ElmWaitingEggHatch:
 	.string "ELM: Hey, has that EGG changed\n"
 	.string "any?$"
-
-NewBarkTown_Lab_Text_ElmThoughtEggHatched:
-	.string "{PLAYER}? I thought the EGG\n"
-	.string "hatched.\p"
-	.string "Where is the POKéMON?$"
 
 NewBarkTown_Lab_Text_ShowTogepi1:
 	.string "ELM: {PLAYER}, you look great!$"
@@ -848,16 +806,6 @@ NewBarkTown_Lab_Text_ElmGiveEverstone2:
 	.string "won't evolve.\p"
 	.string "Give it to a POKéMON you don't\n"
 	.string "want to evolve.$"
-
-NewBarkTown_Lab_Text_ElmCallYou:
-	.string "ELM: {PLAYER}, I'll call you if\n"
-	.string "anything comes up.$"
-
-NewBarkTown_Lab_Text_AideAfterTheft:
-	.string "…sigh… That stolen POKéMON.\p"
-	.string "I wonder how it's doing.\p"
-	.string "They say a POKéMON raised by a\n"
-	.string "bad person turns bad itself.$"
 
 NewBarkTown_Lab_Text_ElmGiveMasterBall1:
 	.string "ELM: Hi, {PLAYER}!\p"
@@ -934,10 +882,6 @@ NewBarkTown_Lab_Text_ElmGiveTicket2:
 	.string "Give my regards to PROF.OAK in\n"
 	.string "KANTO!$"
 
-NewBarkTown_Lab_Text_LabMonEgg:
-	.string "It's the POKéMON EGG being\n"
-	.string "studied by PROF.ELM.$"
-
 NewBarkTown_Lab_Text_AideGivePotion:
 	.string "{PLAYER}, I want you to have\n"
 	.string "this for your errand.$"
@@ -968,12 +912,6 @@ NewBarkTown_Lab_Text_AideGiveBalls:
 	.string "{PLAYER}!\p"
 	.string "Use these on your POKéDEX\n"
 	.string "quest!$"
-
-NewBarkTown_Lab_Text_AideExplainBalls:
-	.string "To add to your POKéDEX, you\n"
-	.string "have to catch POKéMON.\p"
-	.string "Throw POKé BALLS at wild\n"
-	.string "POKéMON to get them.$"
 
 NewBarkTown_Lab_Text_Officer1:
 	.string "I heard a POKéMON was stolen\n"

@@ -233,7 +233,6 @@ SHARED_STATE_OK = {
     "FLAG_KANTO_CHAMPION": "read by the hub and the other regions on purpose",
     "FLAG_JOHTO_CHAMPION": "read by the hub and the other regions on purpose",
     "VAR_DIFFICULTY": "synced to the active region in SetCurrentRegion",
-    "VAR_CABLE_CLUB_STATE": "link-room session state",
     "VAR_OBJ_GFX_ID_0": "dynamic object sprite, written before each spawn",
     "VAR_ICE_STEP_COUNT": "cracked-ice step counter, reset by each puzzle map on entry",
     "VAR_SAFARI_ZONE_STATE": "safari session state, reset with the session",
@@ -302,8 +301,6 @@ SHARED_STATE_OK = {
     "FLAG_RECEIVED_BIKE": "one shop bike across Rydel's Cycles and the Goldenrod bike shop",
     # #576 gives the Ruins of Alph lab its own regenerator; Alph still reads Devon's pair once to
     # adopt a Johto fossil an older save left there. Before #576 lands, the two labs share them.
-    "VAR_FOSSIL_RESURRECTION_STATE": "#576: Alph adopts a Johto fossil left in Devon's regenerator",
-    "VAR_WHICH_FOSSIL_REVIVED": "#576: Alph adopts a Johto fossil left in Devon's regenerator",
     "FLAG_RECEIVED_REVIVED_FOSSIL_MON": "Hoenn's Fossil Maniac only remarks that a fossil was revived somewhere",
 }
 # Collisions that a pull request fixes but that may not have landed with this check. They are

@@ -18,7 +18,7 @@ local F = require("lib").new(S, "RelearnerDeclineHeartScale")
 local HUB = 100
 local REGION_HOENN = 3
 local ITEM_HEART_SCALE = 152
-local FALLARBOR_RELEARNER_GROUP, FALLARBOR_RELEARNER_MAP = 5, 7
+local FALLARBOR_RELEARNER_GROUP, FALLARBOR_RELEARNER_MAP = 5, 5
 local CONTEXT_RUNNING, CONTEXT_SHUTDOWN = 0, 2
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end

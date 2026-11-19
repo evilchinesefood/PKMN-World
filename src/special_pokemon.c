@@ -127,9 +127,7 @@ void SpecialPokemon_ReconcileOwned(void)
             SpecialPokemon_RecordReceived(GetBoxedMonPtr(box, slot));
     for (u32 i = 0; i < DAYCARE_MON_COUNT; i++)
         SpecialPokemon_RecordReceived(&gSaveBlock1Ptr->daycare.mons[i].mon);
-#if ALL_REGIONS
     SpecialPokemon_RecordReceived(&gSaveBlock3Ptr->region.route5DayCareMon.mon);
-#endif
     for (u32 i = 0; i < MAX_FUSION_STORAGE; i++)
         SpecialPokemon_RecordReceived(&gPokemonStoragePtr->fusions[i].box);
 }

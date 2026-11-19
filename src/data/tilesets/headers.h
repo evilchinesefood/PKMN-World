@@ -24,8 +24,6 @@ const struct Tileset gTileset_SecretBaseRedCave =
 const struct Tileset *const gTilesetPointer_SecretBase = &gTileset_SecretBase;
 const struct Tileset *const gTilesetPointer_SecretBaseRedCave = &gTileset_SecretBaseRedCave;
 
-#if !IS_FRLG
-
 const struct Tileset gTileset_General =
 {
     .isCompressed = TRUE,
@@ -780,10 +778,6 @@ const struct Tileset gTileset_UnionRoom =
     .callback = NULL,
 };
 
-#endif // !IS_FRLG (Hoenn)
-
-#if IS_FRLG || ALL_REGIONS
-
 // FRLG tilesets
 const struct Tileset gTileset_BuildingFrlg =
 {
@@ -1449,8 +1443,6 @@ const struct Tileset gTileset_HallOfFame =
     TILESET_METATILES(gMetatiles_HallOfFame, gMetatileAttributes_HallOfFame),
     .callback = NULL,
 };
-
-#endif // IS_FRLG || ALL_REGIONS (FRLG)
 
 // === Region merge: Johto starting-area slice tilesets (always-on) ===
 const struct Tileset gTileset_Johto_General =

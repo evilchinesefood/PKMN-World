@@ -2,13 +2,7 @@
 .set LOCALID_ECRUTEK_SILVER, 33
 
 EcruteakCity_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, EcruteakCity_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-EcruteakCity_OnTransition::
-	end
-
 
 EcruteakCity_EventScript_Trigger::
 	@flagheap
@@ -280,15 +274,6 @@ EcruteakCity_Text_Vulpix:
 	.string "VULPIX: Vullll Pix!$"
 
 
-EcruteakCity_Text_UnusedMissingDaughter:
-	.string "Oh, no. Oh, no…\p"
-	.string "My daughter is missing.\p"
-	.string "No… She couldn't have gone to the\n"
-	.string "BURNED TOWER.\p"
-	.string "I told her not to go near it…\p"
-	.string "People seem to disappear there…\p"
-	.string "Oh, what should I do…?$"
-
 EcruteakCity_Text_Gramps1:
 	.string "ECRUTEAK used to have two towers:\n"
 	.string "one each in the east and west.$"
@@ -352,11 +337,6 @@ EcruteakCity_Text_Sign:
 	.string "ECRUTEAK CITY\n"
 	.string "A Historical City\p"
 	.string "Where the Past Meets the Present$"
-
-EcruteakCity_Text_TinTowerSign:
-	.string "TIN TOWER\p"
-	.string "A legendary POKéMON is said to\n"
-	.string "roost here.$"
 
 EcruteakCity_Text_OfficeSign:
 	.string "Barrier Station to TIN TOWER\p"

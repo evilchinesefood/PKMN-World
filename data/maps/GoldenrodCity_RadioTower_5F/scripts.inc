@@ -524,9 +524,3 @@ GoldenrodCity_RadioTower_5F_Text_DirectorIntro:
 
 GoldenrodCity_RadioTower_5F_Text_Ben:
 	.string "BEN: Do you listen to our music?$"
-
-GoldenrodCity_RadioTower_5F_Text_DirectorOfficeSign:
-	.string "5F DIRECTOR'S OFFICE$"
-
-GoldenrodCity_RadioTower_5F_Text_Studio1Sign:
-	.string "5F STUDIO 1$"

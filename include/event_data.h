@@ -31,14 +31,6 @@ u8 FlagToggle(u16 id);
 u8 FlagClear(u16 id);
 bool8 FlagGet(u16 id);
 
-// Region merge: per-region var/flag bank accessors (see region_vars.h / region_flags.h).
-u16 GetRegionVarBase(enum Region region);
-u16 GetRegionVar(enum Region region, u16 localId);
-bool8 SetRegionVar(enum Region region, u16 localId, u16 value);
-u16 GetRegionFlagBase(enum Region region);
-bool8 GetRegionFlag(enum Region region, u16 localId);
-void SetRegionFlag(enum Region region, u16 localId);
-void ClearRegionFlag(enum Region region, u16 localId);
 u16 GetBadgeFlag(enum Region region, u8 badgeIndex);
 bool8 HasBadge(enum Region region, u8 badgeIndex);
 bool8 HasCurrentRegionBadge(u8 badgeIndex);

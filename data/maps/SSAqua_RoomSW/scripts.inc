@@ -31,12 +31,6 @@ SSAqua_RoomSW_Text_GuitaristClydeSeen:
 SSAqua_RoomSW_Text_GuitaristClydeBeaten:
     .string "Yowza! Total distortion!$"
 
-SSAqua_RoomSW_Text_GuitaristClydeAfterBattleMobile:
-    .string "I was going to make my debut at\n"
-    .string "the BATTLE TOWER…\p"
-    .string "I should go back to VERMILION and\n"
-    .string "redo my training…$"
-
 SSAqua_RoomSW_Text_GuitaristClydeAfterBattle:
     .string "Speaking of the RADIO STATION,\n"
     .string "what's this week's lucky number?$"

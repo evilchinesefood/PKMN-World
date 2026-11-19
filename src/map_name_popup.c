@@ -156,7 +156,6 @@ static void Task_MapNamePopUpWindow(u8 taskId)
                 config.from = Q_24_8(-POPUP_OFFSCREEN_X);
                 config.to = Q_24_8(0);
                 config.easingFunc = ComfyAnimEasing_EaseInOutCubic;
-                config.delayFrames = 0;
                 task->tComfyAnimId = CreateComfyAnim_Easing(&config);
                 task->tPrintTimer = 1;
             }
@@ -203,7 +202,6 @@ static void Task_MapNamePopUpWindow(u8 taskId)
                 config.from = Q_24_8(currentPos);
                 config.to = Q_24_8(-POPUP_OFFSCREEN_X);
                 config.easingFunc = ComfyAnimEasing_EaseInOutCubic;
-                config.delayFrames = 0;
                 if (task->tComfyAnimId < NUM_COMFY_ANIMS)
                     ReleaseComfyAnim(task->tComfyAnimId);
                 task->tComfyAnimId = CreateComfyAnim_Easing(&config);

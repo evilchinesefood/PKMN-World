@@ -5,12 +5,7 @@
 
 BurnedTower_B1F_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE,BurnedTower_B1F_OnFrame
-	map_script MAP_SCRIPT_ON_TRANSITION, BurnedTower_B1F_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-BurnedTower_B1F_OnTransition: 
-	end
 
 BurnedTower_B1F_OnFrame::
 	map_script_2 VAR_ECRUTEAK_CITY_STATE, 3, BurnedTower_B1F_EventScript_ReleaseBeasts
@@ -213,4 +208,3 @@ BurnedTower_B1F_EventScript_Item_Taunt::
 BurnedTower_B1F_EventScript_Item_UltraBall::
 	finditem ITEM_ULTRA_BALL
 	end
-

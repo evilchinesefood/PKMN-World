@@ -34,12 +34,11 @@ local USM_NAMES = {
 -- MAP_ROUTE123 = (38|(0<<8)), warp 0 = Berry Master's House door (22,6).
 -- MAP_GOLDENROD_CITY_DEPARTMENT_STORE_4F = (7|(84<<8)).
 -- MAP_VIOLET_CITY_POKEMON_CENTER = (4|(78<<8)).
--- MAP_OLDALE_TOWN_POKEMON_CENTER_1F = (2|(2<<8)); 2F still exists as map 3.
+-- MAP_OLDALE_TOWN_POKEMON_CENTER_1F = (2|(2<<8)).
 local R123 = { g = 0,  m = 38, w = 0, name = "Route123" }
 local DEPT4 = { g = 84, m = 7,  w = 0, name = "GoldenrodDept4F" }
 local VIOLET_PC = { g = 78, m = 4, w = 0, name = "VioletPC" }
 local OLDALE_PC = { g = 2,  m = 2, w = 0, name = "OldalePC1F" }
-local OLDALE_2F_MAP = 3
 
 local function d(n) return (n // 100) % 10, (n // 10) % 10, n % 10 end
 
@@ -415,7 +414,7 @@ F.run(function()
     "warpCount=" .. warpN)
   if warps[1] then
     F.check("the one warp is the street exit, not a 2F map",
-      not (warps[1].destGroup == 78 and warps[1].destMap ~= 4) and warps[1].destGroup ~= 2,
+      warps[1].destGroup == 75 and warps[1].destMap == 6,
       string.format("dest group=%d map=%d", warps[1].destGroup, warps[1].destMap))
   end
   -- Classic Emerald 1F stair tiles. Johto layout may wall them; either blocked
@@ -449,18 +448,19 @@ F.run(function()
   F.check("still on Violet 1F after the stair probe", F.grp() == 78 and F.mapn() == 4,
     string.format("grp=%d map=%d", F.grp(), F.mapn()))
 
-  -- Hoenn Oldale: 2F map still exists (group 2 map 3) but the 1F stair warps are gone.
+  -- Both Oldale entrance tiles must lead to the town outside.
   if go(OLDALE_PC.g, OLDALE_PC.m, OLDALE_PC.w, "to_oldale_pc") then
     F.check("on Oldale Pokemon Center 1F", F.grp() == 2 and F.mapn() == 2,
       string.format("grp=%d map=%d", F.grp(), F.mapn()))
     local ow, on = warpEvents()
     F.L("  Oldale PC 1F warps: count=" .. on)
-    local to2F = false
+    local streetExits = 0
     for i, w in ipairs(ow) do
       F.L(string.format("    warp%d (%d,%d) -> group %d map %d", i, w.x, w.y, w.destGroup, w.destMap))
-      if w.destGroup == 2 and w.destMap == OLDALE_2F_MAP then to2F = true end
+      if w.destGroup == 0 and w.destMap == 10 then streetExits = streetExits + 1 end
     end
-    F.check("Oldale 1F has no warp to PokemonCenter_2F", not to2F, "warpCount=" .. on)
+    F.check("both Oldale 1F exits lead to Oldale Town", on == 2 and streetExits == 2,
+      "warpCount=" .. on .. " town exits=" .. streetExits)
     -- Vanilla stair tiles (1,6)/(2,6). Walk on; map must stay 1F.
     local route = { { 4, 8 }, { 1, 8 }, { 1, 6 } }
     local got = F.route(route, "oldale_stairs")

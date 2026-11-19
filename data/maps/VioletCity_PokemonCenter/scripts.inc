@@ -130,25 +130,12 @@ VioletCity_PokeCenter_Text_ElmsAideGiveEgg:
 VioletCity_PokeCenter_Text_ElmsAideGiveItem:
 	.string "Oh, and this might help when it hatches.$"
 
-VioletCity_PokeCenter_Text_ElmsAideFullParty:
-	.string "Oh, no. You can't carry any more\n"
-	.string "POKéMON with you.\p"
-	.string "I'll wait here while you make\n"
-	.string "room for the EGG.$"
-
 VioletCity_PokeCenter_Text_ElmsAideRefuse:
 	.string "B-but… PROF.ELM asked for you…$"
 
 VioletCity_PokeCenter_Text_BooksAreGreat:
 	.string "While my POKéMON are recovering\n"
 	.string "I love to read a good book.$"
-
-VioletCity_PokeCenter_Text_MobileAdapter:
-	.string "I just battled a friend in\n"
-	.string "CIANWOOD over a link.\p"
-	.string "If you connect a MOBILE ADAPTER,\n"
-	.string "you can link with a friend far\l"
-	.string "away.$"
 
 VioletCity_PokeCenter_Text_GameboyKid:
 	.string "A guy named BILL made the\n"

@@ -649,42 +649,6 @@ TEST("Regional travel unfinished opening refuses new choices without mutation")
     EXPECT_EQ(TravelStateHash(), before);
 }
 
-TEST("Regional travel legacy migration clears history and identity padding in every saved owner")
-{
-    struct Pokemon source;
-    u32 identity = REGIONAL_ID_MAX, item = ITEM_MAGNET;
-    ResetTravel();
-    CreateMon(&source, SPECIES_PIKACHU, 20, 12345, OTID_STRUCT_PRESET(54321));
-    SetMonData(&source, MON_DATA_REGIONAL_ID, &identity);
-    SetMonData(&source, MON_DATA_HELD_ITEM, &item);
-    gSaveBlock1Ptr->playerParty[0] = source;
-    gSaveBlock1Ptr->playerPartyCount = 1;
-    gSaveBlock1Ptr->daycare.mons[0].mon = source.box;
-    gSaveBlock1Ptr->daycare.mons[1].mon = source.box;
-    gSaveBlock3Ptr->region.route5DayCareMon.mon = source.box;
-    SetBoxMonAt(13, 29, &source.box);
-    gPokemonStoragePtr->fusions[3] = source;
-    memset(&gSaveBlock3Ptr->region.regionalTravel, 0xA5, sizeof(gSaveBlock3Ptr->region.regionalTravel));
-    RegionalTravel_Migrate();
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.nextIdentity, 1);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[0].count, 0);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[1].count, 0);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[2].count, 0);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.center[0], 0);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.center[1], 0);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.center[2], 0);
-    EXPECT_EQ(MonId(&gSaveBlock1Ptr->playerParty[0]), 0);
-    EXPECT_EQ(GetBoxMonData(&gSaveBlock1Ptr->daycare.mons[0].mon, MON_DATA_REGIONAL_ID), 0);
-    EXPECT_EQ(GetBoxMonData(&gSaveBlock1Ptr->daycare.mons[1].mon, MON_DATA_REGIONAL_ID), 0);
-    EXPECT_EQ(GetBoxMonData(&gSaveBlock3Ptr->region.route5DayCareMon.mon, MON_DATA_REGIONAL_ID), 0);
-    EXPECT_EQ(GetBoxMonDataAt(13, 29, MON_DATA_REGIONAL_ID), 0);
-    EXPECT_EQ(MonId(&gPokemonStoragePtr->fusions[3]), 0);
-    EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_SPECIES), SPECIES_PIKACHU);
-    EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_HELD_ITEM), ITEM_MAGNET);
-    EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_PERSONALITY), 12345);
-    EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_SANITY_IS_BAD_EGG), FALSE);
-}
-
 TEST("Regional travel walk-in entrances capture physical source without changing campaign")
 {
     u32 map;

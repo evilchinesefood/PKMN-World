@@ -1,10 +1,5 @@
 Route38_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route38_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route38_OnTransition: 
-	end
 
 Route38_EventScript_Toby::
 	trainerbattle_single TRAINER_TOBY, Route38_Text_BirdKeeperTobySeen, Route38_Text_BirdKeeperTobyBeaten
@@ -139,16 +134,6 @@ Route38_Text_BeautyOliviaAfter:
 Route38_Text_Sign:
 	.string "ROUTE 38\p"
 	.string "OLIVINE CITY - ECRUTEAK CITY$"
-
-Route38_Text_TrainerTips:
-	.string "TRAINER TIPS\p"
-	.string "If a POKéMON is trying to\n"
-	.string "evolve, you can stop it.\p"
-	.string "Press the B Button during\n"
-	.string "evolution to cancel it.\p"
-	.string "That startles the POKéMON\n"
-	.string "and stops its evolution.$"
-
 
 Route38_Text_WaterSign:
 	.string "NO SWIMMING OR FISHING.\n"

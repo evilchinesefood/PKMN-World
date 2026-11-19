@@ -479,7 +479,6 @@ static const u8 *ExpandPlaceholder_KunChan(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
-#if ALL_REGIONS
     // rivalName is only written at new game, when the hub flow's region is still
     // REGION_NONE - so it always held the Hoenn fallback. Derive from the current
     // map's region instead; also flips correctly when switching regions.
@@ -489,10 +488,6 @@ static const u8 *ExpandPlaceholder_RivalName(void)
     case REGION_JOHTO: return gText_ExpandedPlaceholder_Gary;
     default: break;
     }
-#elif IS_FRLG
-    if (gSaveBlock1Ptr->rivalName[0] != EOS)
-        return gSaveBlock1Ptr->rivalName;
-#endif
 
     if (gSaveBlock2Ptr->playerGender == MALE)
         return (IS_FRLG ? gText_ExpandedPlaceholder_Green : gText_ExpandedPlaceholder_May);

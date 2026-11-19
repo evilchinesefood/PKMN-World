@@ -89,16 +89,6 @@ CianwoodCity_Text_ManiacAskShuckle:
 	.string "You look strong. Could you look\n"
 	.string "after my POKéMON for a while?$"
 
-CianwoodCity_Text_ManiacTakeCareShuckle:
-	.string "Oh, thank you!\p"
-	.string "Take good care of it, please!$"
-
-CianwoodCity_Text_ManiacGotShuckle:
-	.string "{PLAYER} received a POKéMON.$"
-
-CianwoodCity_Text_ManiacPartyFull:
-	.string "Your POKéMON party is full.$"
-
 CianwoodCity_Text_ManiacIfHeComesBack:
 	.string "Oh, no… What'll I do if he comes\n"
 	.string "back?$"
@@ -113,10 +103,6 @@ CianwoodCity_Text_ManiacAskReturn:
 
 CianwoodCity_Text_ManiacThankYou:
 	.string "Thank you!$"
-
-CianwoodCity_Text_ManiacShuckleNotThere:
-	.string "Hey, you don't have my POKéMON\n"
-	.string "with you.$"
 
 CianwoodCity_Text_ManiacShuckleLikesYou:
 	.string "My POKéMON has come to like you.\p"

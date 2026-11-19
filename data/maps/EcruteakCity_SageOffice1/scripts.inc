@@ -48,12 +48,6 @@ EcruteakCity_SageOffice2_EventScript_SageA2::
 	release
 	end
 
-EcruteakCity_SageOffice2_EventScript_SageA3::
-	msgbox EcruteakTinTowerEntrance_Text_SagePleaseDoGoOn, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-
 EcruteakCity_SageOffice2_EventScript_SageA4::
 	msgbox EcruteakTinTowerEntrance_Text_SageDone, MSGBOX_DEFAULT
 	closemessage
@@ -94,21 +88,6 @@ EcruteakTinTowerEntrance_Text_SageNoBadge:
 	.string "unworthy. Sorry but you'll have\l"
 	.string "to leave.$"
 
-EcruteakTinTowerEntrance_Text_SageWithBadge:
-	.string "TIN TOWER is off limits to anyone\n"
-	.string "without ECRUTEAK GYM's BADGE.\p"
-	.string "Ah!\p"
-	.string "ECRUTEAK's GYM BADGE! Please, go\n"
-	.string "right through.$"
-
-EcruteakTinTowerEntrance_Text_SageNoClearBell:
-	.string "A momentous event has occurred.\p"
-	.string "I beg your pardon, but I must ask\n"
-	.string "you to leave.\p"
-	.string "…What soothes the soul…\p"
-	.string "The WISE TRIO say things that are\n"
-	.string "so very difficult to understand…$"
-
 EcruteakTinTowerEntrance_Text_SageHearsClearBell1:
 	.string "A momentous event has occurred.\p"
 	.string "I beg your pardon, but I must ask\n"
@@ -125,9 +104,6 @@ EcruteakTinTowerEntrance_Text_SageHearsClearBell2:
 	.string "You…\p"
 	.string "You may be able to make it through\n"
 	.string "TIN TOWER.\p"
-	.string "Please, do go on.$"
-
-EcruteakTinTowerEntrance_Text_SagePleaseDoGoOn:
 	.string "Please, do go on.$"
 
 EcruteakTinTowerEntrance_Text_SageDone:

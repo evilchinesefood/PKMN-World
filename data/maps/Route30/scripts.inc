@@ -1,13 +1,8 @@
 .set LOCALID_ROUTE_30_JOEY, 6
 
 Route30_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route30_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, Route30_OnFrame
 	.byte 0
-
-Route30_OnTransition: 
-	end
 
 Route30_OnFrame::
 	map_script_2 VAR_CHERRYGROVE_CITY_STATE, 2, Route30_EventScript_ElmCall_Trigger
@@ -177,28 +172,12 @@ Route30_Text_Sign:
 	.string "ROUTE 30\p"
 	.string "VIOLET CITY - CHERRYGROVE CITY$"
 
-Route30_Text_MrPokemonsHouseDirectionsSign:
-	.string "MR. POKéMON'S HOUSE\n"
-	.string "STRAIGHT AHEAD!$"
-
-Route30_Text_MrPokemonsHouseSign:
-	.string "MR. POKéMON'S HOUSE$"
-
 Route30_Text_TrainerTips:
 	.string "TRAINER TIPS\p"
 	.string "No stealing other people's\n"
 	.string "POKéMON!\p"
 	.string "POKé BALLS are to be thrown\n"
 	.string "only at wild POKéMON!$"
-
-Route30_Text_YoungsterJoeyGiveHPUp:
-	.string "I lost again…\n"
-	.string "Gee, you're tough!\p"
-	.string "Oh yeah, I almost forgot that\n"
-	.string "I had to give you this.\p"
-	.string "Use it to get even tougher,\n"
-	.string "OK?\p"
-	.string "I'm going to get tougher too.$"
 
 Route30_Text_Elm_Disaster:
 	.string "PROF.ELM: H-hello? {PLAYER}? It's\n"

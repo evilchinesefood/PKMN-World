@@ -18,6 +18,7 @@ local S = require("symbols")
 local F = require("lib").new(S, "SpecialChecklistStress")
 
 local FLAG_SYS_POKEDEX_GET = 0x949
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local COLLECTED = { 0xDD0, 0xDD1, 0xDD2, 0xDD3, 0xDD4, 0xDD5, 0xDD7 }
 local SPECIES = { 1573, 1574, 1575, 1576, 1577, 1578, 1580 }
 local ROWS, ENTRIES, ROW_H, ICON_Y0, ICON_H = 4, 7, 32, 36, 32
@@ -88,12 +89,24 @@ local function openDex()
   F.press("A", 2); F.idle(240)
   return true
 end
+local function fading() return (F.r32(S.gPaletteFade + S.PaletteFade.activeWord) & 0x80000000) ~= 0 end
 local function openChecklist(wait)
+  for _ = 1, 360 do
+    if F.taskLive(S.Task_HandlePokedexInput) then break end
+    F.idle(1)
+  end
+  if not F.taskLive(S.Task_HandlePokedexInput) then return false end
+  F.idle(12) -- The list also waits for the previous Start menu to finish sliding away.
   tap("Start", 1, 60); tap("Down", 3); F.press("A", 2)
   if wait == 0 then return true end
-  for _ = 1, 60 do if menu() ~= 0 then break end F.idle(5) end
-  F.idle(wait or 40)
-  return menu() ~= 0
+  for _ = 1, 360 do
+    if F.taskLive(S.HandleCollectionInput) and not fading() then
+      F.idle(wait or 0)
+      return true
+    end
+    F.idle(1)
+  end
+  return false
 end
 local function toField()
   for _ = 1, 30 do if F.ow() then break end tap("B", 1, 40) end
@@ -137,6 +150,7 @@ F.run(function()
   local opt = F.sb2() + S.SaveBlock2.optionsU16
   F.w16(opt, (F.r16(opt) & ~7) | 3)
   flag(FLAG_SYS_POKEDEX_GET, true)
+  flag(FLAG_SYS_DEXNAV_GET, true)
   F.dbg(); F.sel(7); F.sel(2); F.idle(60); F.bOut(4)   -- Pokedex Flags All
   for _, id in ipairs(COLLECTED) do flag(id, false) end
 
@@ -161,14 +175,23 @@ F.run(function()
   -- Close while the open fade is still running, then open and close back to back.
   tap("B", 1, 60)
   F.check("B closes to the Pokedex", menu() == 0)
-  openChecklist(0); F.idle(4); F.press("B", 2); F.idle(80)
-  local closedEarly = menu() ~= 0
-  for _ = 1, 20 do if menu() == 0 then break end tap("B", 1, 20) end
-  F.check("B during the open fade is ignored, then B closes", closedEarly and menu() == 0)
-  for i = 1, 3 do
-    openChecklist(10); tap("B", 1, 50)
+  openChecklist(0)
+  local opening = false
+  for _ = 1, 240 do
+    opening = F.taskLive(S.HandleCollectionInput) and fading()
+    if opening then break end
+    F.idle(1)
   end
-  F.check("three fast open and close rounds leave the checklist closed", menu() == 0)
+  F.check("checklist is opening with its fade active", opening)
+  F.press("B", 2); F.idle(80)
+  local stayedOpen = menu() ~= 0
+  for _ = 1, 20 do if menu() == 0 then break end tap("B", 1, 20) end
+  F.check("B during the open fade is ignored, then B closes", stayedOpen and menu() == 0)
+  for i = 1, 3 do
+    F.check("fast round " .. i .. " opens", openChecklist())
+    tap("B", 1, 50)
+    F.check("fast round " .. i .. " closes", menu() == 0)
+  end
   F.check("back on the field", toField())
 
   -- One collected.

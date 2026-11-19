@@ -84,16 +84,6 @@ CianwoodGym_EventScript_GiveTM::
 	end
 
 
-CianwoodGym_EventScript_ChuckAtDojo::
-	msgbox CianwoodGym_Text_ChuckAtDojo, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-
-CianwoodGym_Text_ChuckAtDojo:
-	.string "I will see you at the DOJO!\n"
-	.string "WAHAHAHAHAHA$"
-
 CianwoodGym_EventScript_OlivineCheckMahog::
 	goto_if_set FLAG_DEFEATED_MAHOGANY_TOWN_GYM, CianwoodGym_EventScript_Chuck_Battle3
 	goto CianwoodGym_EventScript_Chuck_Battle2
@@ -166,11 +156,6 @@ CianwoodGym_Text_ChuckIntro3:
 	.string "POKéMON?\p"
 	.string "That's true!\p"
 	.string "Come on. We shall do battle!$"
-
-CianwoodGym_Text_ChuckLoss:
-	.string "Wha? Huh? I lost?\p"
-	.string "How about that!\n"
-	.string "You're worthy of STORMBADGE!$"
 
 CianwoodGym_Text_GetStormBadge:
 	.string "{PLAYER} received STORMBADGE.$"
@@ -273,4 +258,3 @@ CianwoodGym_Text_BlackbeltLungBeaten:
 CianwoodGym_Text_BlackbeltLungAfter:
 	.string "My POKéMON lost…\n"
 	.string "My… my pride is shattered…$"
-

@@ -253,12 +253,6 @@ LakeOfRage_Text_LanceForcedToEvolve:
     .string "So the MAGIKARP are being forced\n"
     .string "to evolve…$"
 
-LakeOfRage_Text_LanceIntro1:
-    .string "Did you come here because of\n"
-    .string "the rumors?\p"
-    .string "You're {PLAYER}? I'm LANCE, a\n"
-    .string "trainer like you.$"
-
 LakeOfRage_Text_LanceIntro2:
     .string "This man here informed me of\n"
     .string "some rumors.\p"

@@ -247,24 +247,6 @@
   "coord_events": [
     {
       "type": "trigger",
-      "x": 16,
-      "y": 4,
-      "elevation": 3,
-      "var": "FLAG_HUB_INTRO_TOUR_DONE",
-      "var_value": "0",
-      "script": "RegionHub_EventScript_IntroTourFromCrest"
-    },
-    {
-      "type": "trigger",
-      "x": 16,
-      "y": 5,
-      "elevation": 3,
-      "var": "FLAG_HUB_INTRO_TOUR_DONE",
-      "var_value": "0",
-      "script": "RegionHub_EventScript_IntroTourFromSouth"
-    },
-    {
-      "type": "trigger",
       "x": 2,
       "y": 14,
       "elevation": 0,

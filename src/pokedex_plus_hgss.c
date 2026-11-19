@@ -3277,11 +3277,7 @@ static void CreateInterfaceSprites(u8 page)
     {
         // Region-scoped readout: the campaign region's dex SEEN/CAUGHT, plus TOTAL
         // species caught across all regions (replaces the old HOENN/NATIONAL rows).
-#if ALL_REGIONS
         enum Region region = GetActiveRegion();
-#else
-        enum Region region = GetCurrentRegion();
-#endif
         const u8 *regionName;
 
         switch (region)

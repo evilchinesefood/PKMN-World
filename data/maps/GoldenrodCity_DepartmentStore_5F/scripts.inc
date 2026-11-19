@@ -80,19 +80,8 @@ GoldenrodDeptStore5_EventScript_Receptionist_PutInEffort::
 	release
 	end
 
-GoldenrodDeptStore5_EventScript_Receptionist_Already::
-	msgbox GoldenrodDeptStore_Text_5FReceptionistWait, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-
-
-
 GoldenrodDeptStore_Text_5FReceptionistOhYourMon:
     .string "Hello. Oh, your POKéMON…$"
-
-GoldenrodDeptStore_Text_5FReceptionistWait:
-    .string "Wait, I already gave you that TM!$"
 
 GoldenrodDeptStore_Text_5FReceptionistPutInSomeMoreEffort:
 	.string "Hmm…\n"
@@ -109,10 +98,6 @@ GoldenrodDeptStore_Text_5FReceptionistThisMoveShouldBePerfect:
 GoldenrodDeptStore_Text_5FReceptionistItLooksEvilHowAboutThisTM:
     .string "It looks evil. How about this TM\n"
     .string "for it?$"
-
-GoldenrodDeptStore_Text_5FReceptionistThereAreTMsPerfectForMon:
-    .string "There are sure to be TMs that are\n"
-    .string "just perfect for your POKéMON.$"
 
 GoldenrodDeptStore_Text_5FLass:
     .string "During the day, a lady comes to check\n"

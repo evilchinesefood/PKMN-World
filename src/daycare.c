@@ -1217,18 +1217,12 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
 // build, but under ALL_REGIONS SaveBlock1 is frozen for save compatibility, so it
 // lives in SaveBlock3.route5DayCareMon. Select the storage per build; the logic is
 // otherwise identical.
-#if ALL_REGIONS
 #define sRoute5DaycareMon (gSaveBlock3Ptr->region.route5DayCareMon)
-#elif IS_FRLG
-#define sRoute5DaycareMon (gSaveBlock1Ptr->route5DayCareMon)
-#endif
 
 bool8 ShouldEggHatch(void)
 {
-#if IS_FRLG || ALL_REGIONS
     if (GetBoxMonData(&sRoute5DaycareMon.mon, MON_DATA_SANITY_HAS_SPECIES))
         sRoute5DaycareMon.steps++;
-#endif
     return TryProduceOrHatchEgg(&gSaveBlock1Ptr->daycare);
 }
 
@@ -1622,7 +1616,6 @@ static u8 ModifyBreedingScoreForOvalCharm(u8 score)
 
 void PutMonInRoute5Daycare(void)
 {
-#if IS_FRLG || ALL_REGIONS
     // The cursor slot can legitimately be PARTY_SIZE (the CANCEL row); the script guard
     // checks VAR_0x8004, a different source. Bound here before writing a full BoxPokemon
     // into un-checksummed SaveBlock3.
@@ -1630,44 +1623,29 @@ void PutMonInRoute5Daycare(void)
     if (monIdx >= PARTY_SIZE)
         return;
     StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][monIdx], &sRoute5DaycareMon);
-#endif
 }
 
 void GetCostToWithdrawRoute5DaycareMon(void)
 {
-#if IS_FRLG || ALL_REGIONS
     // sRoute5DaycareMon is our macro for the SaveBlock3 region bank; upstream renamed the helper.
     u16 cost = PrepareDaycareCostStringForSelectedMon(&sRoute5DaycareMon);
-#else
-    u16 cost = 100;
-#endif
     gSpecialVar_0x8005 = cost;
 }
 
 bool8 IsThereMonInRoute5Daycare(void)
 {
-#if IS_FRLG || ALL_REGIONS
     if (GetBoxMonData(&sRoute5DaycareMon.mon, MON_DATA_SPECIES) != SPECIES_NONE)
         return TRUE;
-#endif
 
     return FALSE;
 }
 
 u8 GetNumLevelsGainedForRoute5DaycareMon(void)
 {
-#if IS_FRLG || ALL_REGIONS
     return GetNumLevelsGainedForDaycareMon(&sRoute5DaycareMon);
-#else
-    return 0;
-#endif
 }
 
 u16 TakePokemonFromRoute5Daycare(void)
 {
-#if IS_FRLG || ALL_REGIONS
     return TakeSelectedPokemonFromDaycare(&sRoute5DaycareMon);
-#else
-    return SPECIES_NONE;
-#endif
 }

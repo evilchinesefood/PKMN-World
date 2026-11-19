@@ -374,12 +374,6 @@ BattleFrontier_BattleTowerLobby_Text_BattleNetSealedLink:
 	.string "REGION HUB now.\p"
 	.string "Ask the terminal there for a match.$"
 
-BattleFrontier_BattleTowerLobby_EventScript_LinkMultisAttendantOld::
-	lock
-	faceplayer
-	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_TOWER
-	special SavePlayerParty
-	msgbox BattleFrontier_BattleTowerLobby_Text_WelcomeLinkMultiBattle, MSGBOX_DEFAULT
 BattleFrontier_BattleTowerLobby_EventScript_AskEnterLinkMultisChallenge::
 	message BattleFrontier_BattleTowerLobby_Text_TakeLinkMultisChallenge
 	waitmessage

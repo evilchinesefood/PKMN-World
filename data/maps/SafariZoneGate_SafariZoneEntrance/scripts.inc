@@ -40,10 +40,7 @@
 @ is a separate design call: the four prompts and their species would have to be rewritten against
 @ FRLG geography, or HnS's four Fuchsia safari areas imported as a fourth safari zone.
 @
-@ Do NOT read the loose ends below as proof of an abandoned port. Text_BaobaLastMon (defined, never
-@ referenced), EventScript_Test (a leftover debug give-4-mons script) and the 200k/300k/400k/400k
-@ payouts are all present, identically, in HnS's own copy of this file. They are upstream's loose
-@ ends, faithfully carried over — not a port that stopped halfway.
+@ The 200k/300k/400k/400k payouts come directly from the HnS quest.
 @
 @ Full reasoning, including why reviving it is game design rather than a port fix, lives with the
 @ compat handler: ScrCmd_baobacheckmon_Compat in src/scrcmd_johto_compat.c — see its
@@ -242,13 +239,6 @@ SafariZoneGate_SafariZoneEntrance_EventScript_BaobaDone::
 	release
 	end
 
-SafariZoneGate_SafariZoneEntrance_EventScript_Test::
-	givemon SPECIES_BELDUM, 5
-	givemon SPECIES_CASTFORM, 5
-	givemon SPECIES_MEDICHAM, 5
-	givemon SPECIES_BAGON, 5
-	end
-
 SafariZoneGate_SafariZoneEntrance_Text_BaobaBeachDone:
 	.string "Thank you, {PLAYER}!\n"
 	.string "Here, take this money to upgrade\l"
@@ -308,9 +298,6 @@ SafariZoneGate_SafariZoneEntrance_Text_BaobaCave:
 SafariZoneGate_SafariZoneEntrance_Text_BaobaDeclined:
 	.string "What will I do now?\n"
 	.string "We'll never keep up with DEVON!$"
-
-SafariZoneGate_SafariZoneEntrance_Text_BaobaLastMon:
-	.string "I can't take your last POKéMON!$"
 
 SafariZoneGate_SafariZoneEntrance_Text_BaobaDone:
 	.string "Ah, {PLAYER}!\p"

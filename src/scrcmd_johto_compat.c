@@ -59,30 +59,10 @@ void ScrCmd_buffermoncategory_Compat(struct ScriptContext *ctx)
     StringCopy(sJohtoScriptStringVars[stringVarIndex], GetSpeciesCategory(species));
 }
 
-// HnS static-encounter randomizer toggles. Randomizer is not ported, so these are
-// no-ops (static encounters always behave normally). Kept as real symbols because
-// the lab starter scripts call them around the gift.
-void DisableStaticRandomizer(struct ScriptContext *ctx)
+// Retired special IDs retain a callable entry for script-table stability.
+u16 Special_Unused(void)
 {
-    (void)ctx;
-}
-
-void EnableStaticRandomizer(struct ScriptContext *ctx)
-{
-    (void)ctx;
-}
-
-// HnS rival-naming special. Picks a default name then opens the rival naming screen,
-// storing into gSaveBlock1Ptr->rivalName (where the target's {RIVAL} placeholder
-// reads it under the always-on FRLG path).
-static const u8 sJohtoDefaultRivalName[] = _("GARY");
-
-void NameRival(void)
-{
-    // Region merge: rival naming removed, so no script calls this any more ({RIVAL} expands per
-    // region in string_util.c). Nothing re-enables the script context, so a caller must NOT
-    // follow this with waitstate: that stops the context for good (ScrCmd_waitstate).
-    StringCopy(gSaveBlock1Ptr->rivalName, sJohtoDefaultRivalName);
+    return FALSE;
 }
 
 // HnS Togepi check: TRUE if the lead party mon is in the Togepi line. Ported verbatim
@@ -96,12 +76,6 @@ u16 CheckTogepi(void)
     return FALSE;
 }
 
-// HnS Nuzlocke nickname gate. Nuzlocke mode is unported, so always inactive.
-u16 IsNuzlockeNicknamingActive(void)
-{
-    return FALSE;
-}
-
 // HnS Ruins of Alph fossil-reward checks (ported from braille_puzzles.c): TRUE when the
 // lead party mon is the matching fossil/legendary species. Invoked by the Unown reward
 // chambers via `specialvar VAR_RESULT, Check*`. The sliding-puzzle minigame itself
@@ -110,11 +84,6 @@ bool8 CheckHooh(void)       { return GetMonData(&gParties[B_TRAINER_PLAYER][0], 
 bool8 CheckAerodactyl(void) { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_AERODACTYL; }
 bool8 CheckKabuto(void)     { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_KABUTO; }
 bool8 CheckOmanyte(void)    { return GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES_OR_EGG, NULL) == SPECIES_OMANYTE; }
-// Both are consumed via `specialvar`, which stores the RETURN VALUE (scrcmd.c) — a void
-// special leaves garbage r0 in the target var, so these must return, not write Result.
-u16 IsRandomMovesActivated(void) { return FALSE; } // HnS randomizer: report OFF (region merge stub)
-u16 IsPokecenterChallengeActivated(void) { return FALSE; } // HnS Pokecenter challenge: report OFF so SS Aqua cabin beds heal normally (region merge stub)
-
 // === Named story gifts (Kenya / Shuckie / Eevee / Dratini) ===
 //
 // Identity data shared by givenamedmon (which creates them) and removenamedmon (which has to
@@ -324,11 +293,6 @@ void HaircutBrother1(void)
     if (slot < PARTY_SIZE)
         AdjustFriendship(&gParties[B_TRAINER_PLAYER][slot], FRIENDSHIP_EVENT_MASSAGE);
 }
-
-// Region-merge stub. ToggleShinyColors targets a tx_randomizer save field that does
-// not exist in the target, so it is correctly a no-op. (EnterBugContestMode and
-// ShowBugContestChosenMon now have real implementations in src/bug_contest.c.)
-void ToggleShinyColors(void) {}
 
 // HnS `givenamedmon <giftId>`: the named story gifts. 1=Kenya (Spearow, OT RUDY, carrying
 // Randy's RetroMail for the Route 31 sleeper), 2=Shuckie (Shuckle, OT KIRK), 3=Eevee (OT BILL),
@@ -693,25 +657,4 @@ bool8 CheckCelebi(void)
     if (follower == NULL || follower->invisible)
         return FALSE;
     return TRUE;
-}
-
-// HnS `checkrandomizer` (callnative, used by Mr. Pokemon's House): reports whether randomizer
-// mode is active via gSpecialVar_Result; on TRUE the script grants the National Dex immediately
-// (randomizer rules skip the story gate). Report FALSE.
-//
-// WONTFIX (issue #66). FALSE is not a placeholder here — it is the correct permanent answer, and
-// the old "real toggle lands in the content stage" line promised work that would be a regression
-// if it happened. The tx_randomizer feature is unported BY DESIGN (see the file header), so there
-// is no mode for this to read and no user-visible setting to toggle. This file already stubs the
-// whole family on exactly these grounds: IsRandomMovesActivated, IsPokecenterChallengeActivated,
-// IsNuzlockeNicknamingActive, ToggleShinyColors (whose tx_randomizer save field does not exist in
-// the target at all), and GetMaxPartySize documents the same reasoning.
-//
-// With FALSE, Mr. Pokemon's House takes the normal branch and the National Dex is earned through
-// story progress, which is what this hack wants. A "real" implementation would only ever hand out
-// a free National Dex on behalf of a mode that cannot be entered.
-void ScrCmd_checkrandomizer_Compat(struct ScriptContext *ctx)
-{
-    (void)ctx;
-    gSpecialVar_Result = FALSE;
 }

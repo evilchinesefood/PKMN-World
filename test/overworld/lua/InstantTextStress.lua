@@ -22,6 +22,7 @@ local TEXT_SPEED_INSTANT = 3
 local MAIN_VBLANK_COUNTER1 = 0x20
 local SYS = 0x948
 local FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET, FLAG_SYS_POKENAV_GET = SYS, SYS + 1, SYS + 2
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local FLAG_SYS_GAME_CLEAR = SYS + 0x2B
 local FLAG_SYS_BUG_CONTEST_MODE = SYS + 0x21
 local ICON_POKEDEX, ICON_POKENAV, ICON_TRAINER = 0, 3, 5
@@ -263,7 +264,7 @@ F.run(function()
   giveParty()
   F.check("debug party", F.r8(S.gPartiesCount) >= 1, "party=" .. F.r8(S.gPartiesCount))
   allDexFlags()
-  for _, f in ipairs({ FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET, FLAG_SYS_POKENAV_GET, FLAG_SYS_GAME_CLEAR }) do setFlag(f) end
+  for _, f in ipairs({ FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET, FLAG_SYS_DEXNAV_GET, FLAG_SYS_POKENAV_GET, FLAG_SYS_GAME_CLEAR }) do setFlag(f) end
   F.ensureFree()
 
   -- nurses, one per region
@@ -286,7 +287,7 @@ F.run(function()
   case("Hoenn Name Rater (Slateport)", talk(9, 5, 6, 5, "Right"), NAMING, 20000)
   case("Johto Name Rater (Goldenrod)", talk(84, 14, 4, 5, "Up"), NAMING, 20000)
   case("Kanto Name Rater (Lavender)", talk(42, 4, 4, 5, "Up"), NAMING, 20000)
-  case("Hoenn Move Relearner (Fallarbor)", talk(5, 7, 4, 5, "Up"), MENU, 20000)
+  case("Hoenn Move Relearner (Fallarbor)", talk(5, 5, 4, 5, "Up"), MENU, 20000)
   case("Johto Move Relearner (Blackthorn)", talk(94, 3, 7, 5, "Up"), MENU, 20000)
   case("Johto Day Care woman (Route 34)", talk(81, 5, 4, 8, "Left"), AB, 20000)
 

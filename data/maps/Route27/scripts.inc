@@ -1,12 +1,7 @@
 .set LOCALID_ROUTE27_FATMAN, 1
 
 Route27_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route27_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route27_OnTransition: 
-	end
 
 Route27_EventScript_BaobaCall::
 	pokenavcall BlackthornCity_Text_BaobaCall
@@ -41,11 +36,7 @@ Route27_EventScript_FirstStepsState::
     setflag FLAG_HIDE_VICTORY_ROAD_SILVER
     setflag FLAG_HIDE_INDIGO_PLATEAU_SILVER
     setflag FLAG_HIDE_INDIGO_PLATEAU_MARY_OAK
-    @ The Black Belt stands on (32,3) in the Plateau Centre, the ONLY tile from which warp 1
-    @ at (32,2) -- the door to Will's Room -- can be entered. His hide flag had no setter
-    @ anywhere, so he spawned on every save and the Johto Elite Four could never be reached.
-    @ The Hall of Fame already clears this flag to bring him back, which only makes sense if
-    @ clearing the League approach set it, exactly as it does for Silver two lines above.
+    @ Clear the only tile leading to the Elite Four door.
     setflag FLAG_HIDE_LEAGUE_BLACKBELT
     clearflag FLAG_INDIGOJUNCTION_HIDE_SILVER_GUARD
     clearflag FLAG_INDIGOJUNCTION_HIDE_KANTO_GUARD

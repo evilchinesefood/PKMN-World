@@ -38,7 +38,6 @@
 #include "money.h"
 #include "move.h"
 #include "move_relearner.h"
-#include "mystery_event_script.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokedex.h"
@@ -85,10 +84,6 @@ bool8 ScrCmd_normalmsg(struct ScriptContext *ctx)
     gMsgIsSignPost = FALSE;
     return FALSE;
 }
-
-#if POKEVIAL_FEATURE
-#include "pokevial.h"
-#endif
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
@@ -436,11 +431,7 @@ bool8 ScrCmd_setmysteryeventstatus(struct ScriptContext *ctx)
     // untouched (a conditional row silently renumbers every later opcode in
     // test builds), so the handler keeps consuming its one byte and simply
     // stops forwarding it. No script in the tree invokes the opcode.
-#if LINK_MYSTERY_EVENT == TRUE
-    SetMysteryEventScriptStatus(status);
-#else
     (void)status;
-#endif
     return FALSE;
 }
 
@@ -3566,57 +3557,3 @@ bool8 ScrCmd_getbraillestringwidth(struct ScriptContext * ctx)
     gSpecialVar_0x8004 = GetStringWidth(FONT_BRAILLE, msg, -1);
     return FALSE;
 }
-
-#if POKEVIAL_FEATURE
-bool8 ScrCmd_pokevial(struct ScriptContext *ctx)
-{
-    u8 mode = ScriptReadByte(ctx);
-    u8 parameter = ScriptReadByte(ctx);
-    u8 amount = ScriptReadByte(ctx);
-
-    switch (mode)
-    {
-    case VIAL_GET:
-        switch (parameter)
-        {
-        case VIAL_SIZE:
-            PokevialGetSize();
-            break;
-        case VIAL_DOSE:
-            PokevialGetDose();
-            break;
-        }
-        break;
-
-    case VIAL_UP:
-        switch (parameter)
-        {
-        case VIAL_SIZE:
-            PokevialSizeUp(amount);
-            break;
-        case VIAL_DOSE:
-            PokevialDoseUp(amount);
-            break;
-        }
-        break;
-
-    case VIAL_DOWN:
-        switch (parameter)
-        {
-        case VIAL_SIZE:
-            PokevialSizeDown(amount);
-            break;
-        case VIAL_DOSE:
-            PokevialDoseDown(amount);
-            break;
-        }
-        break;
-
-    case VIAL_REFILL:
-        PokevialRefill();
-        break;
-    }
-    return TRUE;
-}
-#endif // POKEVIAL_FEATURE
-

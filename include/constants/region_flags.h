@@ -7,26 +7,16 @@
 //
 // Each campaign region keeps its own story/badge flags so progress is independent.
 //
-// Kanto bank: FLAG_KANTO_BASE = 0xA40, generated into include/constants/flags.h by
-// ~/python/RegionMerge/GenKantoFlagBank.py. The FRLG flag namespace is rebased into the
-// bank (first real FRLG flag at 0xA40+0x28) and stored inline in SaveBlock1.flags[]
-// (alongside Hoenn, the expanded trainer/system flags, and the relocated hidden items at
-// 0xF00+). FLAGS_COUNT = 0x1030. The base moved 0x960->0xA40 when the Johto trainer port
-// grew MAX_TRAINERS_COUNT (S4-T); KEEP THIS IN SYNC with GenKantoFlagBank.py's KANTO_BASE.
-// See .superpowers/reports/region-phase1-flagbank.md.
-//
-// Johto bank (RESERVED here; populated during the Johto port): the Kanto scheme
-// filled SaveBlock1.flags[] up to its 4-sector budget, so the Johto bank canNOT grow
-// SaveBlock1. Instead it gets its own storage array (johtoFlags[]) in SaveBlock3,
-// reached by a dedicated branch in GetFlagPointer(). Johto flag IDs live at 0x6000,
-// clear of the Hoenn/Kanto range (0..0xF4F), the EWRAM special flags (0x4000..0x407F)
-// and the testing flags (0x5000+).
-#define FLAG_KANTO_BASE            0xA40  // must match GenKantoFlagBank.py KANTO_BASE / flags.h block
+// The FRLG flag definitions in constants/flags.h use the Kanto base below and
+// live inline in SaveBlock1.flags[]. Maintain the bank and its base together.
+// Johto has its own array in SaveBlock3 because SaveBlock1 has a four-sector
+// budget. GetFlagPointer routes the Johto range into that array.
+#define FLAG_KANTO_BASE            0xA40
 
 #define FLAG_JOHTO_BASE            0x6000
-#define JOHTO_FLAG_BANK_SIZE       0x400  // 1024 reserved Johto flags -> johtoFlags[128] in SaveBlock3
-#define FLAG_JOHTO_END             (FLAG_JOHTO_BASE + JOHTO_FLAG_BANK_SIZE - 1) // 0x63FF
-#define NUM_JOHTO_FLAG_BYTES       (JOHTO_FLAG_BANK_SIZE / 8) // 128
+#define JOHTO_FLAG_BANK_SIZE       0x400
+#define FLAG_JOHTO_END             (FLAG_JOHTO_BASE + JOHTO_FLAG_BANK_SIZE - 1)
+#define NUM_JOHTO_FLAG_BYTES       (JOHTO_FLAG_BANK_SIZE / 8)
 
 // Kanto trainer defeat-flag bank (E5-1). The Kanto trainer-id block (opponents_frlg.h,
 // ids KANTO_TRAINER_ID_OFFSET+1..TRAINERS_COUNT-1) cannot use the inline
@@ -49,10 +39,7 @@
 // spare, so these ids get their own bank - the option opponents.h calls out as "a new
 // SaveBlock3 bank".
 //
-// This bank is APPENDED to the end of struct RegionSave (johtoTrainerFlags[] is the last
-// field of the last field of SaveBlock3), so no existing bank moves and every pinned
-// offsetof STATIC_ASSERT in load_save.c still holds. The v8 -> v9 ladder step only has to
-// zero it, because on a v8 save those bytes are uninitialised flash.
+// Keep bank offsets stable within a save format. load_save.c checks their layout.
 //
 // 256 flags reserved; used = TRAINERS_COUNT - JOHTO_EXT_TRAINER_ID_OFFSET (69 today)
 // -> plenty of headroom (bound enforced by the STATIC_ASSERT in battle_setup.c; recompute
@@ -64,11 +51,9 @@
 
 // Per-region gym badges (8 each). Hoenn keeps the native FLAG_BADGE01..08_GET system flags.
 // Kanto and Johto store their 8 badges in a FREE slice of their per-region bank; every badge
-// consumer goes through GetBadgeFlag()/FLAG_*_BADGE(i), so the exact slice can be anything
-// unused. Kanto uses the reserved HEAD gap of the rebased FRLG bank (0xA40..0xA47; the first
-// real FRLG flag is at 0xA40+0x28, so 0..0x27 is free). Johto CANNOT use its bank head: the
-// HnS port packs FLAG_JOHTO_SLICE story/item flags from offset 0x00 up to ~0x1FD, so the
-// badges live at the TOP of the bank (0x3F8..0x3FF), clear of all story/item flags and still
+// consumer goes through GetBadgeFlag()/FLAG_*_BADGE(i). Kanto badges occupy the
+// header slots documented below. Johto story and item slots extend through
+// 0x25F, so its badges live at the top of the bank (0x3F8..0x3FF), still
 // inside johtoFlags[128]. Gym scripts set these per-region (K9).
 #define FLAG_JOHTO_BADGE_OFFSET    0x3F8                       // top 8 of the 0x400 Johto bank
 // Kanto badges live in the free Kanto-bank head gap at +0x0B..0x12 (0xA4B..0xA52), ABOVE

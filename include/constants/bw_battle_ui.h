@@ -4,7 +4,6 @@
 // constants
 #ifndef TILE_TO_PIXELS
 #define TILE_TO_PIXELS(t)  ((t) ? (t * 8) : 0)
-#define PIXELS_TO_TILES(p) ((p) ? (p / 8) : 0)
 #endif
 
 #define BUI_ACTION_BOX_ENTRY_COUNT  (4)
@@ -27,8 +26,6 @@
 #define HEALTHBOX_FLAG_NICK                  (1 << HEALTHBOX_NICK)
 #define HEALTHBOX_FLAG_HEALTH_BAR            (1 << HEALTHBOX_HEALTH_BAR)
 #define HEALTHBOX_FLAG_EXP_BAR               (1 << HEALTHBOX_EXP_BAR)
-#define HEALTHBOX_FLAG_UNUSED_7              (1 << HEALTHBOX_UNUSED_7)
-#define HEALTHBOX_FLAG_UNUSED_8              (1 << HEALTHBOX_UNUSED_8)
 #define HEALTHBOX_FLAG_STATUS_ICON           (1 << HEALTHBOX_STATUS_ICON)
 #define HEALTHBOX_FLAG_SAFARI_ALL_TEXT       (1 << HEALTHBOX_SAFARI_ALL_TEXT)
 #define HEALTHBOX_FLAG_ALL                   (0x3FF) // exclude safari-related

@@ -23,6 +23,7 @@ local F = require("lib").new(S, "DexMenuChord")
 
 local CONTEXT_RUNNING, CONTEXT_SHUTDOWN = 0, 2
 local FLAG_SYS_POKEDEX_GET = 0x949
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local USM_ICO_POKEDEX = 0
 local SPECIES_PIKACHU, MOVE_THUNDER_SHOCK = 25, 84
 local ROW_SPECIAL, ROW_CLOSE, ROW_SEARCH_BACK, ROW_SEARCH_CLOSE = 3, 4, 4, 5
@@ -123,8 +124,10 @@ end
 
 F.run(function()
   if not F.check("boots to the hub", F.boot(100)) then F.finish(); return end
-  local a = F.sb1() + S.SaveBlock1.flags + FLAG_SYS_POKEDEX_GET // 8
-  F.w8(a, F.r8(a) | (1 << (FLAG_SYS_POKEDEX_GET % 8)))
+  for _, id in ipairs({ FLAG_SYS_POKEDEX_GET, FLAG_SYS_DEXNAV_GET }) do
+    local a = F.sb1() + S.SaveBlock1.flags + id // 8
+    F.w8(a, F.r8(a) | (1 << (id % 8)))
+  end
   giveSeenMon()
 
   case("list menu Special Pokemon with B", false, ROW_SPECIAL, "B", "checklist")

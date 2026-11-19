@@ -170,12 +170,6 @@ SSAqua_1F_Text_Sailor1_ToVermilion:
     .string "We will make an announcement when\n"
     .string "we arrive.$"
 
-SSAqua_1F_Text_Sailor1_ToOlivine:
-    .string "FAST SHIP S.S.AQUA is en route to\n"
-    .string "OLIVINE CITY.\p"
-    .string "We will make an announcement when\n"
-    .string "we arrive.$"
-
 SSAqua_1F_Text_Sailor2_FirstTime:
     .string "Here's your cabin.\p"
     .string "If your POKéMON are hurt, take a\n"
@@ -192,10 +186,6 @@ SSAqua_1F_Text_Grandpa:
     .string "My granddaughter is missing!\p"
     .string "She's just a wee girl. If you see\n"
     .string "her, please let me know!$"
-
-SSAqua_1F_Text_Sailor1_InOlivine:
-    .string "FAST SHIP S.S.AQUA has arrived in\n"
-    .string "OLIVINE CITY.$"
 
 SSAqua_1F_Text_Sailor1_InVermilion:
     .string "FAST SHIP S.S.AQUA has arrived in\n"

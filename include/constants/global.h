@@ -1,63 +1,11 @@
 #ifndef GUARD_CONSTANTS_GLOBAL_H
 #define GUARD_CONSTANTS_GLOBAL_H
 
-// Region merge save-format version. Stamped on new games (SaveBlock2.saveVersion).
-// The migration ladder is LIVE (MigrateSaveFormatIfNeeded, src/load_save.c) — it has run
-// since v2 — with a hard floor at SAVE_FORMAT_LAYOUT_MIN below (older saves are refused).
-// v2: SaveBlock3.usmSaved appended (graphical start menu icon order).
-// v3: SaveBlock3.kantoTrainerFlags appended (Kanto trainer defeat-flag bank, E5-1).
-// v4: SaveBlock3.route5DayCareMon appended (FRLG Route 5 single-mon day care, E7-1).
-// v5: SaveBlock3.clearedObstacleCount/clearedObstacles appended (persistent cut trees + smashed rocks).
-// v6: FRLG story vars rebased from raw SaveBlock1.vars IDs (0x4025-0x408A, aliasing live Hoenn
-//     vars) onto the Kanto regionVars slice (VAR_KANTO_SLICE); old cell values are copied over.
-// v7: SaveBlock1 RESHAPED (not appended) — bag Items 30->60, Key Items 30->99, item PC 50->150,
-//     funded by FREE_MYSTERY_GIFT + FREE_MYSTERY_EVENT_BUFFERS. Owner decision 2026-07-24:
-//     NEW SAVES ONLY, no migration. See SAVE_FORMAT_LAYOUT_MIN below for why that needs an
-//     explicit gate rather than relying on the checksum to reject old saves.
-// v8: POKéMON CENTER 1F layouts reshaped — Battle Net wall terminal added beside the storage
-//     PC, Town Map poster cleared, 2F escalator removed (issue #59). Nothing in SaveBlock1/2/3
-//     moves, so v7 saves still LOAD (SAVE_FORMAT_LAYOUT_MIN stays 7); the ladder step only
-//     zeroes SaveBlock1.mapView, which would otherwise restore the old poster and staircase
-//     over the new layout for a save made standing inside a Center.
-// v9: the Johto route/dungeon trainers stopped sharing Hoenn trainer ids (Route 32's
-//     "Youngster" ALBERT was Hoenn's Cooltrainer ALBERT, so one party and one defeat flag
-//     served both). Their new ids need defeat flags, and the inline window is frozen, so a
-//     johtoTrainerFlags[] bank was APPENDED to the end of struct RegionSave. Appending moves
-//     no existing bank - every pinned offsetof below is unchanged - so v8 saves still LOAD;
-//     the ladder step only has to zero the new bank, whose bytes are uninitialised flash on
-//     a v8 save. Without that zeroing a fresh Johto trainer can read as already defeated.
-// v10: issue #195. Before dbc1b1aa17 every ALL_REGIONS new game stamped hoennIntroDone = TRUE
-//     in NewGameInitData, including Johto/Kanto-first files that had never set foot in Hoenn.
-//     The hub's former intro-done predicate therefore took the "returning" branch on their FIRST Hoenn
-//     trip and warped them to Slateport Harbor mid-region with an empty party (DepositPartyToPC
-//     from REGION_NONE is a no-op) and Oldale still walled off. That commit fixed new games but
-//     declared "save format unchanged", so a pre-fix and a post-fix save are BOTH stamped v9 and
-//     cannot be told apart by version. This bump is what makes the repair reachable: v9 saves get
-//     the one-shot check below, v10 saves never re-enter it. The check is introState == 0 only
-//     — a file already dumped in Slateport has currentRegion == REGION_HOENN and must still
-//     clear, because the hub first-visit path sets the var to 4 before warping.
-// v11: append regional team references, identity counter and Center checkpoints. Clear previously
-//      unused encrypted Pokemon identity bits across party/storage/daycare/fusions during migration.
-//      BoxPokemon and older save field offsets stay unchanged; no historical teams are inferred.
-// v12: initialize global encounter and defeat-loss rates in the existing option word.
-// v13: copy the shared VAR_STARTER_MON into the new Kanto and Johto starter vars.
-//      Also repair FLAG_RECEIVED_BIKE and FLAG_RECEIVED_POKENAV where Johto scripts damaged them.
-#define SAVE_FORMAT_VERSION 13
-
-// The oldest save layout this build can load at all. Distinct from SAVE_FORMAT_VERSION, which
-// only says "migrate me forward" — a pre-v7 save cannot be migrated, it must be REFUSED.
-//
-// Why an explicit gate is required: growing bag/pcItems shifts every later SaveBlock1 field by
-// 796 bytes, but bag and pcItems both live inside SaveBlock1 CHUNK 0, and SAVEBLOCK_CHUNK
-// (src/save.c) only varies the LAST chunk's size. Chunks 0-2 therefore keep size 3968 and their
-// stored checksums still match the unchanged flash bytes, so a legacy save loads "successfully"
-// into the shifted layout and only chunk 3 fails validSectorFlags. The result is a HALF-LOADED
-// save with silently misaligned flags and vars — strictly worse than a clean rejection. The
-// incidental checksum failure is not a gate; this is.
-//
-// saveVersion itself stays readable across this break: it lives in SaveBlock2 (offset 0x91), and
-// nothing in this bump touches SaveBlock2's layout.
-#define SAVE_FORMAT_LAYOUT_MIN 7
+// v14 requires a new game. LoadGameSave reads saveVersion at its fixed SaveBlock2
+// offset before using the current layout. Sector checksums alone cannot detect
+// an incompatible layout when a sector's checked size stays the same.
+#define SAVE_FORMAT_VERSION 14
+#define SAVE_FORMAT_LAYOUT_MIN 14
 
 // Define TRUE/FALSE as cpp integer constants so that #if guards in config headers
 // (e.g. #if POKEVIAL_FEATURE where POKEVIAL_FEATURE is defined as TRUE or FALSE) evaluate
@@ -101,7 +49,6 @@
 #include "config/pokemon.h"
 #include "config/pokevial.h"
 #include "config/qol_field_moves.h"
-#include "config/link.h"
 #include "config/start_menu.h"
 #include "config/summary_screen.h"
 #include "config/swsh_item_menu.h"
@@ -141,18 +88,8 @@ enum Language
     NUM_LANGUAGES = LANGUAGE_SPANISH,
 };
 
-#ifdef FIRERED
-    #define GAME_VERSION (VERSION_FIRE_RED)
-    #define IS_FRLG 1
-#else
-    #ifdef LEAFGREEN
-    #define GAME_VERSION (VERSION_LEAF_GREEN)
-    #define IS_FRLG 1
-    #else
-    #define GAME_VERSION (VERSION_EMERALD)
-    #define IS_FRLG 0
-    #endif
-#endif
+#define GAME_VERSION (VERSION_EMERALD)
+#define IS_FRLG 0
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
 
 // party sizes

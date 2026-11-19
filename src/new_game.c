@@ -113,7 +113,6 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsRunShortcut = OPTIONS_RUN_SHORTCUT_CURSOR;
     gSaveBlock2Ptr->optionsExpMultiplier = OPTIONS_EXP_MULT_1X;
     gSaveBlock2Ptr->optionsCatchMultiplier = OPTIONS_CATCH_MULT_1X;
-    gSaveBlock2Ptr->optionsHardMode = FALSE;
     gSaveBlock2Ptr->optionsEncounterRate = OPTIONS_RATE_1X;
     gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_1X;
     gSaveBlock2Ptr->optionsNicknames = OPTIONS_NICKNAMES_ON;
@@ -147,7 +146,6 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-#if ALL_REGIONS
     // Region-switch: every new game lands in the World Transit hub; the destination region is
     // chosen by talking to a gate attendant (data/maps/RegionHub). startRegion stays
     // REGION_NONE until then. Spawn on the departure-concourse crest at (16,4) via
@@ -155,12 +153,6 @@ static void WarpToTruck(void)
     // warp 0, a plain floor anchor with no warp behavior, so the fade-in can never
     // re-trigger a warp.
     SetWarpDestination(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB), WARP_ID_NONE, 16, 4);
-#else
-    if (IS_FRLG)
-        SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
-    else
-        SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
-#endif
     WarpIntoMap();
 }
 
@@ -182,27 +174,21 @@ void ResetMenuAndMonGlobals(void)
 
 void NewGameInitData(void)
 {
-#if IS_FRLG || ALL_REGIONS
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
     // The Oak intro's outfit picker sets VAR_PLAYER_PALETTE, but ClearSav1() below wipes all
     // SaveBlock1 vars. Carry the pick across (like rivalName) so the chosen outfit actually
     // reaches the overworld/battle player sprites.
     u16 playerOutfit = VarGet(VAR_PLAYER_PALETTE);
-#endif
     // The title Options screen's Shared Exp toggle is a SaveBlock1 flag (the other options live in
     // SaveBlock2, which New Game keeps), so ClearSav1() below would silently turn it back off.
     bool8 sharedExp = FlagGet(FLAG_QOL_SHARED_EXP);
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
-#if ALL_REGIONS
     // {RIVAL} is derived from the current region at text-expand time now (see string_util.c),
     // so no fixed rival name is stored here. The old per-region copy keyed on GetStartRegion(),
     // which was always REGION_HOENN (startRegion was never set), so only this EOS path ever ran.
     rivalName[0] = EOS;
-#elif IS_FRLG
-    StringCopy(rivalName, gSaveBlock1Ptr->rivalName);
-#endif
     gDifferentSaveFile = TRUE;
     gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
@@ -214,12 +200,10 @@ void NewGameInitData(void)
     ClearAllMail();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
-#if ALL_REGIONS
     // Region merge: stamp the save format; travel-pass / other intro bits and the
     // per-region var/flag banks default clear (SaveBlock3 zeroed by ClearSav3 above).
     // hoennIntroDone stays FALSE: ALL_REGIONS WarpToTruck() lands in the hub, not the
-    // truck, so the Hoenn first-visit bedroom path must still run (issue #174). Truck-era
-    // saves are migrated true in load_save.c v0->v1.
+    // truck, so the Hoenn first-visit bedroom path must still run (issue #174).
     gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
     // New Game over a loaded save keeps SaveBlock2 (options, by design), but these bytes belong
     // to the old file: its campaign region, its first-visit intros and its follower choice. Left
@@ -236,14 +220,11 @@ void NewGameInitData(void)
     // the FIRST session would be wiped the first time the player reloads, as the 0 hash read as
     // "table changed". Bits are already zero here; this only records which table they belong to.
     ResyncClearedObstacleTable();
-#endif
     InitPlayerTrainerId();
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
-#if IS_FRLG || ALL_REGIONS
     VarSet(VAR_PLAYER_PALETTE, playerOutfit); // restore the intro outfit pick wiped by ClearSav1
-#endif
     if (sharedExp)
         FlagSet(FLAG_QOL_SHARED_EXP);
     ClearTVShowData();
@@ -278,7 +259,6 @@ void NewGameInitData(void)
     UpdateDailySeed();
     SetAllRenewableItemFlags();
     WarpToTruck();
-#if ALL_REGIONS
     // The hub flow leaves startRegion REGION_NONE at new game (a region is only chosen at
     // a hub attendant), so the old region-conditional resets never ran: Kanto's FRLG hide
     // flags stayed clear and its scene NPCs (Oak in Pallet, Bill, the rivals, ...) were
@@ -288,11 +268,9 @@ void NewGameInitData(void)
     RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
     // Fixed per-region rival name (set above); restore for all regions (empty = Hoenn fallback).
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
-    // Playtest fixes: keep the decorative leftover objects hidden (H2); hide the Cherrygrove
-    // rival until the Mr. Pokemon's-house script clears it (M3); hide the second Mr. Pokemon
-    // object until the give-egg scene swaps it in (else both render at once - the "walked
-    // over to himself" dup).
+    // Initialize the reserved decor bit. The maps no longer contain those objects.
     FlagSet(FLAG_HIDE_JOHTO_DECOR);
+    // Hide Silver until the Mr. Pokemon visit and the second Mr. Pokemon until the egg scene.
     FlagSet(FLAG_HIDE_SILVER_CHERRYGROVE);
     FlagSet(FLAG_HIDE_MRPOKEMON);
     // The Ilex Forest shrine cast is spawned by the Celebi cutscene (addobject) and by the
@@ -340,15 +318,6 @@ void NewGameInitData(void)
     FlagSet(FLAG_HIDE_LAKE_PRYCE);
     FlagSet(FLAG_HIDE_DEN_CLAIR);
     FlagSet(FLAG_HIDE_ROUTE22_JANINE);
-#else
-    if (IS_FRLG)
-        RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
-    else
-        RunScriptImmediately(EventScript_ResetAllMapFlags);
-#if IS_FRLG
-        StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
-#endif
-#endif
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();
     InitLilycoveLady();

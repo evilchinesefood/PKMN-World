@@ -23,7 +23,3 @@ Route28House_Text_Celebrity2:
 	.string "It's tough being a top celebrity.\p"
 	.string "Everywhere I go, people chase me.\p"
 	.string "I just want to be left alone…$"
-
-Route28House_Text_Fearow:
-	.string "FEAROW: Feero!$"
-

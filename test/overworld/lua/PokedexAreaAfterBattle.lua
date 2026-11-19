@@ -22,6 +22,7 @@ local HUB_GROUP = 100
 local JOHTO_GATE = { 83, 7 }      -- National Park gate
 local KANTO_TOWN = { 37, 1 }      -- Viridian City
 local FLAG_SYS_POKEDEX_GET = 0x949
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local USM_ICO_POKEDEX = 0
 local SPECIES_PIDGEY, SPECIES_ZUBAT, SPECIES_MEWTWO = 16, 41, 150
 local OFF_SPECIES, OFF_NUM_OVERWORLD, OFF_NUM_SPECIAL = 0x0E, 0x110, 0x112
@@ -140,6 +141,7 @@ F.run(function()
   setMove1(94)
   F.dbg(); F.sel(7); F.sel(2); F.idle(60); F.bOut(4)       -- Flags & Vars > Pokedex Flags All
   flag(FLAG_SYS_POKEDEX_GET, true)
+  flag(FLAG_SYS_DEXNAV_GET, true)
   -- The warp's field load enables the National Pokedex for a Pokedex holder (ResyncCurrentRegionFromMap).
   F.check("setup: on a Johto map", warp(JOHTO_GATE, "johto"))
   F.ensureFree()

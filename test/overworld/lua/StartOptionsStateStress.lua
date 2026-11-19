@@ -25,6 +25,7 @@ local OPTION_ROWS = 13
 local AVATAR_CONTROLLABLE = 1 << 5
 local SYS = 0x948
 local FLAG_SYS_POKEMON_GET, FLAG_SYS_POKEDEX_GET = SYS, SYS + 1
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local FLAG_SYS_BUG_CONTEST_MODE = SYS + 0x21
 local FLAG_SYS_SAFARI_MODE = SYS + 0x2C
 local FLAG_SYS_DEXNAV_SEARCHING = SYS + 0xBD
@@ -335,6 +336,7 @@ F.run(function()
   if not F.boot(100) then F.finish(); return end
   giveParty()
   flag(FLAG_SYS_POKEMON_GET, true); flag(FLAG_SYS_POKEDEX_GET, true)
+  flag(FLAG_SYS_DEXNAV_GET, true)
   F.ensureFree()
 
   -- DexNav: R starts the bound species' search; the Start menu ends it by design. Coming back

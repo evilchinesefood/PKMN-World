@@ -2,8 +2,8 @@
 --
 -- Each scenario gives Eggs with the giveegg script command, sets their remaining cycles to 0 in
 -- the encrypted party data (checksum kept) and the Day Care step counter one short of a cycle, so
--- the next step the player takes runs the game's own hatch check. The step and the whole scene
--- (the wobbling Egg, the hatch, the nickname prompt and any naming screen) are driven by a seeded
+-- the next step the player takes runs the game's own hatch check. Once the player starts that step,
+-- the rest of the step and scene (including the nickname prompt and naming screen) use a seeded
 -- mash of A, B, Start, Select, L, R and the D-pad. After it the field must come back with control,
 -- no crash screen, the party count unchanged, every hatched slot decrypting to the Egg's species
 -- with a valid checksum and no Egg bit, and the follower (when one is shown) the lead's species.
@@ -81,6 +81,11 @@ local function species(i)
   return (F.r32(box + 32 + SUB0[(pid % 24) + 1] * 12) ~ pid ~ ot) & 0x7FF
 end
 local function isEgg(i) return (F.r8(slot(i) + 19) & 0x04) ~= 0 end
+local function eggCount()
+  local eggs = 0
+  for i = 0, count() - 1 do if isEgg(i) then eggs = eggs + 1 end end
+  return eggs
+end
 local function checksumOk(i)
   local box = slot(i)
   local key = F.r32(box) ~ F.r32(box + 4)
@@ -122,10 +127,12 @@ local function hasControl()
 end
 
 local DIRS = { "Up", "Down", "Left", "Right" }
+-- Assign rolls in a fixed order so the same seed replays the same buttons across Lua processes.
+local BUTTONS = { {"Start", 6}, {"L", 6}, {"Select", 6}, {"R", 6}, {"B", 25}, {"A", 35} }
 local function mashFrame(dirBias)
   local t = {}
-  for b, p in pairs({ A = 35, B = 25, Start = 6, Select = 6, L = 6, R = 6 }) do
-    if rnd() % 100 < p then t[b] = true end
+  for _, button in ipairs(BUTTONS) do
+    if rnd() % 100 < button[2] then t[button[1]] = true end
   end
   if t.R and t.Start then t.R = nil end
   if t.A and t.B and t.Start and t.Select then t.Select = nil end
@@ -137,14 +144,24 @@ end
 -- Step in `dir` with noise until the hatch scene runs and the field is back under control.
 local function hatchMash(tag, dir, frames)
   local sawScene, crashed = false, false
-  local eggs0 = 0
-  for i = 0, count() - 1 do if isEgg(i) then eggs0 = eggs0 + 1 end end
+  local eggs0 = eggCount()
+  -- Start/Select can open a menu before the D-pad starts a step. Wait for the
+  -- movement to begin, then mash immediately, including the remainder of the step.
+  local x0, y0 = F.pos()
+  for _ = 1, 30 do
+    joypad.set({ [dir] = true })
+    emu.frameadvance()
+    local x, y = F.pos()
+    if x ~= x0 or y ~= y0 then break end
+  end
+  local x, y = F.pos()
+  local stepped = x ~= x0 or y ~= y0
+  F.check(tag .. ": hatch-triggering step started", stepped, string.format("(%d,%d) -> (%d,%d)", x0, y0, x, y))
+  if not stepped then return false, F.reportCrash(tag) end
   for i = 1, frames do
     if i % 20 == 0 and F.reportCrash(tag) then crashed = true; break end
     if not F.ow() then sawScene = true end
-    local eggs = 0
-    for k = 0, count() - 1 do if isEgg(k) then eggs = eggs + 1 end end
-    if eggs < eggs0 and sawScene and hasControl() and i > 200 then break end
+    if sawScene and hasControl() and eggCount() < eggs0 and i > 200 then break end
     mashFrame(i < 40 and dir or nil)
   end
   if crashed then return false, true end
@@ -155,7 +172,7 @@ local function hatchMash(tag, dir, frames)
     emu.frameadvance()
   end
   F.idle(60)
-  return sawScene, false
+  return sawScene and eggCount() < eggs0, false
 end
 
 local function checkParty(tag, expect)

@@ -675,16 +675,6 @@ MahoganyHideout_B2F_Text_LanceMonMaster:
     .string "I look forward to seeing you\n"
     .string "again!$"
 
-MahoganyHideout_B2F_Text_B2FTransmitter:
-    .string "It's the radio transmitter that's\n"
-    .string "sending the sinister signal.\p"
-    .string "It's working at full capacity.$"
-
-MahoganyHideout_B2F_Text_B2FDeactivateTransmitter:
-    .string "The radio transmitter has finally\n"
-    .string "stopped its evil broadcast.$"
-
-
 @===========================================================================================================================================
 
 MahoganyHideout_B2F_EventScript_Item_Thief::
@@ -830,4 +820,3 @@ MahoganyHideout_B2F_EventScript_Grunt16::
 	trainerbattle_single TRAINER_GRUNT_16 MahoganyHideout_B2F_Text_GruntM19Seen, MahoganyHideout_B2F_Text_GruntM19Beaten
 	msgbox MahoganyHideout_B2F_Text_GruntM19After, MSGBOX_AUTOCLOSE
 	end
-

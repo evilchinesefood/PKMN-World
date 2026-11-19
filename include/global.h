@@ -495,7 +495,7 @@ struct BattleFrontier
     /*0xD1C*/ u16 domeTotalChampionships[2][FRONTIER_LVL_MODE_COUNT];
     /*0xD24*/ struct BattleDomeTrainer domeTrainers[DOME_TOURNAMENT_TRAINERS_COUNT];
     /*0xD64*/ u16 domeMonIds[DOME_TOURNAMENT_TRAINERS_COUNT][FRONTIER_PARTY_SIZE];
-    /*0xDC4*/ u16 battleNetHardWins; // was unused_DC4 (never read/written -> zero in old saves); total HARD rematch wins, Battle Net records board
+    /*0xDC4*/ u16 battleNetHardWins; // Total HARD rematch wins on the Battle Net records board.
     /*0xDC6*/ u16 palacePrize;
     /*0xDC8*/ u16 palaceWinStreaks[2][FRONTIER_LVL_MODE_COUNT];
     /*0xDD0*/ u16 palaceRecordWinStreaks[2][FRONTIER_LVL_MODE_COUNT];
@@ -537,7 +537,7 @@ struct BattleFrontier
     /*0xEF1*/ u8 opponentTrainerIds[FRONTIER_LVL_MODE_COUNT][TRAINER_ID_LENGTH];
     /*0xEF9*/ u8 unk_EF9:7; // Never read
     /*0xEF9*/ u8 savedGame:1;
-    /*0xEFA*/ u8 battleNetBestStreak; // was unused_EFA (never read/written -> zero in old saves); best Battle Net Tower Streak, records board
+    /*0xEFA*/ u8 battleNetBestStreak; // Best Battle Net Tower streak on the records board.
     /*0xEFB*/ u8 unused_EFB;
     /*0xEFC*/ struct DomeMonData domePlayerPartyData[FRONTIER_PARTY_SIZE];
 };
@@ -606,21 +606,20 @@ struct SaveBlock2
              u16 regionMapZoom:1; // whether the map is zoomed in
              u16 optionsAutoRun:1; // whether the player auto-runs (holding B walks instead)
              u16 optionsAutosave:1; // QoL #7: autosave after map transitions (0 = OFF, 1 = ON)
-             u16 optionsRunShortcut:2; // QoL #12: battle B-button flee, OPTIONS_RUN_SHORTCUT_[CURSOR/OFF/INSTANT] (0 = CURSOR for old saves); first option u16 now full
-    /*0x16*/ u16 optionsExpMultiplier:2; // QoL #15: OPTIONS_EXP_MULT_[1X/0_5X/1_5X/2X] (0 = 1x for old saves)
-             u16 optionsCatchMultiplier:2; // QoL #15: OPTIONS_CATCH_MULT_[1X/1_5X/2X/0_5X] (0 = 1x for old saves)
-             u16 optionsHardMode:1; // Deprecated. Preserve this bit for existing saves.
-             u16 optionsNicknames:1; // QoL #8: catch/hatch nickname prompt, OPTIONS_NICKNAMES_[ON/OFF] (0 = ON for old saves)
+             u16 optionsRunShortcut:2; // QoL #12: battle B-button flee, OPTIONS_RUN_SHORTCUT_[CURSOR/OFF/INSTANT]
+    /*0x16*/ u16 optionsExpMultiplier:2; // QoL #15: OPTIONS_EXP_MULT_[1X/0_5X/1_5X/2X]
+             u16 optionsCatchMultiplier:2; // QoL #15: OPTIONS_CATCH_MULT_[1X/1_5X/2X/0_5X]
+             u16 unusedOptionBit:1; // Preserve the positions of the following option fields.
+             u16 optionsNicknames:1; // QoL #8: catch/hatch nickname prompt, OPTIONS_NICKNAMES_[ON/OFF]
              u16 optionsEncounterRate:2; // OPTIONS_RATE_*
              u16 optionsMoneyLoss:2; // OPTIONS_RATE_*
     /*0x18*/ struct Pokedex pokedex; // Region merge: ONE global National Dex shared across all regions (not per-region); area screen is region-aware for display only.
-#if ALL_REGIONS
     /*0x90*/ u8 currentRegion;      // enum Region; PERSISTED active-campaign region (0 = REGION_NONE
                                     // until the first gate-cross). Mirrored at runtime by gCurrentRegion
                                     // and resynced on load; see src/region_switch.c. (Was the dead
                                     // startRegion - repurposed, no save-layout change.)
     // Region merge save bits (carved from the existing 0x90 reserve — no net size change).
-    /*0x91*/ u8 saveVersion;        // SAVE_FORMAT_VERSION stamp; migration reader = MigrateSaveFormatIfNeeded (load_save.c), v0->v8
+    /*0x91*/ u8 saveVersion;        // Fixed version byte read by LoadGameSave before accepting a layout.
     /*0x92*/ u8 kantoIntroDone:1;   // first-visit intro completed (region-switch, Lane R)
              u8 johtoIntroDone:1;
              u8 hoennIntroDone:1;
@@ -638,10 +637,6 @@ struct SaveBlock2
     // saveBlock3Chunk riding in the same sector. A trustworthy reference for an untrusted block.
     /*0x94*/ u16 regionChecksum;
     /*0x96*/ u8 filler_96[0x2];
-#else
-    /*0x90*/ u8 followerSlot;
-    /*0x91*/ u8 filler_91[0x7];
-#endif
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
     /*0xA8*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD
@@ -991,20 +986,7 @@ struct SaveBlock3
 #if APRICORN_TREE_COUNT > 0
     u8 apricornTrees[NUM_APRICORN_TREE_BYTES];
 #endif
-    // Deliberately unconditional, exactly like reservedQuestData below: this field sits
-    // BEFORE `region`, so guarding it on POKEVIAL_FEATURE moved `region` off 0x20 and
-    // POKEVIAL_FEATURE FALSE failed the SaveBlock3RegionMoved_BumpSaveFormatVersion assert
-    // in load_save.c. One byte is not worth a save-format bump; with the flag off this is
-    // simply reserved. Feature flags must never move the save layout (see config/link.h).
     struct Pokevial pokevial;
-    // Quest system removed (its source and config were deleted; see git history). These 24 bytes
-    // are RESERVED, NOT reclaimed, and the field is deliberately unconditional so the layout
-    // never moves. `region` must stay at offsetof 0x20 or every existing v7 save
-    // misreads its region data; load_save.c:321 asserts exactly that, so removing this field
-    // fails the build rather than corrupting saves. Reclaiming the space is a save-format v8 and
-    // a second forced new game, which is not worth 24 bytes. If a bump ever happens for its own
-    // reasons, delete this then and the space comes back for free.
-    u8 reservedQuestData[24];   // was questData[QUEST_FLAGS_COUNT*QUEST_STATES] (20) + subQuests[SUB_FLAGS_COUNT] (4)
     struct RegionSave region;
 }; /* max size 1624 bytes */
 
@@ -1344,7 +1326,7 @@ struct SaveBlock1
     // Was `struct RecordMixingGift recordMixingGift` (16 B, compiler-probed) - its only
     // readers were mystery_event_script.c and record_mixing.c, both compiled out by
     // issue #59's link removal. Reserved, not removed: reclaiming save bytes is a
-    // save-format bump (see reservedQuestData below for the idiom).
+    // save-format bump.
     /*0x3???*/ u8 reservedRecordMixingGift[16];
     /*0x3???*/ LilycoveLady lilycoveLady;
     /*0x3???*/ struct TrainerNameRecord trainerNameRecords[20];
@@ -1358,16 +1340,7 @@ struct SaveBlock1
     /*0x3???*/ struct TrainerHillSave trainerHill;
 #endif //FREE_TRAINER_HILL
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
-#if FREE_TRAINER_TOWER == FALSE && IS_FRLG
-    u32 towerChallengeId;
-    struct TrainerTower trainerTower[NUM_TOWER_CHALLENGE_TYPES];
-#endif //FREE_TRAINER_TOWER
-#if IS_FRLG || ALL_REGIONS
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
-#endif
-#if IS_FRLG
-    struct DaycareMon route5DayCareMon;
-#endif
     // sizeof: 0x3???
 };
 

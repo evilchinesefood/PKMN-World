@@ -2,33 +2,15 @@ GAME_VERSION ?= EMERALD
 TITLE        ?= POKEMON WRLD
 GAME_CODE    ?= BPEE
 BUILD_NAME   ?= emerald
-MAP_VERSION  ?= emerald
+MAP_VERSION  := allregions
 
-# ALL_REGIONS=1 : Emerald-base build that merges every region's maps (region merge).
-# Keeps GAME_VERSION=EMERALD (IS_FRLG=0) but stops mapjson from filtering out
-# non-Hoenn maps/layouts, and includes the FRLG map scripts via --defsym ALL_REGIONS=1.
-# Always-on: the game is always the unified 3-region build. Override with ALL_REGIONS=0
-# only for debugging the legacy single-region path.
-ALL_REGIONS  ?= 1
-
-ifeq (firered, $(or $(BUILD), $(MAKECMDGOALS)))
-  	GAME_VERSION 	:= FIRERED
-	TITLE       	:= POKEMON FIRE
-	GAME_CODE   	:= BPRE
-	BUILD_NAME  	:= firered
-	MAP_VERSION 	:= firered
-else
-ifeq (leafgreen, $(or $(BUILD), $(MAKECMDGOALS)))
-	GAME_VERSION 	:= LEAFGREEN
-	TITLE       	:= POKEMON LEAF
-	GAME_CODE   	:= BPGE
-	BUILD_NAME  	:= leafgreen
-	MAP_VERSION 	:= firered
-else
-ifeq ($(ALL_REGIONS),1)
-	MAP_VERSION 	:= allregions
+# All three campaigns share an Emerald engine and map set.
+ALL_REGIONS ?= 1
+ifneq ($(ALL_REGIONS),1)
+$(error PKMN World requires ALL_REGIONS=1)
 endif
-endif
+ifneq ($(GAME_VERSION),EMERALD)
+$(error PKMN World requires GAME_VERSION=EMERALD)
 endif
 
 # GBA rom header
@@ -104,16 +86,10 @@ ifeq ($(RELEASE),1)
 endif
 
 ROM_NAME := $(FILE_NAME).gba
-# ALL_REGIONS is a compile-time define that nothing else fingerprints, so a non-default value
-# gets its own object directory instead of mixing with objects built the other way.
-OBJ_DIR_SUFFIX :=
-ifneq ($(ALL_REGIONS),1)
-  OBJ_DIR_SUFFIX := -allregions$(ALL_REGIONS)
-endif
-OBJ_DIR_NAME := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)
-OBJ_DIR_NAME_TEST := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)-test
-OBJ_DIR_NAME_DEBUG := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)-debug
-OBJ_DIR_NAME_RELEASE := $(BUILD_DIR)/$(BUILD_NAME)$(OBJ_DIR_SUFFIX)-release
+OBJ_DIR_NAME := $(BUILD_DIR)/$(BUILD_NAME)
+OBJ_DIR_NAME_TEST := $(BUILD_DIR)/$(BUILD_NAME)-test
+OBJ_DIR_NAME_DEBUG := $(BUILD_DIR)/$(BUILD_NAME)-debug
+OBJ_DIR_NAME_RELEASE := $(BUILD_DIR)/$(BUILD_NAME)-release
 ASSETS_DIR_NAME := $(BUILD_DIR)/assets
 
 ELF_NAME := $(ROM_NAME:.gba=.elf)
@@ -481,7 +457,7 @@ validate:
 obstacles:
 	python3 test/overworld/GenObstacleTable.py
 
-# Regenerate the BizHawk/Lua test symbol table from the freshly built ELF. Addresses move every
+# Regenerate the headless mGBA Lua test symbol table from the freshly built ELF. Addresses move every
 # rebuild, so the promoted suites in test/overworld/lua/ `require("symbols")` instead of hardcoding them.
 # The output is a build artifact (gitignored); commit test/overworld/GenLuaSymbols.py, not symbols.lua.
 #
@@ -777,8 +753,6 @@ $(ROM): $(ELF)
 	$(FIX) $@ -p --silent
 
 emerald: all
-firered: all
-leafgreen: all
 # Symbol file (`make syms`)
 $(SYM): $(ELF)
 	$(OBJDUMP) -t $< | sort -u | grep -E "^0[2389]" | $(PERL) -p -e 's/^(\w{8}) (\w).{6} \S+\t(\w{8}) (\S+)$$/\1 \2 \3 \4/g' > $@

@@ -1,10 +1,5 @@
 NationalPark_Normal_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, NationalPark_Normal_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-NationalPark_Normal_OnTransition: 
-	end
 
 NationalPark_Normal_EventScript_Lass::
 	lock
@@ -69,10 +64,6 @@ NationalPark_Normal_Text_Lass:
 	.string "Look! Check out my bag!\p"
 	.string "I printed out my favorites from my\n"
 	.string "POKéDEX and stuck them on my bag.$"
-
-NationalPark_Normal_Text_PokefanF:
-	.string "This is MAIL I got from my daughter.\n"
-	.string "It cheers me up.$"
 
 NationalPark_Normal_Text_Teacher1:
 	.string "Pay attention, please!\p"
@@ -182,17 +173,3 @@ NationalPark_Normal_Text_LassKrise_Beaten:
 NationalPark_Normal_Text_LassKrise_After:
 	.string "I thought you were staring at me\n"
 	.string "because I'm cute!$"
-
-NationalPark_Normal_Text_Sign_RelaxationSquare:
-	.string "RELAXATION SQUARE\n"
-	.string "NATIONAL PARK$"
-
-NationalPark_Normal_Text_Sign_BattleNotice:
-	.string "What is this notice?\p"
-	.string "Please battle only in the grass.\p"
-	.string "NATIONAL PARK WARDEN'S OFFICE$"
-
-NationalPark_Normal_Text_TrainerTips:
-	.string "TRAINER TIPS\p"
-	.string "Print out MAIL by opening it then\n"
-	.string "pressing START.$"

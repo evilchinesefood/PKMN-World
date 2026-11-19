@@ -1,10 +1,5 @@
 MtSilver_1F_WaterfallRoom_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, MtSilver_1F_WaterfallRoom_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-MtSilver_1F_WaterfallRoom_OnTransition: 
-	end
 
 MtSilver_1F_WaterfallRoom_EventScript_MaxPotion::
 	finditem ITEM_MAX_POTION

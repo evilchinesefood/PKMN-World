@@ -17,7 +17,6 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_PrizeClerkMons::
 	end
 
 GoldenrodCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
-	callnative DisableStaticRandomizer
 	showcoinsbox 1, 1
 	message MauvilleCity_GameCorner_Text_WhichPrize
 	waitmessage
@@ -34,7 +33,6 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon::
 
 GoldenrodCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange::
 	hidecoinsbox 0, 0
-	callnative EnableStaticRandomizer
 	closemessage
 	release
 	end
@@ -126,22 +124,11 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon::
 GoldenrodCity_GameCorner_PrizeRoom_EventScript_PartyFull::
 	msgbox Route119_WeatherInstitute_2F_Text_NoRoomForPokemon
 	hidecoinsbox 0, 0
-	callnative EnableStaticRandomizer
 	closemessage
 	release
 	end
 
 GoldenrodCity_GameCorner_PrizeRoom_EventScript_NicknamePartyMon::
-	getpartysize
-	subvar VAR_RESULT, 1
-	copyvar VAR_0x8004, VAR_RESULT
-	call Common_EventScript_GetGiftMonPartySlot
-	call Common_EventScript_NameReceivedPartyMon
-	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
-	end
-
-GoldenrodCity_GameCorner_PrizeRoom_EventScript_ReceivedMonParty_Nickname_Nuzlocke::
-	message GoldenrodGamecorner_Text_GiveNicknameToThisMon
 	getpartysize
 	subvar VAR_RESULT, 1
 	copyvar VAR_0x8004, VAR_RESULT
@@ -169,8 +156,6 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_ReceivedMonParty::
 	message GoldenrodCity_GameCorner_Text_PlayerObtainedTheMon
 	waitmessage
 	waitfanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, GoldenrodCity_GameCorner_PrizeRoom_EventScript_ReceivedMonParty_Nickname_Nuzlocke
 	msgbox GoldenrodGamecorner_Text_GiveNicknameToThisMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, GoldenrodCity_GameCorner_PrizeRoom_EventScript_NicknamePartyMon
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
@@ -191,30 +176,6 @@ GoldenrodCity_GameCorner_PrizeRoom_EventScript_ReceivedMonPC::
 GoldenrodCity_GameCorner_PrizeRoom_EventScript_TransferredToPC::
 	call Common_EventScript_TransferredToPC
 	goto GoldenrodCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
-	end
-
-GoldenrodCity_GameCorner_PrizeRoom_EventScript_PartyMon::
-	call Common_EventScript_GetGiftMonPartySlot
-	call Common_EventScript_NameReceivedPartyMon
-	end
-	
-GoldenrodCity_GameCorner_PrizeRoom_EventScript_PcMon::
-	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, GoldenrodCity_GameCorner_EventScript_SendMon
-	call Common_EventScript_NameReceivedBoxMon
-	goto GoldenrodCity_GameCorner_EventScript_SendMon
-	closemessage
-	hidecoinsbox 0, 0
-	callnative EnableStaticRandomizer
-	release
-	end
-
-GoldenrodCity_GameCorner_EventScript_SendMon::
-	call Common_EventScript_TransferredToPC
-	closemessage
-	hidecoinsbox 0, 0
-	callnative EnableStaticRandomizer
-	release
 	end
 
 GoldenrodCity_GameCorner_EventScript_PokefanM::
@@ -290,26 +251,8 @@ GoldenrodCity_GameCorner_Text_PlayerObtainedTheMon:
 GoldenrodGamecorner_Text_GiveNicknameToThisMon:
 	.string "Nickname {STR_VAR_1}?$"
 
-GoldenrodCity_GameCorner_Text_PrizeVendorIntro:
-    .string "Welcome!\p"
-    .string "We exchange your game coins for\n"
-    .string "fabulous prizes!$"
-
-GoldenrodCity_GameCorner_Text_PrizeVendorWhichPrize:
-    .string "Which prize would you like?$"
-
-GoldenrodCity_GameCorner_Text_PrizeVendorHereYouGo:
-    .string "Here you go!$"
-
 GoldenrodCity_GameCorner_Text_PrizeVendorNeedMoreCoins:
     .string "Sorry! You need more coins.$"
-
-GoldenrodCity_GameCorner_Text_PrizeVendorNoMoreRoom:
-    .string "Sorry. You can't carry any more.$"
-
-GoldenrodCity_GameCorner_Text_PrizeVendorQuit:
-    .string "OK. Please save your coins and come\n"
-    .string "again!$"
 
 GoldenrodCity_GameCorner_Text_PrizeVendorNoCoinCase:
     .string "Oh? You don't have a COIN CASE.$"
@@ -337,9 +280,6 @@ GoldenrodCity_GameCorner_Text_PokefanF:
     .string "it's easier to figure the odds.\p"
     .string "But the payout is much lower.$"
 
-GoldenrodCity_GameCorner_Text_CooltrainerF:
-    .string "I won't quit until I win!$"
-
 GoldenrodCity_GameCorner_Text_Gentleman:
     .string "I taught ICE BEAM to my POKéMON.\p"
     .string "It was hard to get enough coins for\n"
@@ -353,10 +293,6 @@ GoldenrodCity_GameCorner_Text_PokefanM2:
 
 GoldenrodCity_GameCorner_Text_MoveTutorInside:
     .string "Wahahah! The coins keep rolling in!$"
-
-GoldenrodCity_GameCorner_Text_LeftTheirDrink:
-    .string "Someone left their drink.\p"
-    .string "It smells sweet.$"
 
 GoldenrodCity_GameCorner_Text_ThisIsGoldenrodGameCorner:
 	.string "This is GOLDENROD GAME CORNER.$"

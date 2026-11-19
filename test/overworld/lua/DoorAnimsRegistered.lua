@@ -66,9 +66,8 @@
 --     shrine's single approach was through a door that never opened. The row reuses Violet City's
 --     dojo frames; 0x2FF itself was in no row at all.
 --
---   MAP_SAFARI_ZONE2 — layout (gTileset_Johto_NorthEast, gTileset_SafariZoneJohto)
---     0x2BF door at (35,11), the Safari Zone entrance hut. 0x2BF was registered for
---     &gTileset_FuchsiaCity only — the id was in the table the whole time.
+--   MAP_SAFARI_ZONE_GATE — physical gate door 0x2D2 and the 0x2BF hut registration on
+--     the current Johto Safari tileset. Fuchsia City has its own registration for 0x2BF.
 --
 --   MAP_MAHOGANYTOWN — layout (gTileset_Johto_NorthEast, gTileset_MahoganyTown)
 --   MAP_LAKE_OF_RAGE — the SAME pair, which is why one row repairs four doors
@@ -104,7 +103,7 @@
 --     0x333 (registered for Ecruteak City's and Bellchime's tilesets) looked up on Battle Frontier
 --     Outside East. If the id half alone decided the match, both would resolve and both checks
 --     would fail — on either ROM. Each repaired map states one: 0x32B on Dragon's Den (the very
---     row whose ART that door borrows), 0x333 on Safari Zone 2, 0x2D2 on Mahogany Town.
+--     row whose ART that door borrows), 0x333 on the Safari Zone gate, 0x2D2 on Mahogany Town.
 --   * violet_dojo_door_* / lavender_door_* — the cross-map halves of the Ecruteak pattern.
 --     Violet City's two 0x32B dojo doors carry the artwork Dragon's Den's row borrows, under their
 --     own id and tileset; Lavender Town's three doors carry the very SAME id as Mahogany's,
@@ -112,19 +111,14 @@
 --     resolve after it — adding a second row for an id that already had one must not shadow the
 --     first. Each is paired with an assertion that the two maps have NO tileset in common, so the
 --     comparison cannot be vacuous.
---   * safari_johto_gate_door_id_resolves_on_this_tileset — the strongest control here. 0x2D2 is
---     the OTHER door in gTileset_SafariZoneJohto and predates the fix, so looking it up on
---     SafariZone2 exercises the same map, the same pointer pair, the same walk and the same
---     matcher as the repaired 0x2BF lookup, and resolves on both ROMs. The two differ in one
---     thing only: the row. `safari_gate_shares_safari_zone2_tilesets` proves the pairs really are
---     identical, and MAP_SAFARI_ZONE_GATE is then visited so 0x2D2 is also checked as a real
---     MB_ANIMATED_DOOR at its own coordinates.
+--   * The Safari Zone gate tests its physical animated door and the tileset's separately
+--     registered 0x2BF hut door id on the same live map.
 --   * *_door_id_also_has_a_foreign_row — the form checkNoDoorRow cannot express. On Mahogany Town
 --     0x2A2 DOES resolve after the fix (correctly), so "must not match" is the wrong assertion;
 --     what must hold is that a row carrying that id is bound to a tileset this map does not use
 --     (&gTileset_LavenderTown). That is what makes the positive read "the &gTileset_MahoganyTown
 --     row is present" rather than "0x2A2 is a known door metatile" — on the pre-fix ROM the id
---     was in the table and the doors still never opened. Safari Zone 2 states the same thing
+--     was in the table and the doors still never opened. The Safari Zone gate states the same thing
 --     against &gTileset_FuchsiaCity's 0x2BF row.
 --
 -- Every door coordinate is also required to really BE a door: `behaviorAt` reproduces
@@ -153,7 +147,7 @@ local MAP_ECRUTEAK_CITY, MAP_BELLCHIME_TRAIL = 0, 3
 local GRP_INDOOR_BLACKTHORN, MAP_DRAGONS_DEN_CAVERN = 94, 12  -- gMapGroup_IndoorBlackthorn
 local GRP_JOHTO_TOWNS,       MAP_VIOLET_CITY        = 75, 6   -- gMapGroup_JohtoTownsAndRoutes
 local GRP_SAFARI_ZONE_JOHTO                         = 96      -- gMapGroup_SafariZoneJohto
-local MAP_SAFARI_ZONE_GATE,  MAP_SAFARI_ZONE2       = 0, 11
+local MAP_SAFARI_ZONE_GATE                          = 0
 local GRP_JOHTO_MAHOGANY                            = 91      -- gMapGroup_JohtoMahogany
 local MAP_MAHOGANYTOWN,      MAP_LAKE_OF_RAGE       = 0, 4
 local GRP_TOWNS_FRLG,        MAP_LAVENDER_TOWN      = 37, 4   -- gMapGroup_TownsAndRoutes_Frlg
@@ -436,8 +430,6 @@ local BELLCHIME_PLAIN = { 35, 42 }                              -- 0x2E3, the ti
 local DRAGONS_DEN_DOOR   = { 31, 46 }                           -- 0x2FF, the only way into the shrine
 local DRAGONS_DEN_PLAIN  = { 31, 47 }                           -- 0x1C6, the walkable tile below it
 local VIOLET_DOJO_DOORS  = { { 30, 13 }, { 39, 36 } }           -- 0x32B, worked before the fix
-local SAFARI2_DOOR       = { 35, 11 }                           -- 0x2BF, the Safari Zone entrance hut
-local SAFARI2_PLAIN      = { 35, 12 }                           -- 0x009, the walkable tile below it
 local SAFARI_GATE_DOOR   = { 16, 8 }                            -- 0x2D2, worked before the fix
 local MAHOGANY_DOORS     = { { 15, 10 }, { 27, 10 } }           -- 0x2A2
 local MAHOGANY_PLAIN     = { 15, 11 }                           -- 0x0D3, the tile below the first
@@ -649,68 +641,24 @@ local function main()
                         METATILE_VIOLET_DOJO_DOOR)
   end
 
-  -- ---- 6. MAP_SAFARI_ZONE2 ------------------------------------------------------------------
-  -- Warp id 0 is the entrance hut at (35,11), the repaired door. gTileset_SafariZoneJohto already
-  -- had a row before the fix — for the OTHER door in the same tileset — so this map carries the
-  -- strongest control this suite can state, below.
-  F.check("warp_to_safari_zone2",
-          F.warpTo(0, 9, 6, 0, 1, 1, 0, 0, 0, GRP_SAFARI_ZONE_JOHTO, MAP_SAFARI_ZONE2, "safari2")
-            and F.ow(),
-          string.format("map %d.%d at %s", F.grp(), F.mapn(), here()))
-  local s2Pri, s2Sec = tilesetPair()
-  F.L(string.format("  SafariZone2 layout 0x%08X: primary=0x%08X secondary=0x%08X",
-                    mapLayout(), s2Pri, s2Sec))
-  F.shot("safari_zone2_arrival")
-
-  checkDoorRegistered("safari_johto_town_door", SAFARI2_DOOR[1], SAFARI2_DOOR[2],
-                      METATILE_SAFARI_DOOR)
-
-  -- NEGATIVE CONTROL, and the strongest one in this suite: 0x2D2 is the Safari Zone gate door,
-  -- registered for &gTileset_SafariZoneJohto — the SAME tileset the 0x2BF row above was added to,
-  -- on the SAME map, against the SAME pointer pair. It resolves on the pre-fix ROM too. So when
-  -- safari_johto_town_door_has_a_door_anim_row fails on that ROM it cannot be blamed on the map,
-  -- the pair, the walk or the matcher: the only difference between the two lookups is the row.
-  checkDoorIdResolves("safari_johto_gate_door_id_resolves_on_this_tileset", METATILE_SAFARI_GATE_DOOR,
-                      "0x2D2 is the other &gTileset_SafariZoneJohto door and predates the fix")
-
-  -- ...and the id half of the new door is not novel either: 0x2BF is METATILE_FuchsiaCity_Door,
-  -- registered for &gTileset_FuchsiaCity since vanilla FRLG. It was in the table all along and the
-  -- door still did not open, which is the whole of issue #92 in one assertion.
-  checkForeignRowExistsForId("safari_johto_town_door_id_also_has_a_foreign_row", METATILE_SAFARI_DOOR,
-                             "0x2BF is METATILE_FuchsiaCity_Door as well, so the pre-fix lookup "
-                             .. "had the id and rejected it on the tileset pointer")
-
-  local s2PlainId = metatileAt(SAFARI2_PLAIN[1], SAFARI2_PLAIN[2])
-  local s2PlainBehavior = behaviorAt(SAFARI2_PLAIN[1], SAFARI2_PLAIN[2])
-  F.check("safari_johto_non_door_metatile_is_not_a_door",
-          s2PlainBehavior ~= S.MetatileBehavior.ANIMATED_DOOR,
-          string.format("(%d,%d) metatile 0x%03X behavior %d", SAFARI2_PLAIN[1], SAFARI2_PLAIN[2],
-                        s2PlainId, s2PlainBehavior))
-  checkNoDoorRow("safari_johto_non_door_metatile_has_no_row", s2PlainId,
-                 "a non-door metatile must not resolve on this map either")
-  checkNoDoorRow("safari_johto_foreign_tileset_door_id_has_no_row", METATILE_ECRUTEAK_DOOR,
-                 "0x333 is registered for Ecruteak City's and Bellchime Trail's tilesets, neither "
-                 .. "of which is in this map's pair")
-
-  -- ---- 7. MAP_SAFARI_ZONE_GATE (the same-tileset control, as a real door) --------------------
-  -- The lookup control above is stated on SafariZone2 itself; this walks to where that door
-  -- physically is and requires it to be a live MB_ANIMATED_DOOR resolving a row. Both maps carry
-  -- the identical (primary, secondary) pair, which is asserted rather than assumed.
+  -- The gate uses the same Safari tileset as the retired hut map. Verify both
+  -- registrations against the live gate, including its physical entrance.
   F.check("warp_to_safari_zone_gate",
           F.warpTo(0, 9, 6, 0, 0, 0, 0, 0, 0, GRP_SAFARI_ZONE_JOHTO, MAP_SAFARI_ZONE_GATE,
                    "safarigate") and F.ow(),
           string.format("map %d.%d at %s", F.grp(), F.mapn(), here()))
-  local sgPri, sgSec = tilesetPair()
-  F.L(string.format("  SafariZoneGate layout 0x%08X: primary=0x%08X secondary=0x%08X",
-                    mapLayout(), sgPri, sgSec))
-  F.check("safari_gate_shares_safari_zone2_tilesets", sgPri == s2Pri and sgSec == s2Sec,
-          string.format("gate (0x%08X, 0x%08X) vs SafariZone2 (0x%08X, 0x%08X) — the 0x2D2 lookup "
-                        .. "control on SafariZone2 is only legitimate if the pairs are identical",
-                        sgPri, sgSec, s2Pri, s2Sec))
   F.shot("safari_gate_arrival")
-
   checkDoorRegistered("safari_gate_door", SAFARI_GATE_DOOR[1], SAFARI_GATE_DOOR[2],
                       METATILE_SAFARI_GATE_DOOR)
+  checkDoorIdResolves("safari_johto_hut_registered_for_gate_tileset", METATILE_SAFARI_DOOR,
+                      "the Safari tileset registers its hut door separately from the gate")
+  checkForeignRowExistsForId("safari_johto_town_door_id_also_has_a_foreign_row", METATILE_SAFARI_DOOR,
+                             "Fuchsia City's registration has the same id but another tileset")
+  checkNoDoorRow("safari_johto_foreign_tileset_door_id_has_no_row", METATILE_ECRUTEAK_DOOR,
+                 "0x333 belongs to Ecruteak City and Bellchime Trail")
+  checkNoDoorRow("safari_johto_non_door_metatile_has_no_row",
+                 metatileAt(SAFARI_GATE_DOOR[1], SAFARI_GATE_DOOR[2] + 1),
+                 "the ground just outside the gate has no door animation")
 
   -- ---- 8. MAP_MAHOGANYTOWN ------------------------------------------------------------------
   -- Warp id 1 is the shop door at (15,10). 0x2A2 is ALSO METATILE_LavenderTown_Door, registered

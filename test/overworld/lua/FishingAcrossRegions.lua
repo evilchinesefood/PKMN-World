@@ -56,7 +56,7 @@ local SPOTS = {
   { tag = "hoenn Route 104", g = 0, m = 19, x = 24, y = 22, face = "Up", back = "Down", table = true,
     fish = FISH.route104, adviser = DAD },
   { tag = "kanto Route 18 (no table)", g = 37, m = 36, x = 12, y = 10, face = "Down", back = "Up", table = false },
-  { tag = "johto Safari Zone (no table)", g = 96, m = 10, x = 18, y = 16, face = "Right", back = "Up", table = false },
+  { tag = "johto Bellchime Trail (no table)", g = 85, m = 3, x = 11, y = 15, face = "Right", back = "Up", table = false },
   { tag = "hoenn Frontier West (no table)", g = 26, m = 4, x = 39, y = 58, face = "Down", back = "Up", table = false },
 }
 
@@ -158,6 +158,23 @@ local function flee(tag)
     if i % 10 == 0 then F.press("A", 2) else F.idle(1) end
   end
   return foe
+end
+
+-- A surf step can start a normal water encounter after the coordinates change.
+local function surfStep(dir, tag)
+  if not F.step(dir) then return false end
+  for _ = 1, 900 do
+    if inBattle() then
+      local foe = flee(tag)
+      if not hasControl() then return false end
+      F.L(string.format("  %s: fled a water encounter after stepping %s (species %d)", tag, dir, foe))
+    end
+    if hasControl() and F.r8(S.gPlayerAvatar + S.PlayerAvatar.tileTransitionState) == 0 then
+      return surfing()
+    end
+    F.idle(1)
+  end
+  return false
 end
 
 -- One cast. Returns "bite" (a battle ran and ended), "nibble" (no bite), or a failure string.
@@ -327,7 +344,7 @@ F.run(function()
       if outcome ~= "bite" and outcome ~= "nibble" then break end
       F.check(tag .. ": still surfing", surfing())
       F.check(tag .. ": player graphics restored", playerGfx() == gfx, string.format("%04X vs %04X", playerGfx(), gfx))
-      F.check(tag .. ": can surf on", F.step("Down") and F.step("Up"))
+      F.check(tag .. ": can surf on", surfStep("Down", tag) and surfStep("Up", tag))
       F.face("Right")
       if outcome == "bite" then break end
     end

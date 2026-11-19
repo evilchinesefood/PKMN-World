@@ -3,7 +3,6 @@
 
 void DeactivateAllRoamers(void);
 void InitRoamer(void);
-void InitJohtoRoamer(void);
 void InitJohtoBeastRoamers(void);
 void RespawnJohtoBeastRoamers(void);
 void MarkRoamerCaught(u32 roamerIndex);

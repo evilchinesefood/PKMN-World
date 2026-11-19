@@ -90,21 +90,6 @@ Route40_Text_Lass1:
 	.string "Although you can't see it from here,\n"
 	.string "CIANWOOD is across the sea.$"
 
-Route40_EventScript_Woman2::
-	lock
-	faceplayer
-	msgbox Route40_Text_Lass2, MSGBOX_DEFAULT
-	closemessage
-	release
-	end
-
-Route40_Text_Lass2:
-	.string "I came to OLIVINE by ship to see\n"
-	.string "the sights and soak up the\l"
-	.string "atmosphere.\p"
-	.string "Being a port, it feels so\n"
-	.string "different from a big city.$"
-
 Route40_EventScript_Youngster::
 	lock
 	faceplayer
@@ -143,10 +128,6 @@ Route40_Text_MonicaMonday:
 	.string "sisters are all over the place.\p"
 	.string "See if you could find\n"
 	.string "them all!$"
-
-Route40_Text_MonicaNotMonday:
-	.string "MONICA: I don't think today\n"
-	.string "is Monday. How sad…$"
 
 Route40_Text_MonicaNope:
 	.string "Not that one.$"

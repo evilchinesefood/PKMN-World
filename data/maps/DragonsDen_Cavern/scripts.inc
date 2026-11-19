@@ -2,12 +2,7 @@
 .set LOCALID_DEN_CLAIR, 35
 
 DragonsDen_Cavern_MapScripts::
-	@map_script MAP_SCRIPT_ON_FRAME_TABLE, DragonsDen_Cavern_OnFrame
 	.byte 0
-
-DragonsDen_Cavern_OnFrame::
-	map_script_2 VAR_BLACKTHORN_CITY_STATE, 3, DragonsDen_Cavern_EventScript_Clair
-	.2byte 0
 
 DragonsDen_EventScript_ClairRematch::
     lock
@@ -208,28 +203,6 @@ DragonsDen_Cavern_EventScript_Item_PP_Max::
 	end
 
 
-
-DragonsDen_Cavern_Text_DragonShrineSign:
-    .string "DRAGON SHRINE\p"
-    .string "A shrine honoring the dragon\n"
-    .string "POKéMON\p"
-    .string "said to have lived in DRAGON'S\n"
-    .string "DEN.$"
-
-DragonsDen_Cavern_Text_SilverTraining1:
-    .string "…\n"
-    .string "What? {PLAYER}?\p"
-    .string "…No, I won't battle you now…\p"
-    .string "My POKéMON aren't ready to beat\n"
-    .string "you.\p"
-    .string "I can't push them too hard now.\p"
-    .string "I have to be disciplined to become\n"
-    .string "the greatest POKéMON trainer…$"
-
-DragonsDen_Cavern_Text_SilverTraining2:
-    .string "…\p"
-    .string "Whew…\p"
-    .string "Learn to stay out of my way…$"
 
 DragonsDen_Cavern_Text_CooltrainermDarinSeen:
     .string "You! How dare you enter\n"

@@ -63,12 +63,12 @@ TEST("Family options occupy only the reserved four bits")
     EXPECT_EQ(ReadOptionWord(0x16), 0x00C0);
     gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_2X;
     EXPECT_EQ(ReadOptionWord(0x16), 0x03C0);
-    gSaveBlock2Ptr->optionsHardMode = TRUE;
+    gSaveBlock2Ptr->unusedOptionBit = TRUE;
     EXPECT_EQ(ReadOptionWord(0x16), 0x03D0);
     EXPECT_EQ(offsetof(struct SaveBlock2, pokedex), 0x18);
     EXPECT_EQ(sizeof(struct SaveBlock1), 14752);
     EXPECT_EQ(sizeof(struct SaveBlock2), 3884);
-    EXPECT_EQ(sizeof(struct SaveBlock3), 1432);
+    EXPECT_EQ(sizeof(struct SaveBlock3), 1408);
 }
 
 TEST("Family options initialize new saves without changing text default")
@@ -82,60 +82,6 @@ TEST("Family options initialize new saves without changing text default")
     EXPECT_EQ((u32)gSaveBlock2Ptr->optionsBattleStyle, OPTIONS_BATTLE_STYLE_SHIFT);
     EXPECT_EQ((u32)gSaveBlock2Ptr->optionsExpMultiplier, OPTIONS_EXP_MULT_1X);
     EXPECT_EQ((u32)gSaveBlock2Ptr->optionsCatchMultiplier, OPTIONS_CATCH_MULT_1X);
-}
-
-TEST("Family options migrate dirty padding without changing adjacent preferences")
-{
-    u32 version = 0, hard = 0, text = 0;
-    for (u32 v = 7; v <= 11; v++)
-        for (u32 h = 0; h < 2; h++)
-            for (u32 t = 0; t < 3; t++)
-                PARAMETRIZE { version = v; hard = h; text = t; }
-    ResetFamilySave();
-    gSaveBlock2Ptr->saveVersion = version;
-    ((u8 *)gSaveBlock2Ptr)[0x16] = 0xFF;
-    ((u8 *)gSaveBlock2Ptr)[0x17] = 0xFF;
-    gSaveBlock2Ptr->optionsHardMode = hard;
-    gSaveBlock2Ptr->optionsExpMultiplier = OPTIONS_EXP_MULT_1_5X;
-    gSaveBlock2Ptr->optionsCatchMultiplier = OPTIONS_CATCH_MULT_1_5X;
-    gSaveBlock2Ptr->optionsTextSpeed = text;
-    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
-    gSaveBlock2Ptr->optionsAutoRun = TRUE;
-    gSaveBlock2Ptr->optionsRunShortcut = OPTIONS_RUN_SHORTCUT_INSTANT;
-    gSaveBlock2Ptr->optionsWindowFrameType = 17;
-    gSaveBlock1Ptr->coins = 456;
-    SetMoney(&gSaveBlock1Ptr->money, 12345);
-    CreateMon(&gSaveBlock1Ptr->playerParty[0], SPECIES_PIKACHU, 25, 12345, OTID_STRUCT_PRESET(54321));
-    u16 beforeFirst = ReadOptionWord(0x14);
-    u16 beforeSecond = ReadOptionWord(0x16);
-    MigrateSaveFormatIfNeeded();
-    EXPECT_EQ(gSaveBlock2Ptr->saveVersion, SAVE_FORMAT_VERSION);
-    EXPECT_EQ(ReadOptionWord(0x14), beforeFirst);
-    EXPECT_EQ(ReadOptionWord(0x16), beforeSecond & ~0x03C0);
-    EXPECT_EQ((u32)gSaveBlock2Ptr->optionsEncounterRate, OPTIONS_RATE_1X);
-    EXPECT_EQ((u32)gSaveBlock2Ptr->optionsMoneyLoss, OPTIONS_RATE_1X);
-    EXPECT_EQ(gSaveBlock1Ptr->coins, 456);
-    EXPECT_EQ(GetMoney(&gSaveBlock1Ptr->money), 12345);
-    EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_SPECIES), SPECIES_PIKACHU);
-    EXPECT_EQ(GetMonData(&gSaveBlock1Ptr->playerParty[0], MON_DATA_LEVEL), 25);
-}
-
-TEST("Family options migration preserves v11 travel history and is idempotent")
-{
-    ResetFamilySave();
-    gSaveBlock2Ptr->saveVersion = 11;
-    gSaveBlock3Ptr->region.regionalTravel.nextIdentity = 123;
-    gSaveBlock3Ptr->region.regionalTravel.teams[1].count = 1;
-    gSaveBlock3Ptr->region.regionalTravel.teams[1].members[0].identity = 99;
-    MigrateSaveFormatIfNeeded();
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.nextIdentity, 123);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[1].count, 1);
-    EXPECT_EQ(gSaveBlock3Ptr->region.regionalTravel.teams[1].members[0].identity, 99);
-    gSaveBlock2Ptr->optionsEncounterRate = OPTIONS_RATE_1_5X;
-    gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_0_5X;
-    MigrateSaveFormatIfNeeded();
-    EXPECT_EQ((u32)gSaveBlock2Ptr->optionsEncounterRate, OPTIONS_RATE_1_5X);
-    EXPECT_EQ((u32)gSaveBlock2Ptr->optionsMoneyLoss, OPTIONS_RATE_0_5X);
 }
 
 TEST("Family rates multiply once and round down with a wide intermediate")
@@ -315,7 +261,7 @@ TEST("Family retired Hard Mode permits trainer bag use and uncapped growth")
     PARAMETRIZE { hard = FALSE; }
     PARAMETRIZE { hard = TRUE; }
     ResetFamilySave();
-    gSaveBlock2Ptr->optionsHardMode = hard;
+    gSaveBlock2Ptr->unusedOptionBit = hard;
     gBattleTypeFlags = BATTLE_TYPE_TRAINER;
     EXPECT_EQ(IsAllowedToUseBag(), TRUE);
     EXPECT_EQ(GetCurrentLevelCap(), MAX_LEVEL);
@@ -332,7 +278,7 @@ TEST("Family retired Hard Mode daycare grows beyond the former badge ceiling")
     PARAMETRIZE { hard = TRUE; level = 15; steps = 721; expected = 16; }
     PARAMETRIZE { hard = TRUE; level = 99; steps = 1000000; expected = 100; }
     ResetFamilySave();
-    gSaveBlock2Ptr->optionsHardMode = hard;
+    gSaveBlock2Ptr->unusedOptionBit = hard;
     CreateMon(&gParties[B_TRAINER_PLAYER][0], SPECIES_PIKACHU, level, 12345, OTID_STRUCT_PRESET(54321));
     StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveBlock1Ptr->daycare.mons[0]);
     gSaveBlock1Ptr->daycare.mons[0].steps = steps;
@@ -344,7 +290,7 @@ TEST("Family retired Hard Mode daycare grows beyond the former badge ceiling")
 TEST("Family retired Hard Mode still honors maximum level for candy and increments")
 {
     ResetFamilySave();
-    gSaveBlock2Ptr->optionsHardMode = TRUE;
+    gSaveBlock2Ptr->unusedOptionBit = TRUE;
     CreateMon(&gParties[B_TRAINER_PLAYER][0], SPECIES_PIKACHU, MAX_LEVEL, 12345, OTID_STRUCT_PRESET(54321));
     EXPECT_EQ(PokemonUseItemEffects(&gParties[B_TRAINER_PLAYER][0], ITEM_RARE_CANDY, 0, 0, FALSE), TRUE);
     EXPECT_EQ(TryIncrementMonLevel(&gParties[B_TRAINER_PLAYER][0]), FALSE);

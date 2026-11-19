@@ -1238,18 +1238,15 @@ static void TryUpdateGymLeaderRematchFromTrainer(void)
 // shifts. Every trainer-id -> defeat-flag conversion MUST go through this helper.
 u16 TrainerIdToDefeatFlag(u16 trainerId)
 {
-#if ALL_REGIONS
     // Highest block first: the Johto route/dungeon trainers (v9) sit above the Kanto block,
     // so testing Kanto first would swallow them and alias their flags onto Kanto trainers.
     if (trainerId >= JOHTO_EXT_TRAINER_ID_OFFSET)
         return FLAG_JOHTO_TRAINER_BASE + (trainerId - JOHTO_EXT_TRAINER_ID_OFFSET);
     if (trainerId >= KANTO_TRAINER_ID_OFFSET)
         return FLAG_KANTO_TRAINER_BASE + (trainerId - KANTO_TRAINER_ID_OFFSET);
-#endif
     return TRAINER_FLAGS_START + trainerId;
 }
 
-#if ALL_REGIONS
 // The Kanto block now ENDS at JOHTO_EXT_TRAINER_ID_OFFSET, not at TRAINERS_COUNT - the Johto
 // block above it has its own bank, so measure Kanto against its own span or this trips the
 // moment a Johto trainer is added.
@@ -1259,7 +1256,6 @@ STATIC_ASSERT(TRAINERS_COUNT - JOHTO_EXT_TRAINER_ID_OFFSET <= JOHTO_TRAINER_FLAG
 STATIC_ASSERT(JOHTO_EXT_TRAINER_ID_OFFSET == KANTO_TRAINER_ID_OFFSET + TRAINERS_COUNT_FRLG, JohtoTrainerBlockMustStartAfterKantoBlock);
 // The two SaveBlock3 trainer banks must not overlap.
 STATIC_ASSERT(FLAG_JOHTO_TRAINER_BASE > FLAG_KANTO_TRAINER_END, JohtoTrainerBankOverlapsKantoTrainerBank);
-#endif
 
 static u16 GetTrainerAFlag(void)
 {

@@ -455,8 +455,7 @@ u16 GetCurrentMapWildMonHeaderId(void)
         {
             // FRLG parity: the chambers are empty until the Tanoby Key puzzle is solved.
             // Withholding the whole header (rather than an individual table) covers every
-            // chamber, both the land and hidden tables, and the FireRed/LeafGreen variants
-            // alike, since the gate keys on the map rather than on which table was matched.
+            // chamber and both its land and hidden encounter tables.
             if (IsTanobyChamberMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum)
              && !FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS))
                 return HEADER_NONE;

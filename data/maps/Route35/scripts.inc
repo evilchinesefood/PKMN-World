@@ -1,10 +1,5 @@
 Route35_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route35_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route35_OnTransition: 
-	end	
 
 Route35_EventScript_CamperIvan::
 	trainerbattle_single TRAINER_IVAN_JT Route35_Text_CamperIvanSeen, Route35_Text_CamperIvanBeaten
@@ -156,10 +151,6 @@ Route35_Text_BugCatcherArnieAfter:
 	.string "My VENONAT won me the Bug-Catching\n"
 	.string "Contest at the NATIONAL PARK.$"
 
-Route35_Text_BugCatcherArnieYanma:
-	.string "Wow… Look at all those YANMA!\p"
-	.string "I'm so blown away, I can't move.$"
-
 Route35_Text_FirebreatherWaltSeen:
 	.string "I'm practicing my fire breathing.$"
 
@@ -180,10 +171,6 @@ Route35_Text_OfficerDirkAfter:
 	.string "You know, night time is fun in its\n"
 	.string "own ways.\p"
 	.string "But don't overdo it, OK?$"
-
-Route35_Text_OfficerDirkTough:
-	.string "Your POKéMON look pretty tough.\p"
-	.string "You could go anywhere safely.$"
 
 Route35_Text_Sign:
 	.string "ROUTE 35$"

@@ -474,29 +474,6 @@ static void Task_Hof_InitMonData(u8 taskId)
         gTasks[taskId].func = Task_Hof_InitTeamSaveData;
 }
 
-// SPECIES_EGG follows the custom species, so it moved when the special collection was added and
-// its old value became Classic Cap Pikachu. Records store species-or-egg; one written by an older
-// build still holds the old value for an Egg. Special species cannot hatch and are never given
-// below level 5, so the old value at an unhatched level is always an Egg.
-#define LEGACY_SPECIES_EGG SPECIES_PIKACHU_CLASSIC_CAP
-#define LEGACY_EGG_MAX_LEVEL 4
-
-void HallOfFame_NormalizeLegacyEggs(void)
-{
-    u32 i, j;
-
-    for (i = 0; i < HALL_OF_FAME_MAX_TEAMS; i++)
-    {
-        for (j = 0; j < PARTY_SIZE; j++)
-        {
-            struct HallofFameMon *mon = &gHoFSaveBuffer[i].mon[j];
-
-            if (mon->species == LEGACY_SPECIES_EGG && mon->lvl <= LEGACY_EGG_MAX_LEVEL)
-                mon->species = SPECIES_EGG;
-        }
-    }
-}
-
 u32 HallOfFame_CountTeams(void)
 {
     u32 count;
@@ -524,17 +501,8 @@ void HallOfFame_AddTeam(const struct HallofFameTeam *team)
 
 static void Task_Hof_InitTeamSaveData(u8 taskId)
 {
-    if (!gHasHallOfFameRecords)
-    {
+    if (!gHasHallOfFameRecords || LoadGameSave(SAVE_HALL_OF_FAME) != SAVE_STATUS_OK)
         memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
-    }
-    else
-    {
-        if (LoadGameSave(SAVE_HALL_OF_FAME) != SAVE_STATUS_OK)
-            memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
-        else
-            HallOfFame_NormalizeLegacyEggs();
-    }
 
     HallOfFame_AddTeam(sHofMonPtr);
 
@@ -895,7 +863,6 @@ static void Task_HofPC_CopySaveData(u8 taskId)
     }
     else
     {
-        HallOfFame_NormalizeLegacyEggs();
         gTasks[taskId].tCurrTeamNo = HallOfFame_CountTeams() - 1;
 
         gTasks[taskId].tCurrPageNo = GetGameStat(GAME_STAT_ENTERED_HOF);

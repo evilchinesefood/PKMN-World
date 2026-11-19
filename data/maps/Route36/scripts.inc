@@ -2,12 +2,7 @@
 .set LOCALID_ROUTE36_ROCKSMASHGUY, 3
 
 Route36_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route36_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route36_OnTransition: 
-	end
 
 Route36_EventScript_RockSmashGuy::
 	lock
@@ -293,9 +288,6 @@ Route36_Text_ArthurGaveGift:
 Route36_Text_ArthurThursday:
 	.string "ARTHUR: I'm ARTHUR of Thursday.\n"
 	.string "I'm the fifth son out of seven.$"
-
-Route36_Text_Sign:
-	.string "ROUTE 36$"
 
 Route36_Text_Sign_RuinsNorth:
 	.string "RUINS OF ALPH\n"

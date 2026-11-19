@@ -57,7 +57,7 @@ local F = require("lib").new(require("symbols"), "SSAquaKantoCrossing")
 
 -- ---- map ids (include/constants/map_groups.h, MAP_X = (num | (group << 8))) -------------------
 local GRP_SSAQUA,         MAP_SSAQUA_1F    = 95, 0
-local GRP_VERM_INDOOR,    MAP_VERM_PORT    = 43, 8
+local GRP_VERM_INDOOR,    MAP_VERM_PORT    = 43, 2
 local GRP_KANTO_TOWNS,    MAP_VERM_CITY    = 37, 5
 local GRP_OLIVINE_INDOOR, MAP_OLIVINE_PORT = 88, 8
 local GRP_LILYCOVE_INDOOR, MAP_LILYCOVE_HARBOR = 13, 10

@@ -1,11 +1,6 @@
 .set LOCALID_ICEPATH1_KIMONO, 9
 IcePath_1F_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, IcePath_1F_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-IcePath_1F_OnTransition: 
-	end
 
 IcePath_1F_EventScript_Item_PpUp::
 	finditem ITEM_PP_UP

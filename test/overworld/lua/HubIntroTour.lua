@@ -6,10 +6,9 @@
 --   1. warp-in offer + DECLINE      — the auto-trigger a brand-new game must get with no input,
 --                                     and that declining releases the player and sets the flag
 --   2. Curator re-offer + DECLINE   — falls through to his normal HUB PASS / POKeVIAL gives
---   3. Curator re-offer + ACCEPT    — the full seven-stop escort, in order
+--   3. Curator re-offer + ACCEPT    — the full nine-stop escort, in order
 --   4. map reload                   — the guide stays home and nothing re-triggers
---   5. walk-on trigger              — the crest coord_event, with the flag cleared by hand to
---                                     stand in for a legacy save that never saw the intro
+--   5. replay from the west side of the Curator
 --
 -- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
 --   test/overworld/mgba-run.sh test/overworld/lua/HubIntroTour.lua pokemonworld.gba
@@ -33,9 +32,6 @@ local STOP_NAMES = { "HOENN gate", "JOHTO gate", "KANTO gate", "FRONTIER gate",
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
 local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
-local function flagClear(id)
-  F.w8(flagAddr(id), F.r8(flagAddr(id)) & ~(1 << (id % 8)) & 0xFF)
-end
 
 -- Resolve an object event by its LOCAL id, not by array index: the index is spawn order and moves.
 local function obj(localId)
@@ -142,8 +138,6 @@ F.run(function()
   F.check("guide faces down at his post", gh ~= nil and gh.facing == DIR_SOUTH, at(gh))
   F.shot("declined")
 
-  -- ensureFree() above stepped OFF the crest and back ON to it. With the flag now set the crest
-  -- coord_event must not fire again, which is the "no auto-trigger on later arrivals" clause.
   F.check("stepping back onto the crest does not re-trigger the tour", F.ensureFree())
 
   ----------------------------------------------------------------------------------------------
@@ -230,60 +224,12 @@ F.run(function()
   F.check("no tour re-triggers on a later arrival at the crest", F.ensureFree())
 
   ----------------------------------------------------------------------------------------------
-  -- Phase 5 — the walk-on coord_event, standing in for a legacy save that never saw the intro
-  ----------------------------------------------------------------------------------------------
-  F.L("== phase 5: walk-on crest trigger ==")
-  flagClear(FLAG_HUB_INTRO_TOUR_DONE)
-  F.check("flag cleared by hand to simulate a save that never saw the intro",
-    not flagGet(FLAG_HUB_INTRO_TOUR_DONE))
-  local wx, wy = F.pos()
-  F.L(string.format("  standing at (%d,%d) before stepping south", wx, wy))
-  F.step("Down")           -- onto (16,5): the southern crest coord_event
-  F.idle(400)
-  local sx, sy = F.pos()
-  F.check("the southern crest trigger steps the player up onto (16,4)", sx == CREST[1] and sy == CREST[2],
-    string.format("(%d,%d)", sx, sy))
-  local gw = obj(CURATOR)
-  F.check("the walk-on trigger brings the guide over to (17,4)", gw ~= nil and gw.x == 17 and gw.y == 4, at(gw))
-  F.shot("walkon_offer")
-  F.check("decline the walk-on offer", answer(1, "walkon-no"))
-  drain(60, "walkon_decline")
-  F.check("declining the walk-on offer re-sets the flag", flagGet(FLAG_HUB_INTRO_TOUR_DONE))
-  F.check("the player is released after the walk-on decline", F.ensureFree())
-  local gf = obj(CURATOR)
-  F.check("guide is home again after the walk-on decline", gf ~= nil and gf.x == 22 and gf.y == 7, at(gf))
-
-  ----------------------------------------------------------------------------------------------
-  -- Phase 6 — the OTHER crest coord_event, the one on (16,4) itself
-  ----------------------------------------------------------------------------------------------
-  -- Phase 5 came in over (16,5). (16,4) is a separate coord_event with its own script, and it is
-  -- the one the acceptance criteria name ("crossing (16,4) fires it once"), so walk onto it
-  -- sideways rather than assuming the two entry points behave alike.
-  F.L("== phase 6: the (16,4) crest coord_event, entered from the west ==")
-  flagClear(FLAG_HUB_INTRO_TOUR_DONE)
-  F.check("step west off the crest", F.step("Left"))
-  local ox, oy = F.pos()
-  F.check("standing beside the crest at (15,4)", ox == 15 and oy == 4, string.format("(%d,%d)", ox, oy))
-  F.step("Right")
-  F.idle(400)
-  local cx, cy = F.pos()
-  F.check("walking east onto (16,4) fires the crest trigger", cx == CREST[1] and cy == CREST[2],
-    string.format("(%d,%d)", cx, cy))
-  local gc = obj(CURATOR)
-  F.check("the (16,4) trigger brings the guide over", gc ~= nil and gc.x == 17 and gc.y == 4, at(gc))
-  F.check("decline the (16,4) offer", answer(1, "crest164-no"))
-  drain(60, "crest164_decline")
-  F.check("declining the (16,4) offer sets the flag", flagGet(FLAG_HUB_INTRO_TOUR_DONE))
-  F.check("the player is released after the (16,4) decline", F.ensureFree())
-
-  ----------------------------------------------------------------------------------------------
-  -- Phase 7 — the Curator entry from a DIFFERENT adjacent tile
+  -- Phase 5 — the Curator entry from a DIFFERENT adjacent tile
   ----------------------------------------------------------------------------------------------
   -- Phase 3 accepted from (22,6), which needs no normalisation. (21,7) and (23,7) are the only
   -- other tiles a player can talk to him from, and they take the two branches that step the
   -- player onto (22,6) first. Exercise the west one live; the east one is the mirror.
-  F.L("== phase 7: Curator entry normalised from (21,7) ==")
-  flagClear(FLAG_HUB_INTRO_TOUR_DONE)
+  F.L("== phase 5: Curator entry normalised from (21,7) ==")
   F.check("route to the west-side talk tile", F.route({ { 21, 4 }, { 21, 7 } }, "toCuratorWest"))
   local wx2, wy2 = F.pos()
   F.check("standing west of the Curator at (21,7)", wx2 == 21 and wy2 == 7, string.format("(%d,%d)", wx2, wy2))

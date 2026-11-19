@@ -15,6 +15,10 @@ Each variant has two 64×64 front frames, one 64×64 back, two 32×32 party icon
 
 Classic Cap reuses the existing original-cap Pikachu battle and icon art with collection-local black ear tips, and supplies matching direction-specific follower caps. Its two front slots contain the same pose. Other variants retain the base species' available front and walking poses with accessories added per view. The image service did not produce these assets.
 
+For an animated preview of the front, back, icon and follower frames, run
+`python3 tools/special_collection/review_animations.py`. It writes GIFs under
+`_pwtest/special-collection/animation-preview/`.
+
 ## Verification boundary
 
 `verify_art.py` checks all seven sets, 79 nonempty frames, PNG dimensions, indexed color bounds, palette ownership, shared-gender coverage, and manifest hashes. Passing those contracts does not prove in-game rendering or animation. The contact sheet supports visual review; runtime integration and gameplay tests are separate.

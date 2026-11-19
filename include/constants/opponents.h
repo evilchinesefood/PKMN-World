@@ -1138,7 +1138,6 @@
 // Literal ids: cpp expansion of an expression emits an internal space that breaks
 // GAS macro-argument splitting in .include'd map scripts (as for the Kanto block).
 // ============================================================================
-#if ALL_REGIONS
 #define JOHTO_EXT_TRAINER_ID_OFFSET        1727 // == KANTO_TRAINER_ID_OFFSET + TRAINERS_COUNT_FRLG
 #define TRAINER_WAYNE_JT                          1727   // IlexForest
 #define TRAINER_AARON_JT                          1728   // LakeOfRage
@@ -1223,95 +1222,12 @@
 // checks), so beating the Karate King silently pre-defeated the Route 132 trainer.
 #define TRAINER_KIYO_JT                           1795   // MtMortar_B1F
 #define JOHTO_EXT_TRAINERS_COUNT           69
-#else
-// Vanilla/FRLG builds: no Johto bank, keep the previous shared Hoenn ids.
-#define JOHTO_EXT_TRAINER_ID_OFFSET        TRAINERS_COUNT_HOENN_JOHTO
-#define TRAINER_WAYNE_JT                          TRAINER_WAYNE
-#define TRAINER_AARON_JT                          TRAINER_AARON
-#define TRAINER_JACK_JT                           TRAINER_JACK
-#define TRAINER_BEVERLY_JT                        TRAINER_BEVERLY
-#define TRAINER_WILLIAM_JT                        TRAINER_WILLIAM
-#define TRAINER_WADE_JT                           TRAINER_WADE
-#define TRAINER_JUSTIN_JT                         TRAINER_JUSTIN
-#define TRAINER_HENRY_JT                          TRAINER_HENRY
-#define TRAINER_ALBERT_JT                         TRAINER_ALBERT
-#define TRAINER_ROLAND_JT                         TRAINER_ROLAND
-#define TRAINER_ANTHONY_JT                        TRAINER_ANTHONY
-#define TRAINER_SAMUEL_JT                         TRAINER_SAMUEL
-#define TRAINER_BRANDON_JT                        TRAINER_BRANDON
-#define TRAINER_IRENE_JT                          TRAINER_IRENE
-#define TRAINER_IVAN_JT                           TRAINER_IVAN
-#define TRAINER_BRYAN_JT                          TRAINER_BRYAN
-#define TRAINER_ALAN_JT                           TRAINER_ALAN
-#define TRAINER_MARK_JT                           TRAINER_MARK
-#define TRAINER_GREG_JT                           TRAINER_GREG
-#define TRAINER_CHAD_JT                           TRAINER_CHAD
-#define TRAINER_DANA_JT                           TRAINER_DANA
-#define TRAINER_OLIVIA_JT                         TRAINER_OLIVIA
-#define TRAINER_DEREK_JT                          TRAINER_DEREK
-#define TRAINER_SHANE_JT                          TRAINER_SHANE
-#define TRAINER_BEN_JT                            TRAINER_BEN
-#define TRAINER_BRENT_JT                          TRAINER_BRENT
-#define TRAINER_SPENCER_JT                        TRAINER_SPENCER
-#define TRAINER_TIFFANY_JT                        TRAINER_TIFFANY
-#define TRAINER_EDGAR_JT                          TRAINER_EDGAR
-#define TRAINER_PHIL_JT                           TRAINER_PHIL
-#define TRAINER_ALLEN_JT                          TRAINER_ALLEN
-#define TRAINER_STAN_JT                           TRAINER_STAN
-#define TRAINER_EDMOND_JT                         TRAINER_EDMOND
-#define TRAINER_LARRY_JT                          TRAINER_LARRY
-#define TRAINER_PHILLIP_JT                        TRAINER_PHILLIP
-#define TRAINER_LEONARD_JT                        TRAINER_LEONARD
-#define TRAINER_ANDREW_JT                         TRAINER_ANDREW
-#define TRAINER_GWEN_JT                           TRAINER_GWEN
-#define TRAINER_BENNY_JT                          TRAINER_BENNY
-#define TRAINER_JOSH_JT                           TRAINER_JOSH
-#define TRAINER_BRIDGET_JT                        TRAINER_BRIDGET
-#define TRAINER_VICTORIA_JT                       TRAINER_VICTORIA
-#define TRAINER_SAMANTHA_JT                       TRAINER_SAMANTHA
-#define TRAINER_RONALD_JT                         TRAINER_RONALD
-#define TRAINER_DOUGLAS_JT                        TRAINER_DOUGLAS
-#define TRAINER_CLARISSA_JT                       TRAINER_CLARISSA
-#define TRAINER_EDGAR_VR_JT                       TRAINER_EDGAR
-#define TRAINER_ALBERT_VR_JT                      TRAINER_ALBERT
-#define TRAINER_HOPE_JT                           TRAINER_HOPE
-#define TRAINER_QUINCY_JT                         TRAINER_QUINCY
-#define TRAINER_KATELYNN_JT                       TRAINER_KATELYNN
-#define TRAINER_SAMUEL_VR_JT                      TRAINER_SAMUEL
-#define TRAINER_SHANNON_JT                        TRAINER_SHANNON
-#define TRAINER_MICHELLE_JT                       TRAINER_MICHELLE
-#define TRAINER_MITCHELL_JT                       TRAINER_MITCHELL
-#define TRAINER_VITO_JT                           TRAINER_VITO
-#define TRAINER_OWEN_JT                           TRAINER_OWEN
-#define TRAINER_CAROLINE_JT                       TRAINER_CAROLINE
-#define TRAINER_JULIE_JT                          TRAINER_JULIE
-#define TRAINER_FELIX_JT                          TRAINER_FELIX
-#define TRAINER_DIANNE_JT                         TRAINER_DIANNE
-#define TRAINER_DONALD_JT                         TRAINER_DONALD
-#define TRAINER_ERIC_JT                           TRAINER_ERIC
-#define TRAINER_DUNCAN_JT                         TRAINER_DUNCAN
-#define TRAINER_EDDIE_JT                          TRAINER_EDDIE
-#define TRAINER_MARC_JT                           TRAINER_MARC
-#define TRAINER_HUGH_JT                           TRAINER_HUGH
-#define TRAINER_HALLE_JT                          TRAINER_HALLE
-#define TRAINER_KIYO_JT                           TRAINER_KIYO
-#define JOHTO_EXT_TRAINERS_COUNT           0
-#endif
 
-#if ALL_REGIONS
 #define TRAINERS_COUNT_EMERALD     (JOHTO_EXT_TRAINER_ID_OFFSET + JOHTO_EXT_TRAINERS_COUNT) // 1796
-#else
-#define TRAINERS_COUNT_EMERALD     TRAINERS_COUNT_HOENN_JOHTO
-#endif
 #define MAX_TRAINERS_COUNT_EMERALD TRAINERS_COUNT_EMERALD
 
-#if IS_FRLG
-#define TRAINERS_COUNT                      TRAINERS_COUNT_FRLG
-#define MAX_TRAINERS_COUNT                  MAX_TRAINERS_COUNT_FRLG
-#else
 #define TRAINERS_COUNT                      TRAINERS_COUNT_EMERALD
 #define MAX_TRAINERS_COUNT                  MAX_TRAINERS_COUNT_EMERALD
-#endif
 #define TRAINER_PARTNER(partner)           (MAX_TRAINERS_COUNT + partner)
 
 #endif  // GUARD_CONSTANTS_OPPONENTS_H

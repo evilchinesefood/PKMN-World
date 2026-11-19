@@ -239,26 +239,9 @@ void InitRoamer(void)
         FlagSet(FLAG_LATI_ROAMER_PENDING);
 }
 
-// Johto legendary-beast roamer (Burned Tower beast-release). gSpecialVar_0x8004: 0 = Raikou,
-// otherwise Entei. Mirrors HnS InitRoamer: marks all three beasts as seen, then starts the
-// chosen beast roaming the Johto routes. With ROAMER_COUNT == 1 the beast takes the single
-// roamer slot, so any active Hoenn roamer is cleared first (the two regions' post-games never
-// roam simultaneously in practice).
-void InitJohtoRoamer(void)
-{
-    enum Species species = (gSpecialVar_0x8004 == 0) ? SPECIES_RAIKOU : SPECIES_ENTEI;
-
-    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);
-    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_RAIKOU), FLAG_SET_SEEN);
-    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SUICUNE), FLAG_SET_SEEN);
-    DeactivateAllRoamers();
-    TryAddRoamer(species, 40);
-}
-
 // Release BOTH roaming beasts at once (Burned Tower beast-release and the post-game respawn).
 // Requires ROAMER_COUNT >= 2: Entei and Raikou each take a slot; Suicune stays a static
-// encounter. Deactivate any existing roamer once, then add both (a second InitJohtoRoamer
-// call would re-deactivate and wipe the first).
+// encounter. Preserve any roaming Hoenn legendary when releasing the beasts.
 void InitJohtoBeastRoamers(void)
 {
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_ENTEI), FLAG_SET_SEEN);

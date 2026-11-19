@@ -352,17 +352,6 @@ GoldenrodCity_Text_CooltrainerF1_Cleared:
 	.string "Was that man in black really part\n"
 	.string "of TEAM ROCKET? I can't believe it!$"
 
-GoldenrodCity_Text_CooltrainerF2:
-	.string "The RADIO TOWER in GOLDENROD CITY\n"
-	.string "is quite the landmark.\p"
-	.string "They're running a campaign now.\p"
-	.string "They'll give you a shiny new\n"
-	.string "RADIO if you can pass their quiz.$"
-
-GoldenrodCity_Text_CooltrainerF2_GotCard:
-	.string "Oh, your POKéNAV already works\n"
-	.string "as a radio!$"
-
 GoldenrodCity_Text_Youngster2:
 	.string "E-he-he-he…\p"
 	.string "I got in trouble for playing in\n"
@@ -423,10 +412,6 @@ GoldenrodCity_Text_GymSign:
 	.string "LEADER: WHITNEY\p"
 	.string "The Incredibly Pretty Girl!$"
 
-GoldenrodCity_Text_CitySign:
-	.string "GOLDENROD CITY\p"
-	.string "The Festive City of Opulent Charm$"
-
 GoldenrodCity_Text_BikeShopSign:
 	.string "The World is a Cycle Path!\n"
 	.string "BIKE SHOP$"
@@ -438,9 +423,6 @@ GoldenrodCity_Text_GameCornerSign:
 GoldenrodCity_Text_NameRaterSign:
 	.string "NAME RATER\p"
 	.string "Get Your POKéMON Nicknames Rated$"
-
-GoldenrodCity_Text_UndergroundNorthSign:
-	.string "UNDERGROUND ENTRANCE$"
 
 GoldenrodCity_Text_UndergroundSouthSign:
 	.string "UNDERGROUND ENTRANCE$"

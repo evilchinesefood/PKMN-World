@@ -307,7 +307,7 @@ local function maleJourney()
   -- re-enters the hub twice on the crest tile (16,4), which is the tour's own coord_event, and a
   -- tour firing mid-run would eat the attendant walk for a reason unrelated to #195.
   flagSet(FLAG_HUB_INTRO_TOUR_DONE)
-  F.check("FLAG_HUB_INTRO_TOUR_DONE set (the crest coord_event cannot re-fire)",
+  F.check("FLAG_HUB_INTRO_TOUR_DONE set on returning to the hub",
     flagGet(FLAG_HUB_INTRO_TOUR_DONE))
 
   local bagBefore = keyItems()

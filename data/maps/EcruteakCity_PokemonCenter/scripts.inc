@@ -28,14 +28,6 @@ EcruteakCity_PokemonCenter_EventScript_Bill::
 	release
 	end
 
-EcruteakCity_PokemonCenter_EventScript_BillFaceDown::
-	turnobject LOCALID_ECRUTEAK_BILL, DIR_SOUTH
-	return
-
-EcruteakCity_PokemonCenter_EventScript_BillFaceRight::
-	turnobject LOCALID_ECRUTEAK_BILL, DIR_EAST
-	return
-
 EcruteakCity_PokemonCenter_EventScript_BillLeaveTop::
 	applymovement LOCALID_ECRUTEAK_BILL, EcruteakCity_PokemonCenter_Movement_BillTop
 	waitmovement 0
@@ -124,14 +116,6 @@ EcruteakCity_PokemonCenter1F_Text_PokefanM:
 	.string "Just like the way they use their\n"
 	.string "POKéMON.$"
 
-EcruteakCity_PokemonCenter1F_Text_PokefanM_Mobile:
-	.string "You must be hoping to battle more\n"
-	.string "people, right?\p"
-	.string "There's apparently some place where\n"
-	.string "trainers gather.\p"
-	.string "Where, you ask?\p"
-	.string "It's a little past OLIVINE CITY.$"
-
 EcruteakCity_PokemonCenter1F_Text_CooltrainerF:
 	.string "MORTY, the GYM LEADER, is soooo\n"
 	.string "cool.\p"
@@ -142,4 +126,3 @@ EcruteakCity_PokemonCenter1F_Text_GymGuide:
 	.string "The appearance of a GYARADOS\n"
 	.string "swarm…\p"
 	.string "I smell a conspiracy. I know it!$"
-

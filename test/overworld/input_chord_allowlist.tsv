@@ -9,8 +9,6 @@ src/pokedex.c	Task_HandleSearchResultsStartMenuInput	A_BUTTON	B_BUTTON|START_BUT
 src/frontier_pass.c	Task_HandleFrontierPassInput	A_BUTTON	B_BUTTON	BUGFIX is defined, so Cancel returns; Map, Card and Record return when TryCallPassAreaFunction acts and change nothing when it refuses.
 src/slot_machine.c	SlotTask_HandleBetInput	A_BUTTON	B_BUTTON	Both only write sSlotMachine->state; B wins and SlotTask_HandleQuitInput refunds the bet on Yes.
 src/list_menu.c	DoMysteryGiftListMenu	A_BUTTON	B_BUTTON	Both only set state 2; B also sets LIST_CANCEL, so B wins whole.
-src/mystery_gift_menu.c	Task_MysteryGift	A_BUTTON	B_BUTTON	Both only write data->state; B wins whole.
-src/union_room.c	Task_TryBecomeLinkLeader	B_BUTTON	START_BUTTON	B only writes data->state; START overwrites it and runs whole. Wireless adapter only.
 src/battle_debug.c	Task_DebugMenuProcessInput	*	*	Debug-only battle menu (DEBUG_BATTLE_MENU).
 src/debug.c	DebugAction_ChooseTrainerID_Select	DPAD_ANY	A_BUTTON|B_BUTTON	Debug menu: the D-pad edits the number, then A or B on the same frame reads the edited value once.
 src/link.c	LinkTestProcessKeyInput	*	*	Link test screen, not reachable in play.

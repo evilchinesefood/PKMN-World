@@ -37,7 +37,7 @@ BattleNet_EventScript_StonePending:
 	msgbox BattleNet_Text_StonePending, MSGBOX_DEFAULT
 	return
 
-@ Shards are forfeited, not held: owed-count state would need a SaveBlock field and v6 is frozen.
+@ Shards are forfeited, not held: the game does not persist a pending shard count.
 @ The stone give below still runs -- it has its own pending/reclaim path.
 BattleNet_EventScript_ShardsForfeited:
 	msgbox BattleNet_Text_ShardsForfeited, MSGBOX_DEFAULT

@@ -16,12 +16,11 @@ test/overworld/mgba-run.sh test/overworld/lua/WorldTitle.lua
 
 The exporter rebuilds the native title resources and the legacy
 `.github/pokemon_world_logo.png` thumbnail. It checks the wordmark's offset and
-the GBA palette, tilemap and VRAM limits. Refresh
-`screenshots/01-title-screen.png` from the emulator after a title change.
+the GBA palette, tilemap and VRAM limits.
 
 `box/box-front.png` is a flattened cover with the same proportional adjustment
 to World (19 pixels at its printed size). `logos/world.png` is the standalone
 wordmark: it has no Pokémon lettering to align against and keeps its own center.
 
 The current 20-image gallery lives in [`screenshots/showcase/`](screenshots/showcase/README.md),
-with ROM/capture hashes. The six original screenshots are retained as historical assets.
+with ROM and capture hashes.

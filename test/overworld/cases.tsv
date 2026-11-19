@@ -64,17 +64,13 @@ DayNightTint	lua/DayNightTint.lua	fresh	0	required
 RainPaletteSlots	lua/RainPaletteSlots.lua	fresh	0	required
 DroughtNightTint	lua/DroughtNightTint.lua	fresh	0	required
 UnderfootHiddenItem	lua/UnderfootHiddenItem.lua	fresh	0	required
-FamilyOptionsMigration	lua/FamilyOptionsMigration.lua	generated:family-options/v11-hard.srm	0	required
-RegionalTravelMigration	lua/RegionalTravelMigration.lua	lua/fixtures/v10regionaldirty.srm	1	required
-VerifyV7Migrate	lua/VerifyV7Migrate.lua	lua/fixtures/v7dirty.srm	0	required
 MigrateFixtures	lua/MigrateFixtures.lua	lua/fixtures/v3.srm	0	required
-VerifyMapRenumber	lua/VerifyMapRenumber.lua	lua/fixtures/v7renumber.srm	0	required
+RefuseV13	lua/MigrateFixtures.lua	lua/fixtures/v13.srm	1	required
 LanceMultiBattle	lua/LanceMultiBattle.lua	fresh	0	required
 LanceMultiOutcome	lua/LanceMultiOutcome.lua	fresh	0	required
 DayNightCrossingProbe	lua/DayNightCrossingProbe.lua	fresh	0	required
 Route37CrossingProbe	lua/Route37CrossingProbe.lua	fresh	0	required
 Route41SurfArrival	lua/Route41SurfArrival.lua	fresh	0	required
-VerifyOwnerSave	lua/VerifyOwnerSave.lua	personal	0	manual
 RegionalTravelBoundaries	lua/RegionalTravelBoundaries.lua	fresh	0	required
 WorldChampionshipRewards	lua/WorldChampionshipRewards.lua	fresh	0	required
 WorldChampionshipStress	lua/WorldChampionshipStress.lua	fresh	0	required
@@ -215,7 +211,6 @@ BirthIslandRockPalette	lua/BirthIslandRockPalette.lua	fresh	0	required
 DarkPopupDarkness	lua/DarkPopupDarkness.lua	fresh	0	required
 CyclingRoadSaveContinue	lua/CyclingRoadSaveContinue.lua	fresh	0	required
 PokenavRegionNames	lua/PokenavRegionNames.lua	fresh	0	required
-HealMigrationContinue	lua/HealMigrationContinue.lua	fresh	0	required
 LittleCupRules	lua/LittleCupRules.lua	fresh	0	required
 BugContestDayChange	lua/BugContestDayChange.lua	fresh	0	required
 FrontierLobbyContinue	lua/FrontierLobbyContinue.lua	fresh	0	required
@@ -267,9 +262,6 @@ SageLiAfterHoennFlash	lua/SageLiAfterHoennFlash.lua	fresh	0	required
 BadgeSpeechRules	lua/BadgeSpeechRules.lua	fresh	0	required
 FieldPoisonText	lua/FieldPoisonText.lua	fresh	0	required
 HmTmRulesText	lua/HmTmRulesText.lua	fresh	0	required
-XRegionSaveRepair	lua/XRegionSaveRepair.lua	lua/fixtures/v12xregiondamaged.srm	0	required
-XRegionSaveRepairVoyage	lua/XRegionSaveRepairVoyage.lua	lua/fixtures/v12xregionvoyage.srm	0	required
-XRegionDamageFixtures	lua/XRegionDamageFixtures.lua	fresh	0	manual
 SummaryNoDynamaxRow	lua/SummaryNoDynamaxRow.lua	fresh	0	required
 ExchangeCornerPurchases	lua/ExchangeCornerPurchases.lua	fresh	0	required
 GymPuzzleSaveContinue	lua/GymPuzzleSaveContinue.lua	fresh	0	required

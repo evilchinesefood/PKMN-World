@@ -118,9 +118,6 @@ Route39FarmHouse_Text_WouldYouLikeAnother:
 Route39_Text_GotMilk:
 	.string "{PLAYER} got MOOMOO MILK.$"
 
-Route39_Text_FarmerMMilking:
-	.string "I best go do my milkin'.$"
-
 Route39_Text_FarmerFInTrouble:
 	.string "Our milk even goes out to\n"
 	.string "KANTO.\p"

@@ -372,12 +372,6 @@ KurtsHouse_Text_KurtWhatIsThat:
 	.string "it appears to be something else.\p"
 	.string "Let me check it for you.$"
 
-KurtsHouse_Text_KurtImCheckingItNow:
-	.string "I'm checking it now.$"
-
-KurtsHouse_Text_KurtAhHaISee:
-	.string "Ah-ha! I see! So…$"
-
 KurtsHouse_Text_KurtThisBallStartedToShake:
 	.string "{PLAYER}!\p"
 	.string "This BALL started to shake\n"
@@ -405,14 +399,6 @@ KurtsHouse_Text_GranddaughterDad:
 	.string "I have to stay home\n"
 	.string "with Grandpa and SLOWPOKE.$"
 
-KurtsHouse_Text_GranddaughterHelp:
-	.string "I get to help Grandpa now!\p"
-	.string "We'll make good BALLS\n"
-	.string "for you, so please wait!$"
-
-KurtsHouse_Text_GranddaughterFun:
-	.string "It's fun to make BALLS!$"
-
 KurtsHouse_Text_GranddaughterSound:
 	.string "Did that sound come from\n"
 	.string "ILEX FOREST????$"
@@ -420,9 +406,6 @@ KurtsHouse_Text_GranddaughterSound:
 KurtsHouse_Text_Forest:
 	.string "Did you check ILEX FOREST yet?\n"
 	.string "It sounds very restless.$"
-
-KurtsHouse_Text_Slowpoke:
-	.string "SLOWPOKE: … Yawn?$"
 
 KurtsHouse_Text_OakPhoto:
 	.string "…A young PROF. OAK?$"

@@ -23,7 +23,7 @@ Omitting the mode selects `smoke`.
 | Mode | Work |
 |---|---|
 | `build` | One default shipping/dev build. No emulator, battle TEST build, or flag builds. |
-| `smoke` | One default build, then SmokeBoot, WorldTitle, StoryProgress, and RegionalTravelMigration with its tracked fixture. |
+| `smoke` | One default build, then SmokeBoot, WorldTitle, StoryProgress, and RefuseV13 with its outgoing-format fixture. |
 | `full` | One default build, every canonical Lua case, three early forced-loss cases, battle checks, target save-layout checks, palette dependency regression, and the three feature-off builds. |
 
 Full uses the [canonical case list](../cases.tsv). Each suite is classified as required or
@@ -79,7 +79,7 @@ After a normal build, run a single suite or the canonical sweep without rebuildi
 
 ```sh
 test/overworld/mgba-run.sh test/overworld/lua/SmokeBoot.lua pokemonworld.gba
-test/overworld/mgba-run.sh test/overworld/lua/VerifyV7Migrate.lua pokemonworld.gba test/overworld/lua/fixtures/v7dirty.srm
+test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v13.srm
 test/overworld/run-all.sh pokemonworld.gba
 ```
 

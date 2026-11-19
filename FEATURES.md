@@ -18,7 +18,7 @@ Worth knowing up front, because the upstream feature list advertises all of it:
 |---|---|
 | Every Gen 4–9 Pokémon family (339 of them) | `include/config/species_enabled.h` |
 | Dynamax, Gigantamax, Terastallization | `species_enabled.h` (`P_GIGANTAMAX_FORMS`, `P_TERA_FORMS`) |
-| Link-era features: Mystery Gift/Event, Wonder News, e-Reader, Union Room, wireless chat, record mixing, Cable Club | `include/config/link.h` — compiled out entirely |
+| Link-era features: Mystery Gift/Event, Wonder News, e-Reader, Union Room, wireless chat, record mixing, Cable Club | Removed with the multiplayer rooms |
 | The quest / mission-log engine (never had content authored) | removed from the source on 2026-11-16 (was compiled out, ~26 KB reclaimed) |
 | NPC followers (the "follow me" partner system) | `include/config/follower_npc.h` |
 | XY berry mechanics: mutations, moisture, weeds, pests | `include/config/overworld.h` |
@@ -136,12 +136,7 @@ Southern Island, Birth Island, Faraway Island). An event island remembers which 
 trip — sail from Olivine and you come home to Olivine; sail from Lilycove and you return to
 Lilycove.
 
-**Saves.** The active region and hub state live in a versioned save format with a migration
-reader. The current format is **v12**. Supported v7 through v11 saves migrate with Encounter Rate
-and Money Loss at 1×. Pre-v11 saves start with empty regional team and Center history; v11 history
-is preserved. Keep a pre-upgrade backup for older builds, which refuse v12 saves. Anything older than v7 is
-**refused at load with an explanation** rather than migrated — the v7 bag/PC resize reshaped the
-layout, and a legacy save would otherwise half-load with silently misaligned flags and vars.
+**Saves.** Save format **v14** requires a new game. Older saves are refused with an explanation at the main menu. Keep a backup with the ROM version that wrote it.
 
 ## What's shared, what isn't
 
@@ -262,10 +257,9 @@ ground shadow.
 
 ## Ported features
 
-Ported from other community bases; sources and authors are in [CREDITS.md](CREDITS.md). All of
-these are on, and each has its own config flag.
+Ported from other community bases. See [CREDITS.md](CREDITS.md) for sources and authors.
 
-**Sword/Shield UI suite** — each screen is an independent toggle.
+**Sword/Shield UI suite** — the party and Bag screens are always enabled.
 
 | Screen | What it adds | Flag |
 |---|---|---|

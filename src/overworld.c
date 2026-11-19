@@ -2195,14 +2195,7 @@ void CB2_NewGame(void)
     // the hub map, which has no truck -> soft-lock on the fade-to-black after the Oak intro.
     // (A prior version keyed this on the start region, which always resolved to Hoenn on a new
     // game and so fired the truck path every time - hence the unconditional hub fade-in here.)
-#if ALL_REGIONS
     gFieldCallback = FieldCB_WarpExitFadeFromBlack;
-#else
-    if (IS_FRLG)
-        gFieldCallback = FieldCB_WarpExitFadeFromBlack;
-    else
-        gFieldCallback = ExecuteTruckSequence;
-#endif
     gFieldCallback2 = NULL;
     DoMapLoadLoop(&gMain.state);
     SetFieldVBlankCallback();

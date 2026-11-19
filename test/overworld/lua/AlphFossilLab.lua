@@ -8,8 +8,7 @@
 -- With real input the suite hands a Helix Fossil to the Alph researcher, talks to Devon's fossil
 -- scientist (who must give his usual greeting and leave the Helix alone), collects the Omanyte at
 -- Alph, then hands a Root Fossil to Devon, checks the Alph researcher does not produce it, and
--- collects the Lileep at Devon. Last, a save made before the split (a Kabuto pending in the shared
--- pair, the only form an old save can hold) must still be collected at Alph.
+-- collects the Lileep at Devon.
 --
 -- Run via test/overworld/mgba-run.sh test/overworld/lua/AlphFossilLab.lua
 
@@ -20,8 +19,7 @@ local F = require("lib").new(S, "AlphFossilLab")
 
 local CONTEXT_SHUTDOWN = 2
 local ITEM_HELIX_FOSSIL, ITEM_ROOT_FOSSIL = 165, 168
-local VAR_FOSSIL_RESURRECTION_STATE, VAR_WHICH_FOSSIL_REVIVED = 0x40C4, 0x40C5
-local SPECIES_OMANYTE, SPECIES_KABUTO, SPECIES_LILEEP = 138, 140, 345
+local SPECIES_OMANYTE, SPECIES_LILEEP = 138, 345
 local ALPH, DEVON = { 79, 3, 7, 3, "Up" }, { 11, 1, 13, 8, "Right" }
 local BUF = S.gStringVar4 + 900
 
@@ -37,7 +35,6 @@ local function runScript(bytes)
   F.w8(S.sGlobalScriptContextStatus, 0)
 end
 local function settle() for _ = 1, 300 do F.idle(1); if F.r8(S.sGlobalScriptContextStatus) == CONTEXT_SHUTDOWN then return end end end
-local function setvar(id, v) runScript({ 0x16, id & 0xFF, id >> 8, v & 0xFF, v >> 8, 0x02 }); settle() end
 local function additem(id) runScript({ 0x44, id & 0xFF, id >> 8, 1, 0, 0x02 }); settle() end
 
 local function warp(at)
@@ -141,11 +138,5 @@ F.run(function()
   F.check("devon_collect: Lileep comes back at Devon", party() == before + 1 and partySpecies(before) == SPECIES_LILEEP,
     before .. " -> " .. party() .. " species=" .. partySpecies(before))
 
-  setvar(VAR_FOSSIL_RESURRECTION_STATE, 1)
-  setvar(VAR_WHICH_FOSSIL_REVIVED, 4)
-  before = party()
-  s = talk("alph_old_save", ALPH)
-  F.check("alph_old_save: a Kabuto pending from an older save comes back at Alph",
-    party() == before + 1 and partySpecies(before) == SPECIES_KABUTO, before .. " -> " .. party() .. " species=" .. partySpecies(before))
   F.finish()
 end)

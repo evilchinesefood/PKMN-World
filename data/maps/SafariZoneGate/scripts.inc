@@ -90,21 +90,7 @@ SafariZone_Text_SlowpokeFan:
 	.string "SLOWPOKE.\p"
 	.string "People often say that I look like one!$"
 
-SafariZone_Text_CustomSystem:
-	.string "You may be under the impression there\n"
-	.string "is a sophisticated system to\l"
-	.string "customizing the SAFARI ZONE, right?\p"
-	.string "The real truth is that…$"
-
-SafariZone_Text_Sign:
-	.string "SAFARI ZONE\n"
-	.string "This is where everything is thrilling.\p"
-	.string "Feel free to come by and experience\n"
-	.string "the wild!$"
-
-
 SafariZoneGate_EventScript_IncenseClerk::
-	goto_if_set FLAG_FINITE_TMS, SafariZoneGate_EventScript_IncenseClerkFinite
 	lock
 	faceplayer
 	message gText_HowMayIServeYou
@@ -122,26 +108,6 @@ SafariZoneGate_Pokemart_Incenses:
 	release
 	end
 
-
-SafariZoneGate_EventScript_IncenseClerkFinite::
-	lock
-	faceplayer
-	message gText_HowMayIServeYou
-	waitmessage
-	pokemart SafariZoneGate_Pokemart_Incenses2
-	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
-	release
-	end
-
-	.align 2
-SafariZoneGate_Pokemart_Incenses2:
-	.2byte ITEM_TM_HIDDEN_POWER
-	.2byte ITEM_TM_SECRET_POWER
-	.2byte ITEM_SEA_INCENSE
-	.2byte ITEM_LAX_INCENSE
-	.2byte ITEM_NONE
-	release
-	end
 
 SafariZoneGate_EventScript_VitaminGuru::
 	lock
@@ -169,4 +135,3 @@ SafariZoneGate_Pokemart_VitaminGuru:
 SafariZoneGate_Text_VitaminGuruSellWhatYouNeed:
 	.string "I'm the ENERGY GURU! I'll go for it and\n"
 	.string "sell you what you need!$"
-

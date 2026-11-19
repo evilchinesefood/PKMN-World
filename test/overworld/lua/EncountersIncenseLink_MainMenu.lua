@@ -73,7 +73,7 @@ F.run(function()
     F.finish(); return
   end
 
-  -- Discriminator: a TRUE LINK_MYSTERY_GIFT build would promote tMenuType to
+  -- Discriminator: the former Mystery Gift menu promoted tMenuType to
   -- HAS_MYSTERY_GIFT when this flag is set. Force it on so a compile-in would
   -- show a 4th row; compiled-out must stay at CONTINUE+NEW GAME+OPTION.
   local flagSet = setSb1Flag(FLAG_SYS_MYSTERY_GIFT_ENABLE)

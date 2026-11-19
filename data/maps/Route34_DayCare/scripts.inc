@@ -387,7 +387,6 @@ Route34_DayCare_EventScript_CheckEnoughMoney::
 	end
 
 Route34_DayCare_EventScript_RetrieveMon::
-	@applymovement LOCALID_R34_DAYCARE_LADY, Route34_DayCare_Movement_RetrieveDaycareMon
 	@waitmovement 0
 	specialvar VAR_RESULT, TakePokemonFromDaycare
 	special SubtractMoneyFromVar0x8005
@@ -411,32 +410,6 @@ Route34_DayCare_EventScript_AskRetrieveOtherMon::
 Route34_DayCare_EventScript_NoRoom::
 	msgbox Route34_DayCare_Text_YourTeamIsFull, MSGBOX_DEFAULT
 	release
-	end
-
-Route34_DayCare_Movement_RetrieveDaycareMon:
-	delay_16
-	delay_16
-	face_left
-	delay_16
-	delay_16
-	face_right
-	delay_16
-	delay_16
-	face_up
-	walk_slow_up
-	set_invisible
-	delay_16
-	delay_16
-	delay_16
-	delay_16
-	delay_16
-	face_down
-	set_visible
-	walk_slow_down
-	step_end
-
-@ Unused. Possibly a commented script, or a typo end added to the above Movement script
-Route34_DayCare_EventScript_UnusedEnd::
 	end
 
 Route34_DayCare_EventScript_TwoMonsInDaycare::
@@ -494,10 +467,6 @@ Route34_Text_FriendlyWithOtherTrainersMon:
 	.string "a piece of MAIL.$"
 
 @ Unused
-Route34_Text_SeeWifeIfYouWantToPickUpMon:
-	.string "If you want to pick up your POKéMON,\n"
-	.string "have a word with my wife.$"
-
 Route34_Text_YourMonsAreDoingFine:
 	.string "Ah, it's you! Your {STR_VAR_1} and\n"
 	.string "{STR_VAR_2} are doing fine.$"
@@ -555,9 +524,6 @@ Route34_DayCare_Text_YourTeamIsFull:
 	.string "Make room, then come see me.$"
 
 @ Unused
-Route34_DayCare_Text_TakeBackWhichMon:
-	.string "Which POKéMON will you take back?$"
-
 Route34_DayCare_Text_ItWillCostX:
 	.string "If you want your {STR_VAR_1} back,\n"
 	.string "it will cost ¥{STR_VAR_2}.$"

@@ -144,19 +144,11 @@ LakeOfRage_House2_Text_ForMe:
 	.string "So… Do you have a MAGIKARP for\n"
 	.string "me?$"
 
-LakeOfRage_House2_Text_HaveMagikarp:
-    .string "Ah, you have a MAGIKARP! Let's\n"
-    .string "see how big that baby is.$"
-
 LakeOfRage_House2_Text_BigPayout:
     .string "Wow! This one is outstanding!\p"
     .string "I tip my hat to you!\p"
     .string "Here's a little something for your\n"
 	.string "trouble.$"
-
-LakeOfRage_House2_Text_Bonus:
-    .string "The record is the important thing.\p"
-    .string "Think of that as a bonus!$"
 
 LakeOfRage_House2_Text_TooShort:
     .string "Wow! This one is outstanding!\p"

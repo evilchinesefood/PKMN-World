@@ -10,7 +10,6 @@
 
 IlexForest_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, IlexForest_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
 
 IlexForest_OnTransition: 
@@ -724,9 +723,6 @@ IlexForest_Text_ApprenticeAfter:
 	.string "Wow! Thanks a whole bunch!\p"
 	.string "My boss' POKéMON won't obey me\n"
 	.string "because I don't have a BADGE.$"
-
-IlexForest_Text_ItsTheMissingPokemon:
-	.string "It's the missing POKéMON!$"
 
 IlexForest_Text_Kwaaaa:
 	.string "FARFETCH'D: Kwaa!$"

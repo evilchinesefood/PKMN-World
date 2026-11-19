@@ -60,9 +60,6 @@ GoldenrodCity_BikeShop_Text_ClerkAgreed:
     .string "Give me your name and phone number,\n"
     .string "and I'll loan you a BICYCLE.$"
 
-GoldenrodCity_BikeShop_Text_BorrowedBicycle:
-    .string "{PLAYER} borrowed a BICYCLE.$"
-
 GoldenrodCity_BikeShop_Text_Mainshop:
 	.string "Business has been hard to come\n"
 	.string "by since we moved from KANTO.\p"
@@ -72,10 +69,6 @@ GoldenrodCity_BikeShop_Text_Mainshop:
 GoldenrodCity_BikeShop_Text_Refused:
     .string "…sigh… Oh, for the kindness of\n"
     .string "people…$"
-
-GoldenrodCity_BikeShop_Text_JustReleasedCompact:
-    .string "Just released!\p"
-    .string "First-rate compact BICYCLES!$"
 
 GoldenrodCity_BikeShop_Text_Bicycle:
     .string "It's a shiny new BICYCLE!$"

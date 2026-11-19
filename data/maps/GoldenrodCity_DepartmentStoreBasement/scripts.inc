@@ -206,11 +206,6 @@ GoldenrodDeptStore_Text_B1FBlackBelt2:
     .string "someone's watching.\p"
     .string "Come on, kid, scoot!$"
 
-GoldenrodDeptStore_Text_B1FBlackBelt3:
-    .string "Oohah! Oohah!\p"
-    .string "What do you need kid?\l"
-    .string "I'm working here!$"
-
 GoldenrodDeptStore_Text_B1FBlackBelt3After:
     .string "Oohah! Oohah!\p"
     .string "The stuff on the ground's junk.\p"

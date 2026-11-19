@@ -17,7 +17,7 @@ package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
 local F = require("lib").new(S, "CinnabarFossilNeedsFossil")
 
-local CINNABAR_G, ENTRANCE_M, EXPERIMENT_M, MART_M = 46, 1, 4, 7
+local CINNABAR_G, ENTRANCE_M, EXPERIMENT_M, MART_M = 46, 1, 4, 6
 local ITEM_HELIX_FOSSIL, ITEM_OLD_AMBER = 165, 167
 local KANTO_FLAGS = 0xA40                            -- flags.h maps each flags_frlg.h id to 0xA40 + id
 local FLAG_GOT_OLD_AMBER, FLAG_GOT_HELIX_FOSSIL = KANTO_FLAGS + 0x25E, KANTO_FLAGS + 0x273
@@ -156,7 +156,7 @@ end
 F.run(function()
   if not F.boot(100) then F.check("boot to the hub", false); F.finish(); return end
   instantText()
-  F.check("warp to the Cinnabar Mart", F.warpTo(0, 4, 6, 0, 0, 7, 0, 0, 0, CINNABAR_G, MART_M, "mart"))
+  F.check("warp to the Cinnabar Mart", F.warpTo(0, 4, 6, 0, 0, 6, 0, 0, 0, CINNABAR_G, MART_M, "mart"))
   instantText()
   gotFossil(FLAG_GOT_HELIX_FOSSIL, ITEM_HELIX_FOSSIL)
   runScript({ 0x29, lo(FLAG_GOT_FOSSIL_FROM_MT_MOON), hi(FLAG_GOT_FOSSIL_FROM_MT_MOON), 0x02 })

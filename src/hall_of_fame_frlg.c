@@ -418,17 +418,8 @@ static void Task_Hof_InitMonData(u8 taskId)
 
 static void Task_Hof_InitTeamSaveData(u8 taskId)
 {
-    if (!gHasHallOfFameRecords)
-    {
+    if (!gHasHallOfFameRecords || LoadGameSave(SAVE_HALL_OF_FAME) != SAVE_STATUS_OK)
         memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
-    }
-    else
-    {
-        if (LoadGameSave(SAVE_HALL_OF_FAME) != SAVE_STATUS_OK)
-            memset(gHoFSaveBuffer, 0, SECTOR_SIZE * NUM_HOF_SECTORS);
-        else
-            HallOfFame_NormalizeLegacyEggs();
-    }
 
     HallOfFame_AddTeam(sHofMonPtr);
 
@@ -746,7 +737,6 @@ static void Task_HofPC_CopySaveData(u8 taskId)
     }
     else
     {
-        HallOfFame_NormalizeLegacyEggs();
         gTasks[taskId].data[0] = HallOfFame_CountTeams() - 1;
 
         gTasks[taskId].data[1] = GetGameStat(GAME_STAT_ENTERED_HOF);

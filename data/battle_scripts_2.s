@@ -249,9 +249,6 @@ BattleScript_RunByUsingItem::
 BattleScript_ActionWatchesCarefully:
 	printfromtable gSafariReactionStringIds
 	waitmessage B_WAIT_TIME_LONG
-#if IS_FRLG
-	playanimation BS_OPPONENT1, B_ANIM_SAFARI_REACTION
-#endif
 	end2
 
 BattleScript_ActionGetNear:

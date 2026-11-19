@@ -3,12 +3,7 @@
 
 
 Route32_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route32_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route32_OnTransition: 
-	end
 
 Route32_EventScript_FisherJustin::
 	trainerbattle_single TRAINER_JUSTIN_JT Route32_Text_FisherJustin_Seen, Route32_Text_FisherJustin_Beaten

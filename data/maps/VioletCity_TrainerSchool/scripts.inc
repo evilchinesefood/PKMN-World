@@ -96,34 +96,6 @@ VioletCity_TrainerSchool_Text_Teacher:
 	.string "should attempt to train such a\l"
 	.string "POKéMON.$"
 
-VioletCity_TrainerSchool_Text_TeachHowToWin:
-	.string "Good! Teach you, I will!\p"
-	.string "In battle, POKéMON top on list\n"
-	.string "jump out first!\p"
-	.string "Change order in list, make\n"
-	.string "battle easy, maybe!\p"
-	.string "More from me you want to hear?$"
-
-VioletCity_TrainerSchool_Text_TeachMore:
-	.string "So, want to know how to raise\n"
-	.string "POKéMON well?$"
-
-VioletCity_TrainerSchool_Text_TeachRaiseWell:
-	.string "Fine! Teach you, I will!\p"
-	.string "If POKéMON come out in battle\n"
-	.string "even briefly, some EXP. Points\p"
-	.string "it gets.\n"
-	.string "At top of list put weak POKéMON\p"
-	.string "Switch in battle quick!\n"
-	.string "This way, weak POKéMON strong\p"
-	.string "become!$"
-
-VioletCity_TrainerSchool_Text_NoMoreToTeach:
-	.string "Oh! Smart student you are!\n"
-	.string "Nothing more do I teach!\p"
-	.string "If you want more, talk to\n"
-	.string "pupils!$"
-
 VioletCity_TrainerSchool_Text_Youngster1:
 	.string "POKéMON previously thought to\n"
 	.string "only evolve through trade can\p"
@@ -160,27 +132,6 @@ VioletCity_TrainerSchool_Text_Blackboard:
 	.string "HMs, once unlocked, don't need to\n"
 	.string "be taught to be used.$"
 
-VioletCity_TrainerSchool_Text_Notebook:
-	.string "It's this kid's notebook…\p"
-	.string "Catch POKéMON using POKé BALLS.\p"
-	.string "Up to six can be in your party.\p"
-	.string "Keep reading?$"
-
-VioletCity_TrainerSchool_Text_Notebook1:
-	.string "Before throwing a POKé BALL,\n"
-	.string "weaken the target first.\p"
-	.string "A poisoned or burned POKéMON\n"
-	.string "is easier to catch.\p"
-	.string "Keep reading?$"
-
-VioletCity_TrainerSchool_Text_Notebook2:
-	.string "Some moves may cause confusion.\p"
-	.string "Confusion may make a POKéMON\n"
-	.string "attack itself.\p"
-	.string "Leaving battle clears up any\n"
-	.string "confusion.\p"
-	.string "Keep reading?$"
-
 VioletCity_TrainerSchool_Text_Notebook3:
 	.string "People who catch and use\n"
 	.string "POKéMON in battle are POKéMON\n"
@@ -191,7 +142,3 @@ VioletCity_TrainerSchool_Text_Notebook3:
 	.string "The next page is… Blank!\p"
 	.string "Boy: E-he-he…\p"
 	.string "I haven't written anymore…$"
-
-VioletCity_TrainerSchool_Text_StickerMachine:
-	.string "This super machine prints data\n"
-	.string "out as stickers!$"

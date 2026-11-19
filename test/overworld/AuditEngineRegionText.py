@@ -85,7 +85,7 @@ REVIEWED = {
     "gTrainerClasses": "trainer class names, each shown for its own trainers",
     "sEeveeOtName": "Bill's Eevee in Goldenrod, as in pokemonHnS",
     "sText_Steven": "the Lilycove Fan Club's trainer names",
-    "src/map_name_popup.c:332": "the popup of Kanto's Celadon Dept. Store maps",
+    "src/map_name_popup.c:GetPopUpMapName:CELADON DEPT": "the popup of Kanto's Celadon Dept. Store maps",
     "sText_TrainerCardHoenn": "badge page labels; the card's page is the region whose badges it shows",
     "sText_TrainerCardJohto": "badge page labels; the card's page is the region whose badges it shows",
     "sText_TrainerCardKanto": "badge page labels; the card's page is the region whose badges it shows",
@@ -180,7 +180,7 @@ def region_hits(s):
 def tracked(*patterns):
     """Committed files only: build outputs (map events, generated headers) differ between checkouts."""
     out = subprocess.run(["git", "ls-files", "-z", "--", *patterns], cwd=ROOT, capture_output=True, check=True).stdout
-    return sorted(p for p in out.decode().split("\0") if p)
+    return sorted(p for p in out.decode().split("\0") if p and os.path.isfile(os.path.join(ROOT, p)))
 
 
 def load():
@@ -221,6 +221,8 @@ def collect_strings(files):
                 sid = slot.group(1)  # battle strings: code and scripts name the id, not the table
             elif kind == "data" and owner and not owner.startswith("?"):
                 sid = owner  # a literal inside a table: the table is what the code reads
+            elif kind == "func":
+                sid = f"{f.rel}:{owner}:{text}"
             else:
                 sid = f"{f.rel}:{f.line(m.start())}"
             found.append((sid, f, m.start(), text, names))

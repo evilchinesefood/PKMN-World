@@ -121,7 +121,7 @@ WANT = [
     # ResortGorgeousRequest.lua reads a requested species' enabled bit, base form and dex number.
     "gSpeciesInfo",
     # SpecialChecklistPaging.lua reads the Special Pokemon checklist's selected row.
-    "sSpecialPokemonMenu",
+    "sSpecialPokemonMenu", "Task_HandlePokedexInput", "HandleCollectionInput",
     "gStringVar4", "gBagPosition", "gSpecialVar_ItemId",
     # JohtoTradeOddEgg.lua: the Easy Chat screen the Route 34 Odd Egg question opens, and its
     # struct (currentPhrase at 0x3C) where the word picker leaves the chosen words.
@@ -227,7 +227,7 @@ WANT = [
     "gFieldEffectObjectTemplate_TallGrass", "gFieldEffectObjectTemplate_JumpTallGrass",
     "gFieldEffectObjectTemplate_UnusedGrass", "sSpriteTemplate_CutGrass",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
-    "Task_DisplayMainMenu", "Task_HandleMainMenuInput", "gSaveFileStatus",
+    "Task_DisplayMainMenu", "Task_HandleMainMenuInput", "gSaveFileStatus", "gSaveVersionRefusal",
     "sCurrItemAndOptionMenuCheck", "sGpuRegBuffer",
     "MainCB2_WorldTitleScreen", "gBattle_BG1_Y", "gScanlineEffect",
     "CB2_InitClearSaveDataScreen", "CB2_InitResetRtcScreen",
@@ -355,6 +355,14 @@ SIZE_OF = ["sHealLocations", "gSaveblock1", "gSaveblock2", "gSaveblock3", "gPoke
 # name -> exact byte size to pick among duplicates. sMessageWindowSpriteIds: the PC storage
 # screen's u8[6] (src/swsh_storage_system.c), not the party menu's u8[16].
 SIZED = {"sMenu": 12, "sMessageWindowSpriteIds": 6}
+
+# Private probes only exist in their renderer. Use the linked entry point so the
+# export follows this ELF even when the source checkout is configured differently.
+RENDERER_PROBES = {
+    "ShowPokemonSummaryScreen_SwSh": ("Task_ShowEffectTilemap", "sSpriteTemplate_CategoryIcons"),
+    "ShowPokemonStorageSystemPC_SwSh": ("sMessageWindowSpriteIds",),
+    "Usm_InitStartMenu": ("sUsmSavedIcon", "sUsmSavedOffset"),
+}
 
 # Feature-gated: compiled out of some flag-matrix builds. Emit 0 rather than
 # failing the ROM (symbols.lua is a prerequisite of `make`). Suites that need
@@ -605,22 +613,13 @@ def saveblock3_offsets(root):
 # so inserting a behaviour above it renumbers it and a hardcoded 105 would then match some other
 # behaviour entirely; the primary metatile counts pick which half of the tileset pair a metatile id
 # belongs to, and getting that wrong reads a completely different tileset's attributes.
-def save_format_version(root):
-    """Derive SAVE_FORMAT_VERSION from the header instead of letting suites hand-type it.
-
-    Three migration suites each carried their own `local SAVE_FORMAT_VERSION = 9`. Bumping the
-    real constant for issue #195 broke all three at once with a bare "ver=10" and nothing saying
-    which number was authoritative. The version is the header's to define; the suites read it.
-    """
+def save_format_constant(root, name):
     path = os.path.join(root, "include", "constants", "global.h")
-    try:
-        src = open(path, encoding="utf-8", errors="replace").read()
-    except OSError as e:
-        sys.exit(f"cannot read {path} to derive SAVE_FORMAT_VERSION: {e}")
-    m = re.search(r"^#define\s+SAVE_FORMAT_VERSION\s+(\d+)", src, re.M)
-    if not m:
-        sys.exit(f"{path}: no #define SAVE_FORMAT_VERSION — the migration suites read this")
-    return int(m.group(1))
+    with open(path, encoding="utf-8") as header:
+        match = re.search(rf"^#define\s+{name}\s+(\d+)", header.read(), re.M)
+    if not match:
+        sys.exit(f"{path}: missing {name}")
+    return int(match.group(1))
 
 
 def behavior_enum(root):
@@ -717,9 +716,15 @@ def main():
               "gScanlineEffect", "CB2_MainMenu", "CB2_InitClearSaveDataScreen",
               "CB2_Overworld"] if title_only else WANT
     syms = load_syms(elf, nm)
+    omitted = set()
+    for renderer, probes in RENDERER_PROBES.items():
+        if renderer not in syms:
+            omitted.update(probes)
 
     lines = []
     for name in wanted:
+        if name in omitted:
+            continue
         ent = syms.get(name)
         if not ent:
             if name in OPTIONAL:
@@ -736,6 +741,8 @@ def main():
                      f"— disambiguate by size in SIZED before trusting an address")
         lines.append(f"  {name} = 0x{ent[0][0]:08x},")
     for name, want_size in ({} if title_only else SIZED).items():
+        if name in omitted:
+            continue
         ent = syms.get(name, [])
         pick = [a for (a, s) in ent if s == want_size]
         if not pick:
@@ -765,8 +772,8 @@ def main():
     print("\n".join(lines))
     print(OFFSETS_LUA.replace("@SB1@", ", ".join(f"{k} = {sb1[k]}" for k in SB1_FIELDS)), end="")
     # Derived from include/constants/global.h — never hand-edit this either.
-    print("  SAVE_FORMAT_VERSION = %d,   -- from include/constants/global.h"
-          % save_format_version(root))
+    for name in ("SAVE_FORMAT_VERSION", "SAVE_FORMAT_LAYOUT_MIN"):
+        print(f"  {name} = {save_format_constant(root, name)},")
     # Derived from src/load_save.c's compiler-enforced asserts — never hand-edit these.
     print("  SaveBlock3   = { " + ", ".join(f"{k} = {sb3[k]}" for k in SB3_FIELDS) + " },")
     # Derived from the headers by door_constants() — never hand-edit these either.

@@ -56,7 +56,7 @@ for name in ('pokemonworld.gba', 'pokemonworld.elf', 'symbols.lua'):
     (out / name).write_text('bound double')
 (out / 'bundle.json').write_text('{}')
 ''')
-        (source / 'test/overworld/cases.tsv').write_text('name\tsuite\tfixture\tsmoke\tscope\nSmokeBoot\tlua/SmokeBoot.lua\tfresh\t1\trequired\nVerifyOwnerSave\tlua/VerifyOwnerSave.lua\tpersonal\t0\tmanual\n')
+        (source / 'test/overworld/cases.tsv').write_text('name\tsuite\tfixture\tsmoke\tscope\nSmokeBoot\tlua/SmokeBoot.lua\tfresh\t1\trequired\nManualOnly\tlua/ManualOnly.lua\tpersonal\t0\tmanual\n')
         script(source / 'test/overworld/sweep.py', '''
 mode = sys.argv[sys.argv.index('--profile') + 1]
 note('lua', profile=mode)

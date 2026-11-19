@@ -3,17 +3,6 @@ CianwoodShop_MapScripts::
 
 @ A1: guard like the Pharmacist below - talking again used to regress
 @ VAR_OLIVINE_CITY_STATE from >= 5 (Amphy healed) back to 4 on every talk.
-CianwoodShop_EventScriptMan::
-	lock
-	faceplayer
-	checkitem ITEM_SECRET_POTION
-	goto_if_eq VAR_RESULT, TRUE, CianwoodCity_EventScript_PharmacistAfter
-	goto_if_ge VAR_OLIVINE_CITY_STATE, 5, CianwoodCity_EventScript_PharmacistAfter
-	setvar VAR_OLIVINE_CITY_STATE, 4
-	giveitem ITEM_SECRET_POTION
-	release
-	end
-
 CianwoodCity_EventScript_Pharmacist::
 	lock
 	faceplayer
@@ -42,9 +31,6 @@ CianwoodCity_Text_PharmacistGivePotion:
 	.string "trouble?\p"
 	.string "I got it!\p"
 	.string "This ought to do the trick.$"
-
-CianwoodCity_Text_ReceivedSecretpotion:
-	.string "{PLAYER} received SECRET POTION.$"
 
 CianwoodCity_Text_PharmacistDescribePotion:
 	.string "My SECRET POTION is a tad too\n"

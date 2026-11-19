@@ -5,6 +5,8 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+**Save format v14 requires a new game.** The main menu explains why older saves cannot load. Back up your save and keep its ROM if you want to continue that playthrough.
+
 ### Family options
 
 - **Choose each preference independently** (#383). Encounter Rate and Money Loss join Exp Rate and Catch Rate with the same 0.5× / 1× / 1.5× / 2× choices. Encounter Rate affects ordinary walking and surf checks. Money Loss affects existing defeat charges, with the displayed loss capped to your wallet.
@@ -13,8 +15,7 @@ All notable player-facing changes. For the full feature reference see
 - **Double and tag battles no longer crash at Instant speed.** Your send-out now waits for the opponent's, so the intro stays within the sprite limit. It crashed with "out of sprite slots" in Lance's Mahogany Hideout battle, Steven's Space Center battle, and Kanto Victory Road doubles.
 - **A visible wild Pokémon no longer freezes the game when someone stands between you.** After touching your follower, it now walks around a blocking trainer or NPC to start its battle. It used to pace behind them forever, for example in Rusturf Tunnel after the Hiker's battle (#398).
 - **An Egg is never sent into battle.** When a gift Egg is the only Pokémon you carry, for example after a World Transit gate boxed your party, visible wild Pokémon, wild encounters, fishing and scripted wild battles no longer start a battle with the Egg as your lead.
-- **The permanent Hard Mode bundle is retired.** Existing saves keep their progress and preferences. Shift/Set remains your choice; ordinary trainer battles allow items and no longer impose badge-based growth caps. Champion rematches and battle-facility rules remain intact.
-- **Save format advances to v12.** Supported v7 through v11 saves initialize the new rates to 1× without changing adjacent preferences. Keep a pre-upgrade backup for older builds, which refuse v12 saves. No downgrade conversion is provided.
+- **The permanent Hard Mode bundle is retired.** Shift/Set remains your choice; ordinary trainer battles allow items and no longer impose badge-based growth caps. Champion rematches and battle-facility rules remain intact.
 
 ### Battles
 
@@ -29,7 +30,6 @@ All notable player-facing changes. For the full feature reference see
 - **A Hoenn champion can resume at Lilycove without Surf or Fly.** Lilycove Harbor's S.S. Tidal sails a champion to Slateport, so the gate no longer refuses that Center to them.
 - **Mr. Briney's boat now waits where a gate arrival can reach it.** Before Surf, resuming at Petalburg, Rustboro or Oldale docked him at Route 109, across Rusturf Tunnel from you. Teleporting or blacking out after the standard arrival also sent him to Route 109 while you woke in Littleroot. He now docks at Route 104 for the west shore, and a whiteout or Teleport after the standard arrival returns him to Route 104.
 - **The standard Hoenn arrival no longer lands you east of Rusturf Tunnel before Mr. Briney's first voyage.** Roxanne's badge alone sent you to Slateport Harbor while his boat still waited at his house on Route 104. Without Surf, Dewford and Brawly were then out of reach until you beat Wattson for Rock Smash. The harbor now opens once you have reached Slateport on his boat; until then the standard arrival returns home. Arriving at Slateport or another eastern Center also docks his boat at Route 109 when it waited at his house.
-- **Regional history starts empty for pre-v11 saves.** Subsequent departures and Center visits populate it. Existing v11 teams and checkpoints are preserved by the v12 upgrade.
 
 ### Shops
 

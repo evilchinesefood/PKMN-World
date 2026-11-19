@@ -172,10 +172,6 @@ NationalPark_BugContest_EventScript_RetireChoice::
 	release
 	end
 
-NationalPark_BugContest_Movement_AttendantSide:
-	walk_in_place_left
-	step_end
-
 NationalPark_BugContest_Text_Trash:
 	.string "Nothing here.$"
 
@@ -204,24 +200,6 @@ NationalParkBugContest_Text_Contestant6A:
 	.string "POKéMON first,\p"
 	.string "then throw a BALL.$"
 
-NationalParkBugContest_Text_Contestant7A:
-	.string "CINDY: I love bug POKéMON.\p"
-	.string "I guess you must like them too.$"
-
-NationalParkBugContest_Text_Contestant8A:
-	.string "JOSH: I've been collecting bug\n"
-	.string "POKéMON since I was just a baby.\p"
-	.string "There's no way I'm going to lose!$"
-
-NationalParkBugContest_Text_Contestant9A:
-	.string "SAMUEL: If you've got the time to\n"
-	.string "chat, go find some bug POKéMON.$"
-
-NationalParkBugContest_Text_Contestant10A:
-	.string "KIPP: I've studied about bug\n"
-	.string "POKéMON a lot.\p"
-	.string "I'm going to win for sure.$"
-
 NationalParkBugContest_Text_Sign_RelaxationSquare:
 	.string "RELAXATION SQUARE\n"
 	.string "NATIONAL PARK$"
@@ -235,4 +213,3 @@ NationalParkBugContest_Text_TrainerTips:
 	.string "The NATIONAL PARK has different\n"
 	.string "POKéMON during the BUG-CATCHING\l"
 	.string "CONTEST.$"
-

@@ -1,10 +1,5 @@
 Route44_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route44_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route44_OnTransition: 
-	end
 
 Route44_EventScript_Wilton::
 	trainerbattle_single TRAINER_WILTON Route44_Text_FisherWilton1Seen, Route44_Text_FisherWilton1Beaten
@@ -161,4 +156,3 @@ Route44_Text_Sign1:
 Route44_Text_Sign2:
     .string "ROUTE 44\p"
     .string "MAHOGANY TOWN - BLACKTHORN CITY$"
-

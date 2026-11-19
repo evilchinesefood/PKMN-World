@@ -227,20 +227,6 @@ SlowpokeWell_B1F_Text_GruntF1After:
 	.string "SLOWPOKETAILS grow back fast!\p"
 	.string "What's wrong with selling them?$"
 
-SlowpokeWell_B1F_Text_SlowpokeWithMail:
-	.string "A SLOWPOKE with its TAIL cut off…\p"
-	.string "Huh? It has MAIL.\n"
-	.string "Read it?$"
-
-SlowpokeWell_B1F_Text_SlowpokeMail:
-	.string "{PLAYER} read the MAIL.\p"
-	.string "Be good and look after the\n"
-	.string "house with Grandpa and SLOWPOKE.\p"
-	.string "Love, Dad$"
-
-SlowpokeWell_B1F_Text_TaillessSlowpoke:
-	.string "A SLOWPOKE with its TAIL cut off…$"
-
 @ JESSIE and JAMES block the row-2 corridor, the last stretch before the player
 @ drops south toward PROTON. They used to stand at (19,17)/(20,17), which is a
 @ south-western branch the route to PROTON never touches -- 45 steps from the

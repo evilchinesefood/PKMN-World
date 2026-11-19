@@ -323,10 +323,6 @@ AzaleaTown_Movement_Player_LeaveBot:
 	face_down
 	step_end
 
-AzaleaTown_Movement_Kurt1:
-	walk_down
-	step_end
-
 AzaleaTown_Movement_Kurt2:
 	walk_down
 	walk_down
@@ -381,9 +377,6 @@ AzaleaTown_Text_RivalAfter:
 	.string "I hate them all.\p"
 	.string "You stay out of my way. A weakling\n"
 	.string "like you is only a distraction.$"
-
-AzaleaTown_Text_RivalLoss:
-	.string "…Humph! I knew you were lying.$"
 
 AzaleaTown_Text_Rocket1:
 	.string "It's unsafe to go in there,\n"

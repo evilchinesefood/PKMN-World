@@ -4,12 +4,7 @@
 BurnedTower_1F_MapScripts::
 	map_script MAP_SCRIPT_ON_LOAD, BurnedTower_1F_OnLoad
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, BurnedTower_1F_OnFrame
-	map_script MAP_SCRIPT_ON_TRANSITION, BurnedTower_1F_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-BurnedTower_1F_OnTransition: 
-	end
 
 BurnedTower_1F_OnLoad::
 	goto_if_ge VAR_ECRUTEAK_CITY_STATE, 4, BurnedTower_1F_MapScript_CreateHole
@@ -172,11 +167,6 @@ BurnedTowerSilver_AfterText1:
 	.string "…Aw, whatever.\p"
 	.string "You'd never be able to catch\n"
 	.string "a legendary POKéMON anyway.$"
-
-BurnedTowerSilver_LossText:
-	.string "…Humph!\p"
-	.string "This is why I hate battling\n"
-	.string "wimps. It's a waste of time.$"
 
 BurnedTowerSilver_AfterText2:
 	.string "Humph!\p"

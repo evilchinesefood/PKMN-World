@@ -7,7 +7,7 @@ WILD_BATTLE_TEST("Family retired Hard Mode permits battle growth past the first 
     PARAMETRIZE { hard = FALSE; }
     PARAMETRIZE { hard = TRUE; }
     GIVEN {
-        gSaveBlock2Ptr->optionsHardMode = hard;
+        gSaveBlock2Ptr->unusedOptionBit = hard;
         gSaveBlock2Ptr->optionsExpMultiplier = OPTIONS_EXP_MULT_1X;
         PLAYER(SPECIES_BULBASAUR) { Level(14); Item(ITEM_EVERSTONE); }
         OPPONENT(SPECIES_BLISSEY) { Level(10); HP(1); }
@@ -24,7 +24,7 @@ WILD_BATTLE_TEST("Family retired Hard Mode permits battle growth past the first 
 WILD_BATTLE_TEST("Family retired Hard Mode gives no battle EXP beyond maximum level")
 {
     GIVEN {
-        gSaveBlock2Ptr->optionsHardMode = TRUE;
+        gSaveBlock2Ptr->unusedOptionBit = TRUE;
         PLAYER(SPECIES_PIKACHU) { Level(MAX_LEVEL); }
         OPPONENT(SPECIES_CATERPIE) { HP(1); }
     } WHEN {

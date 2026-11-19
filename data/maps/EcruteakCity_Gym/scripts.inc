@@ -262,13 +262,6 @@ EcruteakCity_GymGuideWinText:
 	.string "I was cowering in the corner\n"
 	.string "out of pure terror!$"
 
-EcruteakCity_GymClosedText:
-	.string "MORTY, the GYM LEADER, is\n"
-	.string "absent.\p"
-	.string "Sorry, but you'll have to\n"
-	.string "leave.\p"
-	.string "Hohohoho.$"
-
 EcruteakCity_Gym_EventScript_Gastly::
 	lock
 	faceplayer

@@ -120,9 +120,7 @@ a schedule, and CI uploads no build output. See the
 
 The last tagged release is **v1.7** (2026-09-30). The [changelog](CHANGELOG.md) lists every change.
 
-The development build uses **save format v12**. It loads v7 to v11 saves and refuses older ones.
-Older builds cannot read a v12 save, so keep a backup before you upgrade. Saves from before v11
-start with empty travel history, and the new rate options start at 1×.
+The development build uses **save format v14** and requires a new game. The main menu explains when an older save cannot be loaded. Keep your old ROM and a backup of its save to continue that playthrough.
 
 **Since v1.7 (unreleased):**
 

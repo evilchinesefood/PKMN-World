@@ -10,7 +10,7 @@ def main():
     original = NativeRunner.HERE
     rows = NativeRunner.read_inventory()
     required = [r for r in rows if r['scope'] == 'required']
-    assert required and all(r['name'] != 'VerifyOwnerSave' for r in required)
+    assert required and all(r['fixture'] != 'personal' for r in required)
     with tempfile.TemporaryDirectory(prefix='pw-catalog-test-') as temporary:
         root = Path(temporary)
         (root / 'lua').mkdir()
@@ -31,7 +31,7 @@ def main():
                 raise AssertionError(label + ' was accepted')
         rejected('omitted required row', [r for r in rows if r is not required[-1]])
         rejected('duplicate suite', rows + [rows[0]])
-        drifted = [dict(r, fixture='lua/fixtures/v7.srm') if r['name'] == 'VerifyV7Migrate' else r for r in rows]
+        drifted = [dict(r, fixture='fresh') if r['name'] == 'RefuseV13' else r for r in rows]
         rejected('vacuous clean fixture substitution', drifted)
         (root / 'lua/NewRegression.lua').touch()
         rejected('unclassified new regression', rows)

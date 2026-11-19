@@ -103,8 +103,6 @@ It is included in `test/overworld/run-all.sh`. Existing save tests select the
 Save action by ID instead of relying on its position next to the new Story icon.
 The Frontier save test also waits for the actual flash transaction completion
 before rebooting; a party-size check alone could stop during the write.
-`VerifyV7Migrate.lua` also opens Story after loading the tracked legacy fixture,
-checks its active campaign and restores the saved map/position.
 
 For all compiled text fields and the classic caller, build the disposable
 capture fixture and run it against its matching symbol table:

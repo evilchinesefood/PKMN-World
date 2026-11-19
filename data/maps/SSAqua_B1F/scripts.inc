@@ -56,10 +56,6 @@ SSAqua_B1F_Text_FastShipOnDutySailor:
 	.string "I want to go find him, but I'm\n"
 	.string "on duty right now.$"
 
-SSAqua_B1F_Text_FastShipOnDutySailorRefused:
-	.string "Oh, gee…\p"
-	.string "The CAPTAIN will be furious…$"
-
 SSAqua_B1F_Text_FastShipOnDutySailorThanks:
 	.string "Thanks, kid! I chewed him out\n"
 	.string "good so he'll quit slacking off!$"
@@ -237,4 +233,3 @@ SSAqua_B1F_Text_SchoolboyRickyBeaten:
 SSAqua_B1F_Text_SchoolboyRickyAfter:
 	.string "I read that there are four of\n"
 	.string "those stone panels.$"
-

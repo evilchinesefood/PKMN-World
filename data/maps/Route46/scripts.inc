@@ -1,10 +1,5 @@
 Route46_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route29_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route46_OnTransition: 
-	end
 
 Route46_EventScript_Bailey::
 	trainerbattle_single TRAINER_BAILEY, Route46_Text_HikerBaileySeen, Route46_Text_HikerBaileyBeaten

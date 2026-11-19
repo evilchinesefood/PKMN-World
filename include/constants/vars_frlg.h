@@ -8,8 +8,7 @@
 // VAR_TRAINER_CARD_MON_ICON_4 and Hoenn's VAR_NATIONAL_DEX). They now live in the reserved
 // Kanto slice of the per-region var pool (VAR_KANTO_BASE = 0xA000), stored in
 // SaveBlock3.regionVars[] via GetVarPointer()'s region branch, mirroring VAR_JOHTO_SLICE.
-// Macro NAMES are unchanged (all scripts/C reference by name); load_save.c migrates each
-// moved var's old shared cell into its new slot (v5 -> v6). Names shared with Hoenn's
+// Names shared with Hoenn's
 // vars.h (VAR_POKELOT_RND2, VAR_LOTAD_SIZE_RECORD) and the 0x4020-0x4024 counters stay
 // on their raw IDs (outside the rebase range), as do 0x408B+ (alias only unused Hoenn vars).
 // VAR_RENEWABLE_ITEM_STEP_COUNTER (raw 0x4023, Hoenn's VAR_STARTER_MON) was unused until the
@@ -153,7 +152,6 @@
 #define VAR_MAP_SCENE_FIVE_ISLAND_RESORT_GORGEOUS                              VAR_KANTO_SLICE(0x5D)
 #define VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR                                  VAR_KANTO_SLICE(0x5E)
 #define VAR_MAP_SCENE_FOUR_ISLAND                                              VAR_KANTO_SLICE(0x5F)
-#define VAR_0x4087                                                             VAR_KANTO_SLICE(0x60)
 #define VAR_MAP_SCENE_ROCKET_WAREHOUSE                                         VAR_KANTO_SLICE(0x61)
 #define VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F                             VAR_KANTO_SLICE(0x62)
 #define VAR_MAP_SCENE_CINNABAR_ISLAND_2                                        VAR_KANTO_SLICE(0x63)

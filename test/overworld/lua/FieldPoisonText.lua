@@ -15,7 +15,7 @@ local S = require("symbols")
 local F = require("lib").new(S, "FieldPoisonText")
 
 local HUB_GROUP = 100
-local PETALBURG_MART_G, PETALBURG_MART_M = 8, 6
+local PETALBURG_MART_G, PETALBURG_MART_M = 8, 5
 local VERMILION_PC_G, VERMILION_PC_M = 43, 1
 local CHERRYGROVE_MART_G, CHERRYGROVE_MART_M = 77, 1
 local CONTEXT_SHUTDOWN = 2
@@ -79,9 +79,10 @@ local function giveMon(species, level)
 end
 
 local function talkUntilControl(dir, tag)
-  F.face(dir)
+  if dir then F.face(dir) end
+  local before = decode(S.gStringVar4)
   F.press("A", 2)
-  local all = {}
+  local all = { [before] = true }
   for i = 1, 900 do
     if i % 8 == 0 and F.reportCrash(tag) then break end
     local t = decode(S.gStringVar4)
@@ -89,13 +90,13 @@ local function talkUntilControl(dir, tag)
       all[t] = true; all[#all + 1] = t; F.L("  " .. tag .. ": " .. t)
       F.idle(20); F.shot(tag)
     end
-    if i > 30 and hasControl() then break end
+    -- A press on the final movement frame can be ignored. Allow another
+    -- input window before giving up on an interaction that produced no text.
+    if i > 30 and hasControl() and (#all > 0 or i > 100) then break end
     if i % 40 == 0 then F.press("A", 2) else F.idle(1) end
   end
   backToControl()
-  local said = {}
-  for k = 2, #all do said[#said + 1] = all[k] end
-  return table.concat(said, " | ")
+  return table.concat(all, " | ")
 end
 
 local function hp() return F.r16(S.gParties + S.Pokemon.hp) end
@@ -107,7 +108,7 @@ F.run(function()
   F.check("give a party POKéMON", giveMon(1, 20))
   F.w32(S.gParties + S.Pokemon.status, STATUS1_POISON)
 
-  F.check("warp to the Petalburg Mart", F.warpTo(0, 0, 8, 0, 0, 6, 0, 0, 0, PETALBURG_MART_G, PETALBURG_MART_M, "petalburg_mart"))
+  F.check("warp to the Petalburg Mart", F.warpTo(0, 0, 8, 0, 0, 5, 0, 0, 0, PETALBURG_MART_G, PETALBURG_MART_M, "petalburg_mart"))
   instantText()
   local hp0 = hp()
   local steps = 0
@@ -130,18 +131,24 @@ F.run(function()
 
   F.check("warp to the Vermilion Pokemon Center", F.warpTo(0, 4, 3, 0, 0, 1, 0, 0, 0, VERMILION_PC_G, VERMILION_PC_M, "vermilion_pc"))
   instantText()
-  -- He wanders between x 3 and 5 on row 8: stand above him and face Down.
-  local function manX()
-    for _, o in ipairs(F.objdump()) do if o.y == 8 and o.x >= 3 and o.x <= 5 then return o.x end end
-  end
-  local reached = false
-  for _ = 1, 8 do
-    local mx = manX()
-    if mx and F.leg(6, 7) and F.leg(mx, 7) and manX() == mx then reached = true; break end
-    F.idle(30)
-  end
+  -- Approach facing his patrol from above. Poll the actual object each frame so
+  -- he cannot walk off during the turn-and-wait that fixed-position NPCs allow.
+  local reached = F.route({ { 6, 7 }, { 4, 7 }, { 4, 6 }, { 4, 7 } }, "vermilion_man")
   F.check("walk to the Vermilion man", reached, where())
-  t = talkUntilControl("Down", "vermilion_man")
+  t = ""
+  if reached then
+    for _ = 1, 1800 do
+      for _, obj in ipairs(F.objdump()) do
+        local addr = S.gObjectEvents + obj.i * S.ObjectEvent.stride
+        if F.r8(addr + S.ObjectEvent.localId) == 2 and obj.x == 4 and obj.y == 8 then
+          t = talkUntilControl(nil, "vermilion_man")
+          break
+        end
+      end
+      if t ~= "" then break end
+      F.idle(1)
+    end
+  end
   F.check("Vermilion: the poison story was read", t:find("was poisoned", 1, true) ~= nil, t)
   F.check("Vermilion: no fainting while walking", not t:find("while we were walking", 1, true), t)
 

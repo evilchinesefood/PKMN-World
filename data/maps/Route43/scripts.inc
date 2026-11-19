@@ -1,6 +1,5 @@
 Route43_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, Route43_MapScript_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
 
 Route43_MapScript_OnTransition::
@@ -124,10 +123,6 @@ Route43_Text_PicnickerTiffanyBeaten:
 Route43_Text_PicnickerTiffanyWantsPicnic:
     .string "I'm having a picnic with POKéMON.\p"
     .string "Won't you join us?$"
-
-Route43_Sign1:
-    .string "ROUTE 43\p"
-    .string "LAKE OF RAGE - MAHOGANY TOWN$"
 
 Route43_Sign2:
     .string "ROUTE 43\p"

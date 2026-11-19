@@ -47,13 +47,7 @@ RegionHub_MapScripts::
 @ whiteout must never route back to it. The regional respawn is armed on gate-cross instead
 @ (RegionHub_ScrEnterRegion -> SetRegionArrivalRespawn). No wild/trainer battles occur in the
 @ hub, so it never needs to be a respawn target itself.
-@ Issue #41 intro tour, arrival path. A coord_event ALONE cannot do this: TryStartCoordEventScript
-@ is only reached from TryStartStepBasedScript, which ProcessPlayerFieldInput calls inside
-@ `if (input->tookStep)` (src/field_control_avatar.c) -- so a coord event fires on a STEP and never
-@ on a warp-in. A brand-new game and every HUB PASS return both *materialise* the player on the
-@ crest at (16,4) without stepping, which is exactly the case the tour has to catch. So the arrival
-@ path is ON_TRANSITION (arm) + ON_FRAME_TABLE (run), the vanilla idiom for an on-entry scene, and
-@ the crest coord_events stay as the walk-on path for a save that loaded elsewhere in the hub.
+@ New games arrive on the crest. Arm the tour on entry so it runs before the first step.
 @ VAR_TEMP_C is the arm: ClearTempFieldEventData() zeroes the temp var block on every map load and
 @ runs BEFORE RunOnTransitionMapScript(), so the arm cannot survive into a later visit. It is also
 @ the only temp var this map touches -- data/scripts/battle_net.inc borrows VAR_TEMP_1 for its
@@ -86,10 +80,7 @@ RegionHub_OnFrame::
 	map_script_2 VAR_TEMP_C, 1, RegionHub_EventScript_IntroTourOnArrival
 	.2byte 0
 
-@ Disarm first so this cannot re-enter, then confirm the player really is on the crest. A legacy
-@ save whose last save point was elsewhere in the hub loads straight into the overworld with the
-@ tour flag clear; it must NOT start an escort whose path is hard-coded from (16,4). Those players
-@ are caught by the crest coord_events, or by the Charm Curator's re-offer.
+@ Disarm before starting the escort. Its first movement assumes the player is on the crest.
 RegionHub_EventScript_IntroTourOnArrival::
 	setvar VAR_TEMP_C, 0
 	getplayerxy VAR_0x8004, VAR_0x8005
@@ -100,20 +91,6 @@ RegionHub_EventScript_IntroTourOnArrival::
 
 RegionHub_EventScript_IntroTourNotHere::
 	end
-
-@ Walk-on path. The coord_events are triggered on FLAG_HUB_INTRO_TOUR_DONE == 0 (not a var), so
-@ they stop firing for good the moment the tour completes or is declined.
-RegionHub_EventScript_IntroTourFromCrest::
-	lockall
-	goto RegionHub_EventScript_IntroTourGreet
-
-@ (16,5) is one tile south of the crest. The escort path only works from (16,4), so step the
-@ player up onto it before anything else happens.
-RegionHub_EventScript_IntroTourFromSouth::
-	lockall
-	applymovement OBJ_EVENT_ID_PLAYER, RegionHub_Movement_TourStepToCrest
-	waitmovement OBJ_EVENT_ID_PLAYER
-	goto RegionHub_EventScript_IntroTourGreet
 
 RegionHub_EventScript_Nurse::
 	lock
@@ -789,12 +766,7 @@ RegionHub_Text_HarborAllGiven:
 @ ladder tiers, and it runs (and can clobber VAR_0x8000/0x8001 via its own giveitem) BEFORE
 @ RegionHub_ScrCountWorldTourBadges refreshes those vars for the ladder below, so it can't
 @ desync the badge check.
-@ Issue #41: the intro tour re-offer sits at the very top, ahead of every give below. That
-@ ordering is forced, not stylistic -- giveitem clobbers VAR_RESULT, so the Yes/No answer has to
-@ be read before the first one. Offered on every talk, whether or not
-@ FLAG_HUB_INTRO_TOUR_DONE is set: after the tour it is the replay path, and before it, it is the
-@ fallback for a legacy save that never crosses the arrival crest. Declining falls straight
-@ through to his normal HUB PASS / POKeVIAL / charm-ladder script.
+@ Offer the replay before giveitem overwrites VAR_RESULT.
 RegionHub_EventScript_CharmCurator::
 	lock
 	faceplayer
@@ -803,16 +775,10 @@ RegionHub_EventScript_CharmCurator::
 	@ game's most-revisited reward NPC, and with the cursor resting on YES an A-mash used
 	@ to lock players into the full multi-minute escort on every visit. B also declines
 	@ (MULTI_B_PRESSED falls through to business, like any nonzero row).
-	goto_if_set FLAG_HUB_INTRO_TOUR_DONE, RegionHub_EventScript_CuratorReturning
-	msgbox RegionHub_Text_CuratorTourOffer, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, RegionHub_EventScript_CuratorStartTour
-	goto RegionHub_EventScript_CuratorBusiness
-RegionHub_EventScript_CuratorReturning::
 	message RegionHub_Text_CuratorTourAgain
 	waitmessage
 	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
 	goto_if_eq VAR_RESULT, 0, RegionHub_EventScript_CuratorStartTour
-RegionHub_EventScript_CuratorBusiness::
 	checkitem ITEM_HUB_RETURN
 	goto_if_eq VAR_RESULT, TRUE, RegionHub_EventScript_CuratorCheckPokevial
 	msgbox RegionHub_Text_CuratorGiveHubPass, MSGBOX_DEFAULT
@@ -1276,16 +1242,8 @@ RegionHub_Items_Vitamins::
 @ map that is entirely this fork's invention, so a player has no genre knowledge to fall back
 @ on: before this it was an unexplained empty lobby.
 @
-@ ENTRY POINTS (three, all converging on RegionHub_EventScript_IntroTourWalk):
-@   1. ON_TRANSITION arm + ON_FRAME_TABLE  -- a warp-in that lands on the crest (new game, or
-@      any HUB PASS return). See the comment above RegionHub_OnTransition for why a coord_event
-@      cannot do this job.
-@   2. coord_event on (16,4) / (16,5)      -- walking onto the crest, which is what catches a
-@      legacy save that loaded elsewhere in the hub.
-@   3. RegionHub_EventScript_CharmCurator  -- an explicit Yes/No re-offer on every talk, ahead
-@      of his HUB PASS / POKeVIAL / charm-ladder script. This is the last-resort path and the
-@      replay path; it walks the player back to the crest first, because the escort below is a
-@      FIXED path that is only correct starting from (16,4).
+@ New games start the tour on arrival at (16,4). Talking to the Curator replays
+@ it from his post and first walks the player back to the crest.
 @
 @ The Charm Curator already gives new travelers the HUB PASS and POKeVIAL, so the tour
 @ reuses him instead of spending another object slot.
@@ -1324,8 +1282,7 @@ RegionHub_Items_Vitamins::
 @   - waitmovement 0 waits on the LAST applymovement's object only (scrcmd.c reuses
 @     sMovingNpcId), not on all of them. Every leg therefore waits on both objects by name.
 
-@ Shared greeting: the guide crosses the concourse and offers the tour. Only the two crest
-@ entry points reach this; the Curator re-offer has already asked and jumps past it.
+@ On first arrival the guide crosses the concourse to offer the tour. The Curator replay skips the greeting.
 RegionHub_EventScript_IntroTourGreet::
 	applymovement LOCALID_REGION_HUB_CURATOR, RegionHub_Movement_TourGuideApproach
 	waitmovement LOCALID_REGION_HUB_CURATOR
@@ -1448,11 +1405,6 @@ RegionHub_EventScript_CuratorTourToCrest::
 @ ---- movement data -------------------------------------------------------------------
 @ One byte per step, so the ~55-step escort is negligible. Every tile below is collision 0 and
 @ elevation 3 in data/layouts/RegionHub/map.bin.
-
-@ (16,5) -> (16,4), the crest, for the southern coord_event.
-RegionHub_Movement_TourStepToCrest:
-	walk_up
-	step_end
 
 @ (22,7) -> (22,6) -> west along y=6 -> (17,6) -> (17,5) -> (17,4), facing the player.
 RegionHub_Movement_TourGuideApproach:
@@ -1823,10 +1775,6 @@ RegionHub_Text_TourClosing:
 	.string "Take the KANTO gate first - trust\n"
 	.string "an old man on that.\p"
 	.string "Safe travels, TRAINER.$"
-
-RegionHub_Text_CuratorTourOffer:
-	.string "Would you like a tour of WORLD\n"
-	.string "TRANSIT?$"
 
 @ ONE page on purpose: the menu must appear after the first text page, matching the
 @ original offer's timing — the Lua tour suite's answer() helper advances pages blindly

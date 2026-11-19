@@ -1,8 +1,10 @@
-.macro def_special, ptr:req, requests_effects=0, waitstate=0
+.macro def_special, ptr:req, requests_effects=0, waitstate=0, target=
 .if ALLOCATE_SPECIAL_TABLE
 	.global SPECIAL_\ptr
 	.set SPECIAL_\ptr, __special__
-	.if \requests_effects == 0
+	.ifnb \target
+		.4byte \target
+	.elseif \requests_effects == 0
 		.4byte \ptr
 	.else
 		.4byte \ptr + ROM_SIZE
@@ -317,7 +319,7 @@ gSpecials::
 	def_special Script_FacePlayer
 	def_special Script_ClearHeldMovement
 	def_special InitRoamer
-	def_special InitJohtoRoamer
+	def_special InitJohtoRoamer, target=Special_Unused
 	def_special InitJohtoBeastRoamers
 	def_special RespawnJohtoBeastRoamers
 	def_special TryUpdateRusturfTunnelState
@@ -644,47 +646,29 @@ gSpecials::
 	def_special UpdateTrainerCardPhotoIcons
 	def_special StickerManGetBragFlags
 	def_special CheckAddCoins
-	@ NEVER wrap a def_special row in #if -- guard the TARGET instead. src/pokevial.c
-	@ stubs these three under `#if POKEVIAL_FEATURE == FALSE`, the idiom #59 used for
-	@ all 25 link specials (include/config/link.h + in-file #else stubs).
-	@
-	@ What a guard here actually breaks, measured rather than assumed: `special Foo`
-	@ (asm/macros/event.inc:296) emits `.2byte SPECIAL_Foo` AND tests
-	@ `.if SPECIAL_WAITSTATE_Foo`. SPECIAL_WAITSTATE_\ptr and the __special__ increment
-	@ sit OUTSIDE this macro's `.if ALLOCATE_SPECIAL_TABLE`, so they are defined in every
-	@ TU that pulls the table in. Both PokeCenter nurse scripts call `special PokevialRefill`
-	@ unconditionally, so POKEVIAL_FEATURE FALSE killed event_scripts.o outright with
-	@ "Error: non-constant expression in `.if` statement" at event.inc:299.
-	@
-	@ The silent renumbering that the opcode table suffered in 9ee61fbd is LATENT here,
-	@ not live: SPECIAL_\ptr is defined only under `.if ALLOCATE_SPECIAL_TABLE`, which is 1
-	@ in exactly one place (data/event_scripts.s) and 0 in the raw-GAS path that
-	@ include/test/overworld_script.h uses -- so test TUs leave SPECIAL_* undefined and link
-	@ against the one cpp-processed table, and the two builds cannot disagree on an index.
-	@ That is one `.set` away from ceasing to be true, and __special__ already diverges
-	@ between the two paths, so the rule stays absolute.
+	@ Keep these rows unconditional so special numbers agree in the ROM and tests.
 	def_special PokevialGetDose
 	def_special PokevialGetSize
 	def_special PokevialRefill
 
 	@ Region merge (Johto port): specials referenced by Johto starting-area scripts.
-	def_special NameRival
+	def_special NameRival, target=Special_Unused
 	def_special CheckTogepi
-	def_special IsNuzlockeNicknamingActive
+	def_special IsNuzlockeNicknamingActive, target=Special_Unused
 	def_special DoSlidingPuzzle
 	def_special CheckHooh
 	def_special CheckAerodactyl
 	def_special CheckKabuto
 	def_special CheckOmanyte
 	def_special GetMaxPartySize
-	def_special IsRandomMovesActivated
-	def_special IsPokecenterChallengeActivated
+	def_special IsRandomMovesActivated, target=Special_Unused
+	def_special IsPokecenterChallengeActivated, target=Special_Unused
 
 	@ Region merge (Johto port): Goldenrod-area specials.
 	def_special EnterBugContestMode
 	def_special HaircutBrother1
 	def_special ShowBugContestChosenMon
-	def_special ToggleShinyColors
+	def_special ToggleShinyColors, target=Special_Unused
 	def_special CheckCelebi
 
 	@ Region merge (Johto port): National Park Bug-Catching Contest engine specials.

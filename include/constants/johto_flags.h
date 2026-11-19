@@ -11,9 +11,7 @@
 // flags here as later maps are ported.
 #define FLAG_JOHTO_SLICE(n)                  (FLAG_JOHTO_BASE + (n))
 
-// Playtest fix (H2): decorative leftover objects (remapped overworld-mon that render as a
-// static LASS in the trees) carry this flag and it is set at new game, so they never spawn.
-// 0x250 is free (story <=0xFF, items <=0x1FD, badges at 0x3F8).
+// Reserved for the removed Johto decor objects. New games still initialize this bit.
 #define FLAG_HIDE_JOHTO_DECOR                FLAG_JOHTO_SLICE(0x250)
 
 // --- Hide flags (object-event visibility) ---
@@ -151,7 +149,6 @@
 #define FLAG_VISITED_AZALEA_TOWN             FLAG_JOHTO_SLICE(0x88)
 #define FLAG_DEFEATED_AZALEA_TOWN_GYM        FLAG_JOHTO_SLICE(0x89)
 #define FLAG_GET_HEADBUTT                    FLAG_JOHTO_SLICE(0x8A)
-#define FLAG_UNUSED_JOHTO_0x8B               FLAG_JOHTO_SLICE(0x8B)
 #define FLAG_GOT_CHARCOAL                    FLAG_JOHTO_SLICE(0x8C)
 #define FLAG_RECEIVED_ODD_EGG                FLAG_JOHTO_SLICE(0x8D)
 #define FLAG_CAUGHT_CELEBI                   FLAG_JOHTO_SLICE(0x8E)
@@ -218,8 +215,6 @@
 #define FLAG_HIDE_RADIOTOWER_GATE                      FLAG_JOHTO_SLICE(0xE1)
 #define FLAG_HIDE_ROCKET_GOLDENROD_RADIOTOWER_1        FLAG_JOHTO_SLICE(0xE2)
 #define FLAG_KANTO_RADIO_GOT                           FLAG_JOHTO_SLICE(0xE3)
-#define FLAG_MINTS_CLERK                               FLAG_JOHTO_SLICE(0xE4)
-#define FLAG_MINTS_ENABLED                             FLAG_JOHTO_SLICE(0xE5)
 #define FLAG_RECEIVED_SQUIRTBOTTLE                     FLAG_JOHTO_SLICE(0xE6)
 #define FLAG_RETURNED_MACHINE_PART                     FLAG_JOHTO_SLICE(0xE7)
 #define FLAG_SYS_PC_BILL                               FLAG_JOHTO_SLICE(0xE8)
@@ -345,7 +340,6 @@
 // === Cianwood area (region merge) — Cianwood City, Routes 47/48, Cliff Edge, Embedded Tower ===
 // Clean Johto-bank range above Olivine items' highest (0x154).
 // Story / hide / gym flags.
-#define FLAG_DEFEATED_VIRIDIAN_GYM                     FLAG_JOHTO_SLICE(0x155)
 // Route 47 Embedded Tower sage (39,45). Unused so he stays visible; the championship
 // gate is FLAG_JOHTO_CHAMPION at (40,45), independent of this object.
 #define FLAG_HIDE_ROUTE47_SAGE                         FLAG_JOHTO_SLICE(0x156)
@@ -353,7 +347,6 @@
 #define FLAG_HIDE_KYOGRE                               FLAG_JOHTO_SLICE(0x158)
 #define FLAG_HIDE_RAYQUAZA                             FLAG_JOHTO_SLICE(0x159)
 #define FLAG_VISITED_CIANWOOD_CITY                     FLAG_JOHTO_SLICE(0x15A)
-#define FLAG_VISITED_VERMILION_CITY                    FLAG_JOHTO_SLICE(0x15B)
 
 // Cianwood-area hidden-item (item-ball received) flags — Johto bank.
 #define FLAG_ITEM_LUCKY_PUNCH                          FLAG_JOHTO_SLICE(0x15C)
@@ -403,7 +396,6 @@
 #define FLAG_HIDE_ROCKETHIDEOUT_ROCKETS           FLAG_JOHTO_SLICE(0x184)
 #define FLAG_ROCKETHIDEOUT2_BATTLE                FLAG_JOHTO_SLICE(0x185)
 #define FLAG_ROCKETHIDEOUT_SWITCH                 FLAG_JOHTO_SLICE(0x186)
-#define FLAG_SYS_LAKE_OF_RAGE_TIDE                FLAG_JOHTO_SLICE(0x187)
 #define FLAG_VISITED_LAKE_OF_RAGE                 FLAG_JOHTO_SLICE(0x188)
 #define FLAG_VISITED_MAHOGANY_TOWN                FLAG_JOHTO_SLICE(0x189)
 
@@ -508,7 +500,6 @@
 #define FLAG_DELIVERED_EGG                         FLAG_JOHTO_SLICE(0x1db)
 #define FLAG_HIDE_MRPOKEMON                        FLAG_JOHTO_SLICE(0x1dc)
 #define FLAG_VISITED_KANTO                         FLAG_JOHTO_SLICE(0x1dd)
-#define FLAG_VISITED_RECEPTION_GATE                FLAG_JOHTO_SLICE(0x1de)
 #define FLAG_GOT_TM_SANDSTORM                      FLAG_JOHTO_SLICE(0x1df)
 #define FLAG_GOT_BERRY_ROUTE_30_HOUSE              FLAG_JOHTO_SLICE(0x1e0)
 #define FLAG_HIDE_TOHJO_GIOVANNI                   FLAG_JOHTO_SLICE(0x1e1)
@@ -526,7 +517,6 @@
 
 // === Johto Pokemon League (region merge) — Victory Road, Indigo Plateau, E4 + Lance ===
 // Clean Johto-bank range above the Final batch's highest (0x1ed).
-#define FLAG_GARBAGEFLAG                            FLAG_JOHTO_SLICE(0x1ee)
 #define FLAG_ITEM_JOHTO_VROAD_1                    FLAG_JOHTO_SLICE(0x1f8)
 #define FLAG_ITEM_JOHTO_VROAD_2                    FLAG_JOHTO_SLICE(0x1f9)
 #define FLAG_ITEM_JOHTO_VROAD_3                    FLAG_JOHTO_SLICE(0x1fa)
@@ -541,10 +531,8 @@
 #define FLAG_HIDE_ROUTE25_SUICUNE                   FLAG_JOHTO_SLICE(0x1f5)
 #define FLAG_HIDE_VERMILION_SNORLAX                 FLAG_JOHTO_SLICE(0x1f6)
 #define FLAG_SUMMONED_MTMOON_JIRACHI                FLAG_JOHTO_SLICE(0x1f7)
-#define FLAG_ITEM_GARBAGEFLAG                       FLAG_JOHTO_SLICE(0x1fd)
 
-// Route 25 Suicune (HGSS post-champion encounter at Bill's cottage). 0x251 is
-// free (story <=0xFF, items <=0x1FD, decor at 0x250, badges at 0x3F8).
+// Route 25 Suicune encounter at Bill's cottage.
 #define FLAG_FOUGHT_SUICUNE                         FLAG_JOHTO_SLICE(0x251)
 
 // Johto gym TM handouts: set on a successful giveitem so a full TM pocket can

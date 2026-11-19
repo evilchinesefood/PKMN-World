@@ -12,8 +12,4 @@
 #define SWSH_ITEM_MENU_PARTY_HP_BAR       (SWSH_ITEM_MENU_ACTION_IN_BAG && TRUE)    // Show HP bar in party slot during item use
 #define SWSH_ITEM_MENU_ACTION_IN_BATTLE   (SWSH_ITEM_MENU_ACTION_IN_BAG && TRUE)    // Use items directly in bag during battle (without opening party menu)
 
-#if !SWSH_ITEM_MENU
-#error "SWSH_ITEM_MENU FALSE no longer builds: the classic bag menu source was deleted. Restore src/item_menu.c from git history first."
-#endif
-
 #endif // GUARD_CONFIG_SWSH_ITEM_MENU_H

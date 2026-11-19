@@ -80,10 +80,6 @@ BillHouse_Text_EeveeMayEvolve:
     .string "BILL: PROF.ELM claims EEVEE may\n"
     .string "evolve in new and unknown ways.$"
 
-BillHouse_Text_PartyFull:
-    .string "Whoa, wait. You can't carry any\n"
-    .string "more POKéMON.$"
-
 BillHouse_Text_NoEevee:
     .string "Oh… Now what to do?$"
 
@@ -105,23 +101,6 @@ BillHouse_Text_MomAfterEcruteak:
     .string "POKéMANIAC.\p"
     .string "BILL must have taken after his\n"
     .string "father.$"
-
-BillHouse_Text_SisterUsefulNumber:
-    .string "Are you a TRAINER?\p"
-    .string "I've got a useful phone number\n"
-    .string "for you.$"
-
-BillHouse_Text_RecordedBillsNumber:
-    .string "{PLAYER} recorded BILL's number.$"
-
-BillHouse_Text_SisterRefusedNumber:
-    .string "My brother made the PC POKéMON\n"
-    .string "storage system.\p"
-    .string "I was going to give you BILL's\n"
-    .string "number…$"
-
-BillHouse_Text_SisterPhoneFull:
-    .string "You can't record any more numbers.$"
 
 BillHouse_Text_SisterStorageSystem:
     .string "My big brother BILL made the PC\n"

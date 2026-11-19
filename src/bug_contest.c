@@ -38,11 +38,6 @@ bool32 GetBugContestFlag(void)
 }
 
 
-void BugContestRetirePrompt(void)
-{
-    ScriptContext_SetupScript(BugContest_EventScript_TimesUp);
-}
-
 void EnterBugContestMode(void)
 {
     FlagSet(FLAG_SYS_BUG_CONTEST_MODE);

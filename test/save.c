@@ -3,6 +3,7 @@
 #include "load_save.h"
 #include "pokemon_storage_system.h"
 #include "save.h"
+#include "constants/flags.h"
 #include "constants/maps.h"
 #include "test/test.h"
 
@@ -46,37 +47,10 @@ static void WriteValidSlot1WithOddCounter(void)
     }
 }
 
-// If you would like to ensure save compatibility, update the values below with those for your hack. You can find these through the debug menu.
-// Please note that this simple check is not 100% foolproof, but should be able to catch most unintended shifts.
-//
-// PKMN-World: these were upstream's placeholders (SaveBlock1 15568 / SaveBlock3 4) until 2026-07-24,
-// so two of the four assertions below failed and `make check` could never pass — the repo's only
-// automated layout tripwire protected nothing, and a permanently red suite meant the ~1,500
-// inherited battle tests gave no signal either. The values are now this fork's real sizes.
-//
-// Derived from `arm-none-eabi-nm --print-size pokemonworld.elf`, NOT hand-summed. Note that
-// gSaveblock1/2 and gPokemonStorage are declared through the *ASLR wrappers (include/load_save.h),
-// which append u8 aslr[SAVEBLOCK_MOVE_RANGE] = 128 bytes, so subtract 128 from what nm reports for
-// those three. gSaveblock3 is a bare struct, so its nm size is exact.
-//
-// This is the natural home for the frozen-layout invariant CLAUDE.md calls untouchable: it is
-// host-side, needs no emulator, and carries no save-safety risk. Any change here means a
-// SAVE_FORMAT_VERSION bump and a migration ladder step in src/load_save.c.
-// Updated again for save format v7 (2026-07-24): the bag/item-PC expansion grew SaveBlock1 by
-// 796 B and the two FREE_MYSTERY_* reclaims gave back more than that, so SaveBlock1 SHRANK
-// 15,836 -> 14,752. SaveBlock3 shrank 1,584 -> 1,232 because the 104-entry cleared-obstacle list
-// (313 B) became a 512-bit field + table hash (68 B). SaveBlock2 and PokemonStorage are
-// deliberately unchanged — the SaveBlock3 checksum reference was carved from SaveBlock2's
-// existing 0x94 filler rather than appended, so the block keeps its upstream size.
-// Updated for save format v9 (2026-08-05, issue #51 + the Johto trainer id split): SaveBlock3
-// grew 1,232 -> 1,264 because johtoTrainerFlags[32] was APPENDED to the tail of struct
-// RegionSave. Appended, not inserted — that is the whole point: every pinned offsetof in
-// src/load_save.c is unchanged, so a v7/v8 save still loads and the v8 -> v9 ladder step only has
-// to zero the new bank. SaveBlock1/2 and PokemonStorage are untouched; the new bank is the only
-// layout change in v9.
+// Pin the save ABI. SavePatch also reads these constants for its sector checks.
 #define T_SAVEBLOCK1_SIZE 14752
 #define T_SAVEBLOCK2_SIZE 3884
-#define T_SAVEBLOCK3_SIZE 1432
+#define T_SAVEBLOCK3_SIZE 1408
 #define T_POKEMONSTORAGE_SIZE 34144
 
 TEST("SaveBlock1 is backwards compatible")
@@ -135,26 +109,63 @@ TEST("LoadGameSave ignores flash sectors with out-of-range ids")
     EXPECT_EQ(IndexOfByteNotEqual(gPokemonStoragePtr, 0x3C, sizeof(struct PokemonStorage)), sizeof(struct PokemonStorage));
 }
 
-// The Azalea, Goldenrod and Safari Zone Gate heal moves landed after v9, and their repair after
-// v12. A v12 save written before the repair can still hold the old door tile, where a whiteout
-// misses the Center and drops the player outside.
-TEST("A current-version save repairs a moved heal location")
+// Recreate the historical long SaveBlock1 tail using a nonzero word beyond
+// today's final chunk. The same cartridge is then tested with a torn write,
+// a duplicate ID, or a damaged checksum; none should receive a version verdict.
+TEST("Save version refusal distinguishes intact older layouts from damaged slots")
 {
-    u32 group = 0, num = 0, oldX = 0, oldY = 0;
-    struct WarpData *heal = &gSaveBlock1Ptr->lastHealLocation;
+    enum { INTACT, MIXED_COUNTER, DUPLICATE_ID, DAMAGED };
+    const u32 flagOffset = offsetof(struct SaveBlock1, flags) + FLAG_QOL_SHARED_EXP / 8;
+    const u8 flagMask = 1u << (FLAG_QOL_SHARED_EXP % 8);
+    u32 version = 3, fault = INTACT, expected = SAVE_STATUS_EMPTY, reason = SAVE_VERSION_REFUSAL_TOO_OLD;
+    PARAMETRIZE { }
+    PARAMETRIZE { version = SAVE_FORMAT_VERSION - 1; }
+    PARAMETRIZE { version = SAVE_FORMAT_VERSION + 1; reason = SAVE_VERSION_REFUSAL_TOO_NEW; }
+    PARAMETRIZE { version = SAVE_FORMAT_VERSION; expected = SAVE_STATUS_OK; reason = SAVE_VERSION_REFUSAL_NONE; }
+    PARAMETRIZE { fault = MIXED_COUNTER; expected = SAVE_STATUS_CORRUPT; reason = SAVE_VERSION_REFUSAL_NONE; }
+    PARAMETRIZE { fault = DUPLICATE_ID; expected = SAVE_STATUS_CORRUPT; reason = SAVE_VERSION_REFUSAL_NONE; }
+    PARAMETRIZE { fault = DAMAGED; expected = SAVE_STATUS_CORRUPT; reason = SAVE_VERSION_REFUSAL_NONE; }
+    PARAMETRIZE { version = SAVE_FORMAT_VERSION; fault = DAMAGED; expected = SAVE_STATUS_CORRUPT; reason = SAVE_VERSION_REFUSAL_NONE; }
 
-    PARAMETRIZE { group = MAP_GROUP(MAP_AZALEA_TOWN);      num = MAP_NUM(MAP_AZALEA_TOWN);      oldX = 31; oldY = 15; }
-    PARAMETRIZE { group = MAP_GROUP(MAP_GOLDENROD_CITY);   num = MAP_NUM(MAP_GOLDENROD_CITY);   oldX = 28; oldY = 36; }
-    PARAMETRIZE { group = MAP_GROUP(MAP_SAFARI_ZONE_GATE); num = MAP_NUM(MAP_SAFARI_ZONE_GATE); oldX = 11; oldY = 15; }
-
-    gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
-    heal->mapGroup = group;
-    heal->mapNum = num;
-    heal->warpId = WARP_ID_NONE;
-    heal->x = oldX;
-    heal->y = oldY;
-    MigrateSaveFormatIfNeeded();
-    EXPECT_EQ(heal->x, oldX);
-    EXPECT_EQ(heal->y, oldY + 1);
-    EXPECT_EQ(gSaveBlock2Ptr->saveVersion, SAVE_FORMAT_VERSION);
+    if (!gFlashMemoryPresent)
+        CheckForFlashMemory();
+    ASSUME(gFlashMemoryPresent);
+    ClearSaveData();
+    for (u32 i = 0; i < NUM_SECTORS_PER_SLOT; i++)
+    {
+        memset(&gSaveDataBuffer, 0, sizeof(gSaveDataBuffer));
+        gSaveDataBuffer.signature = SECTOR_SIGNATURE;
+        gSaveDataBuffer.id = i;
+        if (i == SECTOR_ID_SAVEBLOCK2)
+        {
+            gSaveDataBuffer.data[offsetof(struct SaveBlock2, saveVersion)] = version;
+            gSaveDataBuffer.checksum = version << 8;
+        }
+        if (i == SECTOR_ID_SAVEBLOCK1_START + flagOffset / SECTOR_DATA_SIZE)
+        {
+            gSaveDataBuffer.data[flagOffset % SECTOR_DATA_SIZE] = flagMask;
+            u32 word = (u32)flagMask << (8 * (flagOffset % 4));
+            gSaveDataBuffer.checksum = word + (word >> 16);
+        }
+        if (version == 3 && i == SECTOR_ID_SAVEBLOCK1_END)
+        {
+            gSaveDataBuffer.data[SECTOR_DATA_SIZE - 4] = 1;
+            gSaveDataBuffer.checksum = 1;
+        }
+        if (i == SECTOR_ID_PKMN_STORAGE_END)
+        {
+            if (fault == MIXED_COUNTER)
+                gSaveDataBuffer.counter = 2;
+            if (fault == DUPLICATE_ID)
+                gSaveDataBuffer.id = SECTOR_ID_PKMN_STORAGE_START;
+            if (fault == DAMAGED)
+                gSaveDataBuffer.checksum++;
+        }
+        ASSUME(ProgramFlashSectorAndVerify(i, (u8 *)&gSaveDataBuffer) == 0);
+    }
+    EXPECT_EQ(LoadGameSave(SAVE_NORMAL), expected);
+    EXPECT_EQ(gSaveVersionRefusal, reason);
+    if (reason != SAVE_VERSION_REFUSAL_NONE || expected == SAVE_STATUS_OK)
+        EXPECT_EQ(gSaveBlock1Ptr->flags[FLAG_QOL_SHARED_EXP / 8] & flagMask,
+                  expected == SAVE_STATUS_OK ? flagMask : 0);
 }

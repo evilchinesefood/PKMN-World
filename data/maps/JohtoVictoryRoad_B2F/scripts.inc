@@ -1,18 +1,5 @@
 JohtoVictoryRoad_B2F_MapScripts::
-	map_script MAP_SCRIPT_ON_RESUME, JohtoVictoryRoad_B2F_OnResume
-	map_script MAP_SCRIPT_ON_TRANSITION, JohtoVictoryRoad_B2F_OnTransition
 	.byte 0
-
-JohtoVictoryRoad_B2F_OnResume:
-	end
-
-JohtoVictoryRoad_B2F_OnTransition:
-	goto_if_set FLAG_UNLOCK_BIRDS, JohtoVictoryRoad_B2F_SwitchToModern
-	end
-
-JohtoVictoryRoad_B2F_SwitchToModern::
-	setmaplayoutindex LAYOUT_JOHTO_VICTORY_ROAD_B2F
-	end
 
 JohtoVictoryRoad_B2F_EventScript_Vito::
 	trainerbattle_single TRAINER_VITO_JT, JohtoVictoryRoad_B2F_Text_VitoIntro, JohtoVictoryRoad_B2F_Text_VitoDefeat

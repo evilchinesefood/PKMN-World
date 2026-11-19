@@ -151,20 +151,6 @@ GoldenrodCity_RadioTower_4F4_Text_GruntM10Beaten:
 GoldenrodCity_RadioTower_4F4_Text_GruntM10After:
 	.string "I don't believe it! I was beaten!$"
 
-GoldenrodCity_RadioTower_4F4_Text_ExecutiveM2Seen:
-	.string "Stop! I'm known as the TEAM ROCKET\n"
-	.string "fortress!\p"
-	.string "You're not taking another step!$"
-
-GoldenrodCity_RadioTower_4F4_Text_ExecutiveM2Beaten:
-	.string "The fortress came down!$"
-
-GoldenrodCity_RadioTower_4F4_Text_ExecutiveM2After:
-	.string "You've earned my respect, so here's\n"
-	.string "some advice.\p"
-	.string "It's not too late. You can still turn\n"
-	.string "back.$"
-
 GoldenrodCity_RadioTower_4F4_Text_GruntF4Seen:
 	.string "Don't I think POKéMON are cute?\p"
 	.string "I'll think my POKéMON are cute--\p"

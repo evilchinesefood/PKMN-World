@@ -50,7 +50,8 @@ local MOVE_TACKLE = 33
 
 -- Warp targets as (group, num, warp). Two quiet Dewford houses are the neutral maps.
 local HOUSE_A = { 3, 0, 0 }
-local HOUSE_B = { 3, 5, 0 }
+local HOUSE_B = { 3, 2, 0 }
+local ROUTE18_GATE = { 60, 0, 0 }
 local HUB_CREST = { HUB_GROUP, 0, 0 }
 local SAFARI_SOUTH = { 26, 3, 0 }
 local BUG_CONTEST = { 83, 5, 0 }
@@ -203,13 +204,20 @@ local function free()
   return false
 end
 
--- Back out of anything a mash opened: B mostly, A to advance text.
+-- B exits submenus and the Trainer Card. Only advance text with A while a field
+-- script owns the input; A on the returning Start menu would reopen the card.
 local function recover(tag, budget)
   for i = 1, budget or 3000 do
     if F.reportCrash(tag) then return false end
     if F.ow() and not saving() and i % 90 == 0 and free() then return true end
     local p = i % 24
-    if p < 2 then joypad.set({ B = true }) elseif p >= 12 and p < 14 then joypad.set({ A = true }) else joypad.set({}) end
+    if p < 2 then
+      joypad.set({ B = true })
+    elseif p >= 12 and p < 14 and F.ow() and scriptRunning() and not menuOpen() then
+      joypad.set({ A = true })
+    else
+      joypad.set({})
+    end
     emu.frameadvance()
   end
   return F.ow() and free()
@@ -423,32 +431,30 @@ end
 -- A step that starts on the frame the autosave would fire. ProcessPlayerFieldInput runs before
 -- UpdateAutosave in DoCB1_Overworld, so the step's trigger can only be evaluated when the step
 -- ends. The autosave must not save the player mid-step (it would write the destination tile with
--- its trigger never run, and a reboot then stands the player past it). The hub crest's (16,5)
--- coord trigger is the step trigger: arm it after the load (clear FLAG_HUB_INTRO_TOUR_DONE once
--- ON_TRANSITION has run, so the ON_FRAME tour stays disarmed) and hold Down through the unlock.
+-- its trigger never run, and a reboot then stands the player past it). Route 18's gate
+-- lands the player at (1,6). Stepping east onto (2,6) sets VAR_MAP_SCENE_ROUTE16 to 1.
 local function scenarioStepAtUnlock()
   reposition(HOUSE_A)
-  dueNow()
-  local cleared = false
-  local r = warpWatch("step at unlock", HUB_CREST, { frames = 500, input = function(i)
-    if i < 300 then joypad.set({ Down = true }) else joypad.set({}) end
+  local cyclingScene = F.sb3() + S.SaveBlock3.regionVars + 2 * 0x37 -- VAR_KANTO_SLICE(0x37)
+  local armed, stepped, atSave = false, false, nil
+  local r = warpWatch("step at unlock", ROUTE18_GATE, { frames = 500, beforeGo = function()
+    F.w16(cyclingScene, 0)
+    dueNow()
+  end, input = function()
+    joypad.set(stepped and {} or { Right = true })
   end, onFrame = function()
-    local x, y = F.pos()
-    local t = timer()
-    if not cleared and F.grp() == HUB_GROUP and x == 16 and y == 4 and t > 0 and t < SETTLE then
-      flag(FLAG_HUB_INTRO_TOUR_DONE, false); cleared = true
+    if F.grp() == ROUTE18_GATE[1] and F.mapn() == ROUTE18_GATE[2] then
+      local x, y = F.pos()
+      if x == 1 and y == 6 and timer() > 0 and F.r16(cyclingScene) == 0 then armed = true end
+      if x == 2 and y == 6 and F.r16(cyclingScene) == 1 then stepped = true end
     end
+  end, onTask = function()
+    atSave = F.r16(cyclingScene)
   end })
-  local tourRan = scriptRunning() or flag(FLAG_HUB_INTRO_TOUR_DONE) == 1 or select(2, F.pos()) == 4
-  F.L(string.format("  step at unlock: cleared=%s pos=(%d,%d) tour=%s", tostring(cleared), select(1, F.pos()), select(2, F.pos()), tostring(tourRan)))
-  F.check("step at unlock: the coord trigger was armed after the load", cleared)
-  F.check("step at unlock: no autosave of a step whose trigger has not run",
-    not (r.saves > 0 and r.atTask and r.atTask.x == 16 and r.atTask.y == 5),
-    r.atTask and fmt(r.atTask) or "no save")
-  F.check("step at unlock: the step's coord trigger ran", tourRan)
-  -- Close the tour (B declines) and leave the hub.
-  F.dismiss(20)
-  flag(FLAG_HUB_INTRO_TOUR_DONE, true)
+  F.check("step at unlock: gate trigger armed while autosave pending", r.landed and armed)
+  F.check("step at unlock: no autosave before the step's trigger ran", atSave == nil or atSave == 1,
+    r.atTask and (fmt(r.atTask) .. " cycling state=" .. atSave) or "no save")
+  F.check("step at unlock: the step set the Cycling Road scene", stepped)
   if r.saves > 0 and r.atTask then saved = r.atTask end
   if not F.ensureFree() then F.dismiss(10) end
 

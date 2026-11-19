@@ -37,12 +37,6 @@ AzaleaPokecenter_Text_Gentleman:
 	.string "Those moves can be used even if\n"
 	.string "your POKéMON has fainted.$"
 
-AzaleaPokecenter_Text_UnusedPCExplanation:
-	.string "This BILL guy created the system\n"
-	.string "for storing POKéMON in a PC.\p"
-	.string "BILL's PC can store up to 30\n"
-	.string "POKéMON per BOX.$"
-
 AzaleaPokecenter_Text_FishingGuru:
 	.string "BILL's PC can store up to 30\n"
 	.string "POKéMON per BOX.$"

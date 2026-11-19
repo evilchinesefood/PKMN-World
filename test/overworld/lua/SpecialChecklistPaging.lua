@@ -14,6 +14,7 @@ local S = require("symbols")
 local F = require("lib").new(S, "SpecialChecklistPaging")
 
 local FLAG_SYS_POKEDEX_GET = 0x949
+local FLAG_SYS_DEXNAV_GET = 0x948 + 0xBE
 local USM_ICO_POKEDEX = 0
 local ROWS, ENTRIES = 4, 7
 
@@ -43,6 +44,7 @@ F.run(function()
   local opt = F.sb2() + S.SaveBlock2.optionsU16
   F.w16(opt, (F.r16(opt) & ~7) | 3)
   flag(FLAG_SYS_POKEDEX_GET, true)
+  flag(FLAG_SYS_DEXNAV_GET, true)
   F.dbg(); F.sel(7); F.sel(2); F.idle(60); F.bOut(4)   -- Pokedex Flags All
 
   F.press("Start", 2); F.idle(60)

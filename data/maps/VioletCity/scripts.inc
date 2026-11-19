@@ -3,17 +3,12 @@
 
 VioletCity_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, VioletCity_OnFrame
-	map_script MAP_SCRIPT_ON_TRANSITION, VioletCity_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
 
 VioletCity_OnFrame::
 	map_script_2 VAR_VIOLET_CITY_KIMONO_GIRL, 1, VioletCity_EventScript_Kimono_Girl
 	map_script_2 VAR_VIOLET_CITY_STATE, 3, VioletCity_EventScript_ElmCall_Trigger
 	.2byte 0
-
-VioletCity_OnTransition::
-	end
 
 VioletCity_EventScript_Trigger::
 	@LOCAL FLAGHEAP
@@ -300,29 +295,6 @@ VioletCity_Movement_Walk_To_School:
 	walk_fast_right
 	step_end
 
-VioletCity_Movement_Walk_To_School_Player:
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	walk_right
-	step_end
-
 VioletCity_Movement_Earl_Walk_Inside:
 	walk_up
 	walk_up
@@ -440,21 +412,10 @@ VioletCity_Text_Youngster:
 	.string "If you touch it, it squirms\n"
 	.string "and dances! Cool!$"
 
-VioletCity_Text_Sign:
-	.string "VIOLET CITY\p"
-	.string "The City of Nostalgic Scents$"
-
 VioletCity_Text_GymSign:
 	.string "VIOLET CITY POKéMON GYM\p"
 	.string "LEADER: FALKNER, The Elegant\n"
 	.string "Master of Flying POKéMON$"
-
-VioletCity_Text_SproutTowerSign:
-	.string "SPROUT TOWER\p"
-	.string "Experience the Way of POKéMON$"
-
-VioletCity_Text_EarlsAcademySign:
-	.string "EARL'S POKéMON ACADEMY$"
 
 VioletCity_Text_Pichu:
 	.string "PICHU: Chuuuu!$"
@@ -490,5 +451,3 @@ VioletCity_Text_Kimono_Girl3:
 
 VioletCity_Text_Kimono_Girl4:
 .string "I am counting on you.$"
-
-

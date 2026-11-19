@@ -1,6 +1,3 @@
-BugContest_EventScript_Start::
-	end
-
 BugContest_EventScript_WhiteOut::
 	lockall
 	delay 200

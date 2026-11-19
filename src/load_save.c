@@ -56,438 +56,6 @@ COMMON_DATA struct PokemonStorage *gPokemonStoragePtr = NULL;
 
 // code
 
-#if ALL_REGIONS
-// v5 -> v6 Kanto var rebase (see include/constants/vars_frlg.h): every FRLG-unique story var
-// on raw IDs 0x4025-0x408A moved from the shared SaveBlock1.vars pool (where it aliased a live
-// Hoenn var) to the Kanto regionVars slice. oldId is the raw pre-v6 SaveBlock1 var ID; the
-// macro name resolves to the var's new VAR_KANTO_SLICE ID.
-static const struct { u16 oldId; u16 newId; } sKantoVarRebase[] = {
-    { 0x4025, VAR_MASSAGE_COOLDOWN_STEP_COUNTER },
-    { 0x4026, VAR_DEOXYS_INTERACTION_STEP_COUNTER },
-    { 0x4027, VAR_QUEST_LOG_MON_COUNTS },
-    { 0x4028, VAR_WONDER_NEWS_STEP_COUNTER_FRLG },
-    { 0x4029, VAR_0x4029 },
-    { 0x402A, VAR_0x402A },
-    { 0x402B, VAR_0x402B },
-    { 0x402C, VAR_DAYS_FRLG },
-    { 0x402D, VAR_0x402D },
-    { 0x402E, VAR_0x402E },
-    { 0x402F, VAR_0x402F },
-    { 0x4030, VAR_ICE_STEP_COUNT_FRLG },
-    { 0x4031, VAR_STARTER_MON_FRLG },
-    { 0x4032, VAR_RESET_RTC_ENABLE_FRLG },
-    { 0x4033, VAR_ENIGMA_BERRY_AVAILABLE_FRLG },
-    { 0x4034, VAR_0x4034 },
-    { 0x4035, VAR_RESORT_GOREGEOUS_STEP_COUNTER },
-    { 0x4036, VAR_RESORT_GORGEOUS_REQUESTED_MON },
-    { 0x4037, VAR_PC_BOX_TO_SEND_MON_FRLG },
-    { 0x4038, VAR_FANCLUB_FAN_COUNTER_FRLG },
-    { 0x4039, VAR_FANCLUB_LOSE_FAN_TIMER_FRLG },
-    { 0x403A, VAR_ELEVATOR_FLOOR },
-    { 0x403B, VAR_RESORT_GORGEOUS_REWARD },
-    { 0x403C, VAR_0x403C },
-    { 0x403D, VAR_HERACROSS_SIZE_RECORD },
-    { 0x403E, VAR_DEOXYS_INTERACTION_NUM },
-    { 0x403F, VAR_0x403F },
-    { 0x4040, VAR_MAGIKARP_SIZE_RECORD },
-    { 0x4041, VAR_0x4041 },
-    { 0x4042, VAR_TRAINER_CARD_MON_ICON_TINT_IDX },
-    { 0x4043, VAR_TRAINER_CARD_MON_ICON_1 },
-    { 0x4044, VAR_TRAINER_CARD_MON_ICON_2 },
-    { 0x4045, VAR_TRAINER_CARD_MON_ICON_3 },
-    { 0x4046, VAR_TRAINER_CARD_MON_ICON_4 },
-    { 0x4047, VAR_TRAINER_CARD_MON_ICON_5 },
-    { 0x4048, VAR_TRAINER_CARD_MON_ICON_6 },
-    { 0x4049, VAR_HOF_BRAG_STATE },
-    { 0x404A, VAR_EGG_BRAG_STATE },
-    { 0x404B, VAR_LINK_WIN_BRAG_STATE },
-    { 0x404D, VAR_QL_ENTRANCE },
-    { 0x404E, VAR_NATIONAL_DEX_FRLG },
-    { 0x4050, VAR_MAP_SCENE_PALLET_TOWN_OAK },
-    { 0x4051, VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN },
-    { 0x4052, VAR_MAP_SCENE_CERULEAN_CITY_RIVAL },
-    { 0x4053, VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER },
-    { 0x4054, VAR_MAP_SCENE_ROUTE22 },
-    { 0x4055, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB },
-    { 0x4056, VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F },
-    { 0x4057, VAR_MAP_SCENE_VIRIDIAN_CITY_MART },
-    { 0x4058, VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE },
-    { 0x4059, VAR_MAP_SCENE_POKEMON_TOWER_6F },
-    { 0x405A, VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR },
-    { 0x405B, VAR_MAP_SCENE_S_S_ANNE_2F_CORRIDOR },
-    { 0x405C, VAR_MAP_SCENE_SILPH_CO_7F },
-    { 0x405D, VAR_MAP_SCENE_POKEMON_TOWER_2F },
-    { 0x405E, VAR_MAP_SCENE_ROUTE16 },
-    { 0x405F, VAR_MAP_SCENE_ROUTE23 },
-    { 0x4060, VAR_MAP_SCENE_SILPH_CO_11F },
-    { 0x4061, VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F },
-    { 0x4062, VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES },
-    { 0x4063, VAR_MAP_SCENE_SEAFOAM_ISLANDS_B4F },
-    { 0x4064, VAR_MAP_SCENE_VICTORY_ROAD_1F },
-    { 0x4065, VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1 },
-    { 0x4066, VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER2 },
-    { 0x4067, VAR_MAP_SCENE_VICTORY_ROAD_3F },
-    { 0x4068, VAR_MAP_SCENE_POKEMON_LEAGUE },
-    { 0x4069, VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_WHICH_FOSSIL },
-    { 0x406A, VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_REVIVE_STATE },
-    { 0x406B, VAR_MAP_SCENE_ROUTE24 },
-    { 0x406C, VAR_MAP_SCENE_PEWTER_CITY },
-    { 0x406D, VAR_0x406D },
-    { 0x406E, VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE },
-    { 0x406F, VAR_CABLE_CLUB_STATE_FRLG },
-    { 0x4070, VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY },
-    { 0x4071, VAR_MAP_SCENE_CINNABAR_ISLAND },
-    { 0x4072, VAR_0x4072 },
-    { 0x4073, VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB },
-    { 0x4074, VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1 },
-    { 0x4075, VAR_MAP_SCENE_ONE_ISLAND_HARBOR },
-    { 0x4076, VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F },
-    { 0x4077, VAR_0x4077 },
-    { 0x4078, VAR_MAP_SCENE_TWO_ISLAND },
-    { 0x4079, VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER },
-    { 0x407A, VAR_0x407A },
-    { 0x407B, VAR_MAP_SCENE_THREE_ISLAND },
-    { 0x407C, VAR_MAP_SCENE_POKEMON_CENTER_TEALA },
-    { 0x407D, VAR_MAP_SCENE_CERULEAN_CITY_ROCKET },
-    { 0x407E, VAR_MAP_SCENE_VERMILION_CITY },
-    { 0x407F, VAR_MAP_SCENE_MT_EMBER_EXTERIOR },
-    { 0x4080, VAR_MAP_SCENE_ICEFALL_CAVE_BACK },
-    { 0x4081, VAR_MAP_SCENE_SAFFRON_CITY_DOJO },
-    { 0x4082, VAR_MAP_SCENE_TRAINER_TOWER },
-    { 0x4083, VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10 },
-    { 0x4084, VAR_MAP_SCENE_FIVE_ISLAND_RESORT_GORGEOUS },
-    { 0x4085, VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR },
-    { 0x4086, VAR_MAP_SCENE_FOUR_ISLAND },
-    { 0x4087, VAR_0x4087 },
-    { 0x4088, VAR_MAP_SCENE_ROCKET_WAREHOUSE },
-    { 0x4089, VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F },
-    { 0x408A, VAR_MAP_SCENE_CINNABAR_ISLAND_2 },
-};
-
-// Region-merge save-format migration (deep-review T20 / plan E4). Runs once from
-// LoadGameSave(SAVE_NORMAL) after the save blocks are in RAM, only when the slot loaded OK.
-//
-// A source-version LADDER, not a blanket wipe: each step upgrades only the specific transition
-// it handles, so bumping SAVE_FORMAT_VERSION later never nukes a newer save's real region
-// progress. A save stamped newer than this build is left untouched (not down-migratable).
-//
-// The region-merge state (the dedicated, UN-checksummed SaveBlock3 regionVars/johtoFlags banks
-// + the SaveBlock2 region bits) is younger than the core save; before it existed those bytes
-// were uninitialised flash with no checksum to reject them. The inline Kanto flag bank in
-// SaveBlock1.flags[] is deliberately NOT touched: it lives in CHECKSUMMED SaveBlock1 (so an
-// OK-loading save's bytes are authentic - zero for a legacy Hoenn save) and is interleaved with
-// the daily/champion/hidden-item flags, which must never be blanket-cleared.
-//
-// IMPORTANT: because the SaveBlock3 banks are un-checksummed, saveVersion is their ONLY
-// integrity guard. If any region-bank size (or the SaveBlock2 region-bit offset) changes, you
-// MUST bump SAVE_FORMAT_VERSION and add a ladder step below - the STATIC_ASSERTs enforce it.
-// ⚠ THE v0..v6 STEPS ARE UNREACHABLE; THE MECHANISM IS NOT. v7 reshaped SaveBlock1 (bag/item-PC
-// expansion, issue #24) and the owner's decision was new-saves-only, so src/save.c refuses any
-// save below SAVE_FORMAT_LAYOUT_MIN before this function is ever called. No v0..v6 source version
-// can reach those steps.
-//
-// The v7 -> v8 step below IS live. SAVE_FORMAT_LAYOUT_MIN stays 7, so a v7 save loads normally and
-// arrives here with savedVersion == 7. The refusal at src/save.c:908 and the migrate call at :919
-// are the two arms of one if/else, and migration runs at boot on the copyright screen, long before
-// InitMapFromSavedGame — which is what makes the mapView zeroing effective.
-//
-// The dead steps are kept, not deleted, because they document exactly what each historical bump
-// changed and any future append-only bump re-uses the mechanism unchanged. Note the fixtures in
-// test/overworld/lua/fixtures/ (v3/v4/v5) exercise the GATE, not the ladder; MigrateFixtures.lua was
-// rewritten to assert the refusal. The v7 fixture is the one that exercises a real migration.
-// Save format v9 deleted MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7FNIGHT and MAP_MT_SILVER_SUMMIT_NIGHT
-// (issue #51). Both were unreachable dead twins of a setmaplayoutindex day/night pair, but neither
-// was LAST in its map group, so removing them renumbered every map after them within that group:
-// 17 in gMapGroup_IndoorGoldenrod, 3 in gMapGroup_MtSilver.
-//
-// mapNum is persisted in SaveBlock1 - location, continueGameWarp, dynamicWarp, lastHealLocation,
-// escapeWarp and every live objectEvents[] entry - so a pre-v9 save that stored any of those 20
-// rooms would silently re-point one room earlier. That includes the RESPAWN point, which is the
-// nastiest form: a whiteout would land somewhere the player never healed.
-//
-// Each deleted twin sat directly AFTER its day map, so the removed index is always
-// MAP_NUM(day map) + 1. Deriving it that way keeps this table correct if those groups are ever
-// reordered again, instead of hard-coding 11 and 9.
-static const struct { u8 group; u8 dayNum; } sDeletedTwinMaps[] = {
-    { MAP_GROUP(MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7F), MAP_NUM(MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7F) },
-    { MAP_GROUP(MAP_MT_SILVER_SUMMIT_DAY),               MAP_NUM(MAP_MT_SILVER_SUMMIT_DAY) },
-};
-
-static void MigrateDeletedTwinMapNum(u8 mapGroup, u8 *mapNum)
-{
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(sDeletedTwinMaps); i++)
-    {
-        u8 deleted = sDeletedTwinMaps[i].dayNum + 1;
-
-        if (mapGroup != sDeletedTwinMaps[i].group)
-            continue;
-        if (*mapNum > deleted)
-            (*mapNum)--;
-        else if (*mapNum == deleted)
-            *mapNum = sDeletedTwinMaps[i].dayNum; // stood on the deleted twin: fall back to its day map
-        return;
-    }
-}
-
-static void MigrateDeletedTwinMaps(void)
-{
-    struct WarpData *warps[] = {
-        &gSaveBlock1Ptr->location,
-        &gSaveBlock1Ptr->continueGameWarp,
-        &gSaveBlock1Ptr->dynamicWarp,
-        &gSaveBlock1Ptr->lastHealLocation,
-        &gSaveBlock1Ptr->escapeWarp,
-    };
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(warps); i++)
-        MigrateDeletedTwinMapNum((u8)warps[i]->mapGroup, (u8 *)&warps[i]->mapNum);
-
-    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->objectEvents); i++)
-        MigrateDeletedTwinMapNum(gSaveBlock1Ptr->objectEvents[i].mapGroup,
-                                 &gSaveBlock1Ptr->objectEvents[i].mapNum);
-}
-
-// v9 also MOVED two Johto heal-location coordinates that were plainly wrong: Violet City's sat at
-// (30,18), the tile below the SPROUT TOWER door rather than its PokeCenter, and Route 32's was 60
-// tiles from its own Center. lastHealLocation stores the COORDINATE, and
-// GetHealLocationIndexByWarpData matches the table on exact x/y - so a save still holding an old
-// pair stops matching, IsWhiteoutCutscene() goes false, and the player keeps whiting out onto the
-// old wrong tile until they happen to heal at that Center again. Re-point the stored coordinate so
-// an in-flight save is fixed on load rather than staying subtly broken.
-static void MigrateMovedHealLocations(void)
-{
-    static const struct { u16 mapGroup, mapNum, oldX, oldY; } sMovedHealLocations[] = {
-        { MAP_GROUP(MAP_VIOLET_CITY), MAP_NUM(MAP_VIOLET_CITY), 30, 18 },
-        { MAP_GROUP(MAP_ROUTE32),     MAP_NUM(MAP_ROUTE32),      9, 40 },
-        // 6fb180ccbd (2026-08-12) moved these three one tile south, onto the tile in front of the
-        // Center door, after v9 had shipped. The old pairs are the door tiles themselves, which no
-        // current heal location uses, so matching them is safe at any version.
-        { MAP_GROUP(MAP_AZALEA_TOWN),      MAP_NUM(MAP_AZALEA_TOWN),      31, 15 },
-        { MAP_GROUP(MAP_GOLDENROD_CITY),   MAP_NUM(MAP_GOLDENROD_CITY),   28, 36 },
-        { MAP_GROUP(MAP_SAFARI_ZONE_GATE), MAP_NUM(MAP_SAFARI_ZONE_GATE), 11, 15 },
-    };
-    struct WarpData *heal = &gSaveBlock1Ptr->lastHealLocation;
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(sMovedHealLocations); i++)
-    {
-        const struct HealLocation *loc;
-
-        if (heal->mapGroup != (s8)sMovedHealLocations[i].mapGroup
-         || heal->mapNum   != (s8)sMovedHealLocations[i].mapNum
-         || heal->x        != (s16)sMovedHealLocations[i].oldX
-         || heal->y        != (s16)sMovedHealLocations[i].oldY)
-            continue;
-
-        // Take the new coordinate from the table itself rather than repeating it here, so this
-        // cannot drift out of step with data/heal_locations.json.
-        loc = GetHealLocationByMap(sMovedHealLocations[i].mapGroup, sMovedHealLocations[i].mapNum);
-        if (loc != NULL)
-        {
-            heal->x = loc->x;
-            heal->y = loc->y;
-        }
-        return;
-    }
-}
-
-// Goldenrod's first-visit setup cleared FLAG_RECEIVED_BIKE (#602), the flag Rydel's Cycles and
-// the Goldenrod bike shop share, so either shop gave a second bike. Both shops set it as they hand
-// over a Mach or Acro Bike and nothing else gives either one, so a bike in the Bag or the item PC
-// proves the flag was set; only that setup ever cleared it. The raw slots are read rather than
-// CheckBagHasItem, which looks in the Pyramid bag instead for a save made in the Battle Pyramid.
-static bool32 SaveHoldsKeyItem(enum Item itemId)
-{
-    u32 i;
-
-    for (i = 0; i < BAG_KEYITEMS_COUNT; i++)
-    {
-        if (gSaveBlock1Ptr->bag.keyItems[i].itemId == itemId)
-            return TRUE;
-    }
-    for (i = 0; i < PC_ITEMS_COUNT; i++)
-    {
-        if (gSaveBlock1Ptr->pcItems[i].itemId == itemId)
-            return TRUE;
-    }
-    return FALSE;
-}
-
-static void RestoreSharedBikeFlag(void)
-{
-    if (SaveHoldsKeyItem(ITEM_MACH_BIKE) || SaveHoldsKeyItem(ITEM_ACRO_BIKE))
-        FlagSet(FLAG_RECEIVED_BIKE);
-}
-
-// Johto's mother set FLAG_RECEIVED_POKENAV with the PokeGear (#604). Devon's president is its only
-// other writer and sets VAR_DEVON_CORP_3F_STATE in the same scene, so the flag with that var still
-// 0 came from the PokeGear. Hoenn then tracked Mr. Briney early: a Center recorded his cottage in
-// VAR_BRINEY_LOCATION, and a hub arrival or a whiteout put him and Peeko there while Peeko was
-// still missing. Until Devon's scene the real game keeps both hidden and the var at 0, so restore
-// that. A save in which Briney already sailed the player is left alone: every first voyage lands
-// in Dewford, and from then on the route the player is on depends on where the save put him.
-static void UndoPokegearPokenavFlag(void)
-{
-    u32 i;
-
-    if (!FlagGet(FLAG_RECEIVED_POKENAV) || VarGet(VAR_DEVON_CORP_3F_STATE) != 0
-     || FlagGet(FLAG_VISITED_DEWFORD_TOWN))
-        return;
-    FlagClear(FLAG_RECEIVED_POKENAV);
-    VarSet(VAR_BRINEY_LOCATION, 0);
-    FlagSet(FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY);
-    FlagSet(FLAG_HIDE_BRINEYS_HOUSE_PEEKO);
-    // Continue restores a save's live objects without reading their hide flags, so a save made
-    // inside the cottage would still show both until the player left.
-    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
-    {
-        struct ObjectEvent *obj = &gSaveBlock1Ptr->objectEvents[i];
-
-        if (obj->active
-         && obj->mapGroup == MAP_GROUP(MAP_ROUTE104_MR_BRINEYS_HOUSE)
-         && obj->mapNum == MAP_NUM(MAP_ROUTE104_MR_BRINEYS_HOUSE)
-         && (obj->localId == LOCALID_BRINEYS_HOUSE_BRINEY || obj->localId == LOCALID_BRINEYS_HOUSE_PEEKO))
-            obj->active = FALSE;
-    }
-}
-
-void MigrateSaveFormatIfNeeded(void)
-{
-    u8 savedVersion = gSaveBlock2Ptr->saveVersion;
-
-    // Idempotent (only the old coordinate pairs match), so it runs on every load, current saves
-    // included. The Azalea, Goldenrod and Safari Zone Gate moves landed after v9 shipped and the
-    // repair landed after v12 did, so a v12 save written by a build without it can still hold the
-    // old door tile. save.c refuses a newer save before calling this, so nothing newer reaches it.
-    MigrateMovedHealLocations();
-
-    // Current format: leave the ladder alone.
-    if (savedVersion >= SAVE_FORMAT_VERSION)
-        return;
-
-    // v0 -> v1: pre-versioning save. Its region banks/bits are untrustworthy flash, so re-init
-    // them to a clean Hoenn start. A legacy save is a completed-intro Hoenn playthrough, so
-    // Hoenn's arrival intro is already done (else the Littleroot welcome cutscene re-fires on the
-    // next visit home); Kanto and Johto are genuinely unvisited. Stamps saveVersion in RAM only.
-    if (savedVersion < 1)
-    {
-        memset(gSaveBlock3Ptr->region.regionVars, 0, sizeof(gSaveBlock3Ptr->region.regionVars));
-        memset(gSaveBlock3Ptr->region.johtoFlags, 0, sizeof(gSaveBlock3Ptr->region.johtoFlags));
-
-        gSaveBlock2Ptr->currentRegion    = REGION_HOENN;
-        gSaveBlock2Ptr->hoennIntroDone   = TRUE;
-        gSaveBlock2Ptr->kantoIntroDone   = FALSE;
-        gSaveBlock2Ptr->johtoIntroDone   = FALSE;
-        gSaveBlock2Ptr->regionBitsUnused = 0;
-    }
-    // v1 -> v2: SaveBlock3.usmSaved (graphical start menu icon order) was appended after the
-    // region banks; on older saves those bytes are uninitialised flash. Zero ONLY the new
-    // field - v1 region-bank/bit semantics are untouched.
-    if (savedVersion < 2)
-        memset(&gSaveBlock3Ptr->region.usmSaved, 0, sizeof(gSaveBlock3Ptr->region.usmSaved));
-    // v2 -> v3: SaveBlock3.kantoTrainerFlags (Kanto trainer defeat-flag bank, E5-1) was
-    // appended after usmSaved; on older saves those bytes are uninitialised flash. Zero ONLY
-    // the new bank - no Kanto trainer was beatable before v3, so "none defeated" is correct.
-    if (savedVersion < 3)
-        memset(gSaveBlock3Ptr->region.kantoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->region.kantoTrainerFlags));
-    // v3 -> v4: SaveBlock3.route5DayCareMon (FRLG Route 5 single-mon day care, E7-1) was
-    // appended after kantoTrainerFlags; on older saves those bytes are uninitialised flash.
-    // Zero ONLY the new field - an all-zero DaycareMon is an empty day care (no stored mon).
-    if (savedVersion < 4)
-        memset(&gSaveBlock3Ptr->region.route5DayCareMon, 0, sizeof(gSaveBlock3Ptr->region.route5DayCareMon));
-    // v4 -> v5 (the old cleared-obstacle list) is intentionally absent: v7 reshaped that region
-    // into obstacleTableHash + clearedObstacleBits, and the SAVE_FORMAT_LAYOUT_MIN gate in
-    // src/save.c refuses every pre-v7 save outright, so no ladder step can ever observe v4 or v5
-    // here. ResyncClearedObstacleTable() below owns the bits from v7 on.
-    // v5 -> v6: the FRLG story vars were rebased from raw SaveBlock1.vars IDs (0x4025-0x408A,
-    // where they aliased live Hoenn vars) onto the reserved Kanto regionVars slice. Copy each
-    // moved var's old shared cell into its new slot - the cell value is the best available
-    // (Kanto and Hoenn wrote it interleaved); Hoenn keeps the cell afterward. Skipped for v0
-    // sources: their Kanto is genuinely unvisited and the cells hold pure Hoenn values, so the
-    // freshly zeroed slice (v0 -> v1 above) is already correct.
-    if (savedVersion >= 1 && savedVersion < 6)
-    {
-        u32 i;
-        for (i = 0; i < ARRAY_COUNT(sKantoVarRebase); i++)
-            gSaveBlock3Ptr->region.regionVars[sKantoVarRebase[i].newId - REGION_VARS_START]
-                = gSaveBlock1Ptr->vars[sKantoVarRebase[i].oldId - VARS_START];
-    }
-
-    // v6 -> v7: nothing. v7 reshaped SaveBlock1 and is refused outright by the
-    // SAVE_FORMAT_LAYOUT_MIN gate in src/save.c, so no ladder step can observe a v6 source.
-    // v7 -> v8: the POKéMON CENTER 1F layouts changed (issue #59). SaveBlock1.mapView is a
-    // snapshot of the metatiles around the player, saved so a re-entered map redraws exactly as
-    // it was left, and InitMapFromSavedGame restores it (fieldmap.c) BEFORE the map's own
-    // ON_LOAD script runs. A v7 save made standing inside a Center would therefore paint the old
-    // Town Map poster and the old staircase back over the new layout. Zeroing it costs nothing:
-    // mapView is transient state that ClearSavedMapView() wipes immediately after a restore.
-    // Note this is only safe because UBFIX is active (MODERN implies it, Makefile): the vanilla
-    // arm of SavedMapViewIsEmpty ORs 512 bytes past the 0x100-element array into
-    // playerPartyCount/playerParty, and would report "not empty" for anyone with a party.
-    if (savedVersion < 8)
-        memset(gSaveBlock1Ptr->mapView, 0, sizeof(gSaveBlock1Ptr->mapView));
-
-    // v8 -> v9: the Johto route/dungeon trainers were given their own trainer ids (they used to
-    // share Hoenn ones, which meant a single defeat flag for two different trainers). Their
-    // defeat flags live in johtoTrainerFlags[], APPENDED to the end of struct RegionSave - so no
-    // existing bank moved and a v8 save loads normally. But SaveBlock3 is un-checksummed and its
-    // tail is whatever was in flash, so those bytes are garbage on a v8 save: without zeroing
-    // them a player could walk up to a never-fought Johto trainer and find them already beaten.
-    if (savedVersion < 9)
-        memset(gSaveBlock3Ptr->region.johtoTrainerFlags, 0, sizeof(gSaveBlock3Ptr->region.johtoTrainerFlags));
-
-    // v8 -> v9 also DELETED two dead day/night twin maps (issue #51) and MOVED two Johto heal
-    // coordinates (repointed by MigrateMovedHealLocations at the top). Both renumber/repoint state
-    // that is PERSISTED, so they need fixing up in the save, not just in the data. Issue #51
-    // accepted a save reset for this; migrating is strictly better and is what keeps a
-    // mid-playthrough save loadable.
-    if (savedVersion < 9)
-        MigrateDeletedTwinMaps();
-
-    // v9 -> v10: issue #195. Clear the stale forced-TRUE hoennIntroDone on a save that has never
-    // actually played Hoenn's intro, so the hub sends it to the Littleroot bedroom instead of
-    // dumping it in Slateport Harbor with no party. VAR_LITTLEROOT_INTRO_STATE is Hoenn-only and
-    // monotonic - nothing in the repo ever resets it - so 0 means no Hoenn intro script has EVER
-    // run on this file. That includes a file already dumped in Slateport (currentRegion is
-    // REGION_HOENN, intro state still 0): the hub first-visit path sets the var to 4 before
-    // warping, so a genuine mid-intro save cannot sit at 0. A save that finished Birch's lab
-    // sits at 7, so this cannot re-fire the bedroom on a completed Hoenn game. Guarded by
-    // savedVersion < 10, so it runs at most once per save, ever.
-    if (savedVersion < 10)
-    {
-        if (gSaveBlock2Ptr->hoennIntroDone
-         && VarGet(VAR_LITTLEROOT_INTRO_STATE) == 0)
-            gSaveBlock2Ptr->hoennIntroDone = FALSE;
-    }
-
-    if (savedVersion < 11)
-        RegionalTravel_Migrate();
-
-    if (savedVersion < 12)
-    {
-        gSaveBlock2Ptr->optionsEncounterRate = OPTIONS_RATE_1X;
-        gSaveBlock2Ptr->optionsMoneyLoss = OPTIONS_RATE_1X;
-    }
-
-    // v12 -> v13: Kanto and Johto read their own starter index instead of the shared
-    // VAR_STARTER_MON. An older save cannot say which region wrote that var last, so both new
-    // slots start from it, which keeps every rival on the team the save would have used before.
-    if (savedVersion < 13)
-    {
-        VarSet(VAR_STARTER_MON_FRLG, VarGet(VAR_STARTER_MON));
-        VarSet(VAR_STARTER_MON_JOHTO, VarGet(VAR_STARTER_MON));
-        // v13 also repairs saves that two cross-region writes damaged before their fixes, which
-        // stop only new damage. Each repair acts on proof of what the player did and converges.
-        RestoreSharedBikeFlag();
-        UndoPokegearPokenavFlag();
-    }
-
-    gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;
-}
-
 // Bind the saved obstacle bits to the generated table they were written under (issue #16).
 //
 // The bit index for a cut tree comes from test/overworld/GenObstacleTable.py's build-time enumeration of
@@ -516,37 +84,14 @@ void ResyncClearedObstacleTable(void)
 // The reference value lives in SaveBlock2, which IS covered by the sector checksum — so a
 // mismatch means SaveBlock3 drifted while its reference did not, rather than "one of the two is
 // wrong and we cannot tell which".
-static u16 RegionSaveChecksumOver(u32 nbytes)
+static u16 RegionSaveChecksum(void)
 {
     const u8 *p = (const u8 *)&gSaveBlock3Ptr->region;
     u32 i, sum = 0;
 
-    for (i = 0; i < nbytes; i++)
+    for (i = 0; i < sizeof(struct RegionSave); i++)
         sum += p[i];
     return (u16)(sum + (sum >> 16));
-}
-
-// The width struct RegionSave had when a save of the given version was STAMPED. A version bump
-// that appends a bank grows the struct, so verifying a v8 stamp over the v9 sizeof() reads 32
-// bytes the stamping build never covered -- precisely the un-checksummed flash tail that the
-// v8 -> v9 ladder step exists to zero. Those bytes are usually zero (HandleWriteSector clears the
-// whole sector buffer before filling it), which is why the owner's save and fixtures/v7.srm pass;
-// fixtures/v7dirty.srm has 0xFF there and reports stored=0x02F1 computed=0x22D1, putting a
-// spurious "region save damaged" warning on the main menu for a save that is perfectly intact.
-//
-// Every future append must add its own arm here, or it reintroduces the same false alarm.
-static u32 RegionSaveWidthForVersion(u8 version)
-{
-    if (version < 9)
-        return offsetof(struct RegionSave, johtoTrainerFlags);
-    if (version < 11)
-        return offsetof(struct RegionSave, regionalTravel);
-    return sizeof(struct RegionSave);
-}
-
-static u16 RegionSaveChecksum(void)
-{
-    return RegionSaveChecksumOver(sizeof(struct RegionSave));
 }
 
 void StampRegionSaveChecksum(void)
@@ -560,14 +105,10 @@ void StampRegionSaveChecksum(void)
 // ResyncClearedObstacleTable() already owns those. Callers surface it; they do not "fix" it.
 bool32 VerifyRegionSaveChecksum(void)
 {
-    // Verify over the width the SAVED version stamped, not this build's sizeof(). Called from
-    // src/save.c BEFORE the ladder runs, so gSaveBlock2Ptr->saveVersion is still the on-flash one.
-    return gSaveBlock2Ptr->regionChecksum
-        == RegionSaveChecksumOver(RegionSaveWidthForVersion(gSaveBlock2Ptr->saveVersion));
+    return gSaveBlock2Ptr->regionChecksum == RegionSaveChecksum();
 }
 
-// The region-merge save banks are UN-checksummed; saveVersion is their only integrity guard.
-// If any of these change, bump SAVE_FORMAT_VERSION and add a matching ladder step above.
+// Layout changes require a save-format review.
 STATIC_ASSERT(NUM_REGION_VARS == 384, RegionVarBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_JOHTO_FLAG_BYTES == 128, JohtoFlagBankSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(NUM_KANTO_TRAINER_FLAG_BYTES == 80, KantoTrainerFlagBankSizeChanged_BumpSaveFormatVersion);
@@ -577,21 +118,12 @@ STATIC_ASSERT(NUM_JOHTO_TRAINER_FLAG_BYTES == 32, JohtoTrainerFlagBankSizeChange
 // If a field is ever added to a boxed mon, that arithmetic and every stored save silently change.
 STATIC_ASSERT(sizeof(struct BoxPokemon) == 80, BoxPokemonSizeChanged_BumpSaveFormatVersion);
 STATIC_ASSERT(sizeof(struct Pokemon) == 100, PokemonSizeChanged_BumpSaveFormatVersion);
-// sKantoVarRebase is a hand-maintained table, one row per rebased FRLG var, and the loop above
-// indexes regionVars[] straight from it. A dropped row silently loses that var's carried-over
-// value on every v1-v5 load; pin the count so it is a build failure instead. 100 rows (src lines
-// 58-157), counted from the source - not the "101" in issue #29, which contradicts its own
-// "all 100 rebase targets land in 0xA000..0xA063" a paragraph later.
-STATIC_ASSERT(ARRAY_COUNT(sKantoVarRebase) == 100, KantoVarRebaseTableRowCountChanged);
-// SaveBlock3 is append-only: a field inserted/reordered BEFORE the region banks (e.g. by toggling
-// a prefix #if like QUEST_MENU) shifts every bank with no checksum to catch it. Pin the start.
-// The banks now live in struct RegionSave (layout-neutral wrapper); regionVars is its first field,
-// so pinning the wrapper at 0x20 pins regionVars at 0x20 exactly as before.
-STATIC_ASSERT(offsetof(struct SaveBlock3, region) == 0x20, SaveBlock3RegionMoved_BumpSaveFormatVersion);
+// Keep the v14 region banks at their on-flash offset.
+STATIC_ASSERT(offsetof(struct SaveBlock3, region) == 0x08, SaveBlock3RegionMoved_BumpSaveFormatVersion);
 // "Append-only, never reorder" must be ENFORCED, not just a comment: the offsets below depend on
 // sizeof(Usm_SavedItems)/sizeof(DaycareMon), so a field inserted/resized BETWEEN banks would shift
 // every later un-checksummed bank silently. Pin every interior bank offset + the exact struct size
-// (probe-verified with the repo CFLAGS); any change forces a SAVE_FORMAT_VERSION bump + ladder step.
+// (probe-verified with the repo CFLAGS); any change forces a SAVE_FORMAT_VERSION bump and a layout review.
 STATIC_ASSERT(offsetof(struct RegionSave, regionVars) == 0, RegionSaveRegionVarsMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, johtoFlags) == 768, RegionSaveJohtoFlagsMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, usmSaved) == 896, RegionSaveUsmSavedMoved_BumpSaveFormatVersion);
@@ -602,9 +134,6 @@ STATIC_ASSERT(offsetof(struct RegionSave, route5DayCareMon) == 992, RegionSaveRo
 // sizeof(struct RegionSave) 1552 -> 1200, i.e. 352 bytes back to SaveBlock3.
 STATIC_ASSERT(offsetof(struct RegionSave, obstacleTableHash) == 1132, RegionSaveObstacleHashMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, clearedObstacleBits) == 1136, RegionSaveObstacleBitsMoved_BumpSaveFormatVersion);
-// v9 APPENDED the Johto trainer defeat-flag bank at the tail (1200), growing RegionSave
-// 1200 -> 1232. Because it is a true append, every offset pinned above is unchanged, which is
-// what lets a v8 save load without relocating anything - the ladder step only zeroes this bank.
 STATIC_ASSERT(offsetof(struct RegionSave, johtoTrainerFlags) == 1200, RegionSaveJohtoTrainerFlagsMoved_BumpSaveFormatVersion);
 STATIC_ASSERT(offsetof(struct RegionSave, regionalTravel) == 1232, RegionalTravelOffset);
 STATIC_ASSERT(sizeof(struct RegionSave) == 1400, RegionSaveSizeChanged_BumpSaveFormatVersion);
@@ -612,6 +141,7 @@ STATIC_ASSERT(sizeof(struct RegionSave) == 1400, RegionSaveSizeChanged_BumpSaveF
 // larger than the slot count, but pin it here too so a hand-edited header cannot slip past.
 STATIC_ASSERT(CLEARED_OBSTACLE_COUNT <= CLEARED_OBSTACLE_SLOTS, ClearedObstacleTableExceedsReservedBits);
 STATIC_ASSERT(offsetof(struct SaveBlock2, currentRegion) == 0x90, SaveBlock2RegionStateMoved_BumpSaveFormatVersion);
+STATIC_ASSERT(offsetof(struct SaveBlock2, saveVersion) == 0x91, SaveVersionOffsetMustSurviveLayoutChanges);
 // The party-menu "Follow" chooser (e0d958f1) carved followerSlot from the SAME 0x90-0x97 filler as
 // the region bytes above. Pin its offset so a later edit to those bytes - e.g. a 9th intro bit
 // spilling the 0x92 bitfield into 0x93 - can't silently relocate/collide it and lose the chosen
@@ -621,7 +151,6 @@ STATIC_ASSERT(offsetof(struct SaveBlock2, followerSlot) == 0x93, SaveBlock2Follo
 // SaveBlock3 banks, so if it silently relocated the checksum would compare against garbage and
 // every load would report the banks corrupt.
 STATIC_ASSERT(offsetof(struct SaveBlock2, regionChecksum) == 0x94, SaveBlock2RegionChecksumMoved);
-#endif // ALL_REGIONS
 
 // The three SaveBlock1 banks the BizHawk/Lua suites read. These used to be hand-typed numbers in
 // test/overworld/GenLuaSymbols.py's curated table, and they ROTTED: save format v7 reshaped SaveBlock1
@@ -869,12 +398,10 @@ void CopyPartyAndObjectsToSave(void)
 {
     SavePlayerParty();
     SaveObjectEvents();
-#if ALL_REGIONS
     // Every save path in src/save.c funnels through here, which makes it the one place a
     // SaveBlock3 checksum can be stamped without chasing each write entry point individually.
     // It must run BEFORE the sectors are written, which is exactly where this sits.
     StampRegionSaveChecksum();
-#endif
 }
 
 void CopyPartyAndObjectsFromSave(void)

@@ -1,46 +1,37 @@
--- Save-format LAYOUT GATE guard rail (issue #20 / folded #21, repurposed for #24's v7 break).
---
--- WHAT CHANGED (2026-07-24): save format v7 RESHAPED SaveBlock1 (bag Items 30->60, Key Items
--- 30->99, item PC 50->150). Owner decision was new-saves-only, so src/save.c now refuses any save
--- older than SAVE_FORMAT_LAYOUT_MIN outright instead of migrating it.
---
--- That makes the whole v0..v6 migration ladder UNREACHABLE, and with it the thing this suite used
--- to assert. Rather than delete a suite that can no longer pass, it now tests what actually has to
--- hold — and it is a stronger property than the one it replaced:
---
---   A pre-v7 fixture must be REFUSED, not half-loaded.
---
--- That refusal is the whole point of the gate. Growing bag/pcItems shifts every later SaveBlock1
--- field by 796 bytes, but both live in SaveBlock1 CHUNK 0 and SAVEBLOCK_CHUNK only varies the LAST
--- chunk's size — so chunks 0-2 keep size 3968, their stored checksums still match the flash bytes,
--- and a legacy save loads "successfully" into the shifted layout with silently misaligned flags
--- and vars. Only chunk 3 fails. The checksum is NOT a gate; SAVE_FORMAT_LAYOUT_MIN is, and this
--- suite is what proves it is wired up.
---
--- Run from the repo root (the sweep, test/overworld/run-all.sh, runs it the same way):
---   test/overworld/mgba-run.sh test/overworld/lua/MigrateFixtures.lua pokemonworld.gba test/overworld/lua/fixtures/v3.srm
+-- Boot an incompatible battery save. The cartridge must report TOO_OLD and start a new game.
+-- cases.tsv runs this suite with the historical v3 save and the exact outgoing v13 layout.
 local here = (debug.getinfo(1, "S").source:sub(2)):match("^(.*[/\\])") or ""
 package.path = here .. "?.lua;" .. package.path
 local S = require("symbols")
-local F = require("lib").new(require("symbols"), "MigrateFixtures")
-
--- Must match SAVE_FORMAT_LAYOUT_MIN in include/constants/global.h.
-local LAYOUT_MIN = 7
+local F = require("lib").new(S, os.getenv("PW_CASE_NAME") or "MigrateFixtures")
 
 F.run(function()
-  -- boot() blind-presses A/Start, so on a refused save it walks the NEW GAME path rather than
-  -- Continue. Either way it must reach the overworld without crashing — a gate that hangs or
-  -- crashes on a legacy save is no better than one that half-loads it.
-  if not F.boot() then F.check("legacy fixture does not crash the boot path", false); F.finish(); return end
-  F.check("legacy fixture reaches the overworld without crashing", F.ow())
-
+  -- Stop at the selectable menu before pressing A on its first row. Seeing an
+  -- overworld later cannot distinguish NEW GAME from an accidental CONTINUE.
+  local menu
+  for frame = 1, 4000 do
+    for i = 0, S.Task.count - 1 do
+      local task = S.gTasks + i * S.Task.stride
+      if F.r8(task + S.Task.isActive) ~= 0 and
+          (F.r32(task + S.Task.func) & ~1) == (S.Task_HandleMainMenuInput & ~1) then
+        menu = task
+        break
+      end
+    end
+    if menu then break end
+    joypad.set(frame % 18 < 2 and { A = true } or {})
+    emu.frameadvance()
+  end
+  if not F.check("main menu reached", menu ~= nil) then F.finish(); return end
+  joypad.set({})
+  F.check("menu offers NEW GAME and OPTIONS only", F.r16(menu + S.Task.data) == 0 and
+    F.r16(menu + S.Task.data + 24) == 2 and F.r16(S.gSaveFileStatus) == 0)
+  if not F.check("refused cartridge boots a new game", F.boot()) then F.finish(); return end
   local sb2, sb3 = F.sb2(), F.sb3()
-
-  -- The decisive assertion. Whatever save is live after boot, it must NOT be the pre-v7 fixture:
-  -- either the gate refused it and we are on a fresh new game (stamped current), or something is
-  -- wrong. A saveVersion below the floor here means a legacy save was let through.
-  local ver = F.r8(sb2 + S.SaveBlock2.saveVersion)
-  F.check("no pre-v7 save is live after boot (layout gate held)", ver >= LAYOUT_MIN, "ver=" .. ver)
+  F.check("old layout was refused as TOO_OLD", F.r8(S.gSaveVersionRefusal) == 1,
+    "reason=" .. F.r8(S.gSaveVersionRefusal))
+  F.check("new game uses the current clean-save format", F.r8(sb2 + S.SaveBlock2.saveVersion) ==
+    S.SAVE_FORMAT_VERSION and S.SAVE_FORMAT_LAYOUT_MIN == S.SAVE_FORMAT_VERSION)
 
   -- Cross-check on the reshaped side. A half-loaded legacy save is exactly the failure mode the
   -- gate exists to prevent, and its signature is garbage in the shifted region banks. On a fresh

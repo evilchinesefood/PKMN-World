@@ -131,15 +131,6 @@ Route45_Text_BlackbeltKenjiAfter:
     .string "I must take to the hills and train\n"
     .string "in solitude.$"
 
-Route45_Text_BlackbeltKenjiMorning:
-    .string "I'm going to train a bit more\n"
-    .string "before I break for lunch.$"
-
-Route45_Text_BlackbeltKenjiNight:
-    .string "We had plenty of rest at lunch, so\p"
-    .string "now we're all ready to go again!\p"
-    .string "We're going to train again!$"
-
 Route45_Text_CooltrainermRyanSeen:
     .string "What are your thoughts on\n"
     .string "raising POKéMON?$"

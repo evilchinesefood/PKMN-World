@@ -6,8 +6,4 @@
 #define SWSH_PARTY_MON_IDLE_ANIMS         TRUE
 #define SWSH_PARTY_MON_IDLE_ANIMS_FRAMES  300 // Number of frames before mon animation loops
 
-#if !SWSH_PARTY_MENU
-#error "SWSH_PARTY_MENU FALSE no longer builds: the classic party menu source was deleted. Restore src/party_menu.c from git history first."
-#endif
-
 #endif // GUARD_CONFIG_SWSH_PARTY_MENU_H

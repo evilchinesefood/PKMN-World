@@ -1,71 +1,9 @@
 #!/usr/bin/env python3
-"""Battery-save reader and offline format-migrator (host-side, no emulator needed).
+"""Inspect battery saves and verify the game's sector geometry and current save ABI.
 
-Two jobs:
-
-  * INSPECT a real .sav/.srm — slot health, save version, progress, and every field the
-    migration ladder cares about. Answers "which of my two saves is further along?" and
-    "is this save going to trip the SaveBlock3 corrupt warning?" without booting anything.
-  * MIGRATE one forward. `MigrateSaveFormatIfNeeded` (src/load_save.c) already runs at load,
-    but only in RAM: the fix does not reach the FILE until the player saves again. This
-    applies the same ladder to the bytes, so a save handed to a second device is already
-    correct rather than correct-once-you-remember-to-save.
-
-Run from the repo root:
-    python3 test/overworld/SavePatch.py <save>...                  # inspect
-    python3 test/overworld/SavePatch.py --migrate OUT.sav <save>   # apply the ladder
-    python3 test/overworld/SavePatch.py --check                    # constants still match the tree
-    python3 test/overworld/SavePatch.py --probe                    # re-derive offsets with the compiler
-
-## Why an offline patcher is safe to have
-
-The save is not opaque. Every rule it obeys is in src/save.c, and only two of them are easy
-to get wrong:
-
-  1. A sector's checksum covers `data[0:size]` ONLY — never the 116-byte saveBlock3Chunk
-     riding along in the same sector (HandleWriteSector). So editing a SaveBlock3 bank moves
-     no sector checksum, while editing one SaveBlock1 byte moves exactly one.
-  2. A logical sector's id is NOT its physical position. The slot rotates on every save, so
-     the footer id (u16 at 4084) is the only way to find where a chunk actually lives.
-
-Get either wrong and nothing errors. The sector fails its checksum, `GetSaveValidStatus`
-quietly demotes that slot, and the game loads the OTHER one — the player silently loses
-however much progress separates the two slots. That is the failure this tool is built to
-not have, hence the self-test below.
-
-## Three guards, because no one of them is sufficient
-
-`--migrate` writes nothing until all three pass:
-
-  1. **Pinned constants** (below) are re-read from the tree. This is the ONLY guard that
-     catches a struct growing or shrinking under the tool, and it is why it runs first.
-  2. **A no-op round trip must be byte-identical**: parse the save, write every gathered
-     block straight back with zero edits, compare. This catches a writer that would damage
-     the file in front of it — wrong physical sector, wrong checksum arithmetic.
-  3. **The slot must be fully intact** (all 14 sectors valid). A slot missing a sector
-     gathers zeros where that sector's bytes belong, and the ladder would then read those
-     zeros as real state and act on them.
-
-Guard 2 is deliberately not oversold: it compares bytes, so drift that only affects bytes
-which are already zero is invisible to it. Shrinking SB1_SIZE is the worked example — it
-shortens only the last SaveBlock1 sector, whose tail is zeros, so both the copied bytes and
-the checksum come out unchanged and the round trip passes. That drift is caught by guard 1
-(test/save.c pins the size), which is the point of having it. Do not weaken guard 1 on the
-grounds that "the round trip would catch it": it would not.
-
-## Why the constants are checked against the tree on every run
-
-This tool hard-codes struct sizes and offsets, which is exactly the kind of table that rots
-into silent corruption after a format bump — the sizes drive the sector chunking, so a stale
-SaveBlock1 size means every checksum lands in the wrong place. So the values that ARE pinned
-in the tree (test/save.c's block sizes, load_save.c's STATIC_ASSERT offsets, save.h's sector
-geometry) are re-read and compared on startup, and a mismatch is a hard failure with the
-source line to look at. `--check` runs just that half for CI.
-
-The SaveBlock1/SaveBlock2 FIELD offsets are pinned nowhere, so they cannot be cross-checked
-that way. `--probe` re-derives all of them by compiling `offsetof` expressions with the repo's
-real CFLAGS and diffing — the same technique the offsets were obtained with, kept runnable so
-they never have to be trusted on faith. See test/overworld/TestHarnessGuide.md §4 on stale annotations.
+With a save argument, report slot health and version. Decode gameplay fields only
+for the supported layout. Use --check for source pins and --probe to verify the
+field offsets with the game's ARM compiler.
 """
 import argparse
 import os
@@ -90,28 +28,8 @@ FLASH_SIZE = SECTOR_SIZE * 32                            # 131072
 ID_SB2, ID_SB1_START, ID_SB1_END = 0, 1, 4
 ID_PK_START, ID_PK_END = 5, 13
 
-SAVE_FORMAT_VERSION = 13
-SAVE_FORMAT_LAYOUT_MIN = 7
-FAMILY_OPTIONS_WORD = 0x16
-FAMILY_OPTIONS_MASK = 0x03C0
-
-# --- v9 -> v10 (issue #195) ---------------------------------------------------
-# These cannot go in the probed table below: hoennIntroDone is a BITFIELD, and C forbids
-# offsetof on one. The byte is derived from saveVersion's own probed offset instead, so it
-# still moves with the struct; only the bit index is by hand, and it follows global.h's
-# declaration order (kantoIntroDone:1, johtoIntroDone:1, hoennIntroDone:1) at /*0x92*/.
-HOENN_INTRO_DONE_BIT = 2
-VARS_START = 0x4000
-VAR_LITTLEROOT_INTRO_STATE = 0x4092
-# v12 -> v13: the shared starter var and the two region slots it seeds (Kanto, Johto banks).
-VAR_STARTER_MON = 0x4023
-KANTO_STARTER_SLOT = 0x0C
-JOHTO_STARTER_SLOT = 0x80 + 0x3E
-# ObjectEvent.active is bit 0 of byte 0 (include/global.fieldmap.h declaration order). A bitfield,
-# so C forbids offsetof on it and it cannot be probed.
-OBJ_ACTIVE_BIT = 0
-# include/constants/regions.h enum Region
-REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
+SAVE_FORMAT_VERSION = 14
+SAVE_FORMAT_LAYOUT_MIN = 14
 
 # --- probed values ------------------------------------------------------------
 # name -> (C expression, value). --probe compiles the expressions and diffs the values, so
@@ -120,50 +38,24 @@ REGION_NONE, REGION_KANTO, REGION_JOHTO, REGION_HOENN = 0, 1, 2, 3
 PROBED = {
     'SB1_SIZE':            ('sizeof(struct SaveBlock1)', 14752),
     'SB2_SIZE':            ('sizeof(struct SaveBlock2)', 3884),
-    'SB3_SIZE':            ('sizeof(struct SaveBlock3)', 1432),
+    'SB3_SIZE':            ('sizeof(struct SaveBlock3)', 1408),
     'PK_SIZE':             ('sizeof(struct PokemonStorage)', 34144),
 
-    'SB1.pos':             ('offsetof(struct SaveBlock1, pos)', 0),
-    'SB1.location':        ('offsetof(struct SaveBlock1, location)', 4),
-    'SB1.continueGameWarp': ('offsetof(struct SaveBlock1, continueGameWarp)', 12),
-    'SB1.dynamicWarp':     ('offsetof(struct SaveBlock1, dynamicWarp)', 20),
-    'SB1.lastHealLocation': ('offsetof(struct SaveBlock1, lastHealLocation)', 28),
-    'SB1.escapeWarp':      ('offsetof(struct SaveBlock1, escapeWarp)', 36),
-    'SB1.mapView':         ('offsetof(struct SaveBlock1, mapView)', 52),
-    'SB1.mapViewSize':     ('sizeof(((struct SaveBlock1 *)0)->mapView)', 512),
     'SB1.playerPartyCount': ('offsetof(struct SaveBlock1, playerPartyCount)', 564),
     'SB1.playerParty':     ('offsetof(struct SaveBlock1, playerParty)', 568),
-    'SB1.daycareMons':     ('offsetof(struct SaveBlock1, daycare.mons)', 13364),
-    'DaycareMon.size':     ('sizeof(struct DaycareMon)', 140),
-    'Pokemon.size':        ('sizeof(struct Pokemon)', 100),
-    'BoxPokemon.size':     ('sizeof(struct BoxPokemon)', 80),
-    'PK.boxes':            ('offsetof(struct PokemonStorage, boxes)', 4),
-    'PK.fusions':          ('offsetof(struct PokemonStorage, fusions)', 33744),
     'PARTY_SIZE':          ('PARTY_SIZE', 6),
     'DAYCARE_MON_COUNT':   ('DAYCARE_MON_COUNT', 2),
-    'PC_MON_COUNT':        ('TOTAL_BOXES_COUNT * IN_BOX_COUNT', 420),
     'MAX_FUSION_STORAGE':  ('MAX_FUSION_STORAGE', 4),
     'SB1.money':           ('offsetof(struct SaveBlock1, money)', 1168),
-    'SB1.pcItems':         ('offsetof(struct SaveBlock1, pcItems)', 1184),
     'PC_ITEMS_COUNT':      ('PC_ITEMS_COUNT', 150),
-    'SB1.bagKeyItems':     ('offsetof(struct SaveBlock1, bag.keyItems)', 2024),
     'BAG_KEYITEMS_COUNT':  ('BAG_KEYITEMS_COUNT', 99),
-    'ItemSlot.size':       ('sizeof(struct ItemSlot)', 4),
-    'SB1.objectEvents':    ('offsetof(struct SaveBlock1, objectEvents)', 3412),
     'SB1.flags':           ('offsetof(struct SaveBlock1, flags)', 5524),
-    'SB1.vars':            ('offsetof(struct SaveBlock1, vars)', 6042),
     'SB1.gameStats':       ('offsetof(struct SaveBlock1, gameStats)', 6556),
     'SB1.dexSeen':         ('offsetof(struct SaveBlock1, dexSeen)', 13900),
     'SB1.dexCaught':       ('offsetof(struct SaveBlock1, dexCaught)', 14029),
     'NUM_DEX_FLAG_BYTES':  ('NUM_DEX_FLAG_BYTES', 129),
 
-    'OBJ.stride':          ('sizeof(struct ObjectEvent)', 36),
-    'OBJ.count':           ('OBJECT_EVENTS_COUNT', 16),
-    'OBJ.localId':         ('offsetof(struct ObjectEvent, localId)', 8),
-    'OBJ.mapNum':          ('offsetof(struct ObjectEvent, mapNum)', 9),
-    'OBJ.mapGroup':        ('offsetof(struct ObjectEvent, mapGroup)', 10),
 
-    'SB2.playerName':      ('offsetof(struct SaveBlock2, playerName)', 0),
     'SB2.playerGender':    ('offsetof(struct SaveBlock2, playerGender)', 8),
     'SB2.playerTrainerId': ('offsetof(struct SaveBlock2, playerTrainerId)', 10),
     'SB2.playTimeHours':   ('offsetof(struct SaveBlock2, playTimeHours)', 14),
@@ -174,11 +66,9 @@ PROBED = {
     'SB2.saveVersion':     ('offsetof(struct SaveBlock2, saveVersion)', 145),
     'SB2.regionChecksum':  ('offsetof(struct SaveBlock2, regionChecksum)', 148),
 
-    'SB3.region':          ('offsetof(struct SaveBlock3, region)', 32),
+    'SB3.region':          ('offsetof(struct SaveBlock3, region)', 8),
     'RS.size':             ('sizeof(struct RegionSave)', 1400),
-    'RS.regionVars':       ('offsetof(struct RegionSave, regionVars)', 0),
     'RS.johtoFlags':       ('offsetof(struct RegionSave, johtoFlags)', 768),
-    'RS.route5DayCareMon': ('offsetof(struct RegionSave, route5DayCareMon)', 992),
     'RS.obstacleTableHash': ('offsetof(struct RegionSave, obstacleTableHash)', 1132),
     'RS.clearedObstacleBits': ('offsetof(struct RegionSave, clearedObstacleBits)', 1136),
     'RS.johtoTrainerFlags': ('offsetof(struct RegionSave, johtoTrainerFlags)', 1200),
@@ -186,38 +76,6 @@ PROBED = {
     'RegionalTravel.size': ('sizeof(struct RegionalTravelSave)', 168),
     'NUM_JOHTO_TRAINER_FLAG_BYTES': ('NUM_JOHTO_TRAINER_FLAG_BYTES', 32),
     'CLEARED_OBSTACLE_TABLE_HASH': ('CLEARED_OBSTACLE_TABLE_HASH', 0xCF719B0B),
-
-    # v9 renumber/repoint inputs. Derived, never typed: MAP_NUM changes when a map group is
-    # reordered, and hard-coding it is the exact mistake sDeletedTwinMaps avoids.
-    'MAP.goldenrod7F.group': ('MAP_GROUP(MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7F)', 84),
-    'MAP.goldenrod7F.num':   ('MAP_NUM(MAP_GOLDENROD_CITY_DEPARTMENT_STORE_7F)', 10),
-    'MAP.mtSilverDay.group': ('MAP_GROUP(MAP_MT_SILVER_SUMMIT_DAY)', 97),
-    'MAP.mtSilverDay.num':   ('MAP_NUM(MAP_MT_SILVER_SUMMIT_DAY)', 8),
-    'MAP.violet.group':      ('MAP_GROUP(MAP_VIOLET_CITY)', 75),
-    'MAP.violet.num':        ('MAP_NUM(MAP_VIOLET_CITY)', 6),
-    'MAP.route32.group':     ('MAP_GROUP(MAP_ROUTE32)', 75),
-    'MAP.route32.num':       ('MAP_NUM(MAP_ROUTE32)', 5),
-    'MAP.azalea.group':      ('MAP_GROUP(MAP_AZALEA_TOWN)', 80),
-    'MAP.azalea.num':        ('MAP_NUM(MAP_AZALEA_TOWN)', 0),
-    'MAP.goldenrod.group':   ('MAP_GROUP(MAP_GOLDENROD_CITY)', 83),
-    'MAP.goldenrod.num':     ('MAP_NUM(MAP_GOLDENROD_CITY)', 0),
-    'MAP.safariGate.group':  ('MAP_GROUP(MAP_SAFARI_ZONE_GATE)', 96),
-    'MAP.safariGate.num':    ('MAP_NUM(MAP_SAFARI_ZONE_GATE)', 0),
-
-    # v12 -> v13 cross-region repairs (#602, #604).
-    'MAP.brineysHouse.group': ('MAP_GROUP(MAP_ROUTE104_MR_BRINEYS_HOUSE)', 17),
-    'MAP.brineysHouse.num':   ('MAP_NUM(MAP_ROUTE104_MR_BRINEYS_HOUSE)', 0),
-    'LOCALID_BRINEYS_HOUSE_BRINEY': ('LOCALID_BRINEYS_HOUSE_BRINEY', 1),
-    'LOCALID_BRINEYS_HOUSE_PEEKO':  ('LOCALID_BRINEYS_HOUSE_PEEKO', 2),
-    'ITEM_MACH_BIKE':      ('ITEM_MACH_BIKE', 707),
-    'ITEM_ACRO_BIKE':      ('ITEM_ACRO_BIKE', 708),
-    'FLAG_RECEIVED_BIKE':  ('FLAG_RECEIVED_BIKE', 0x5A),
-    'FLAG_RECEIVED_POKENAV': ('FLAG_RECEIVED_POKENAV', 0xBC),
-    'FLAG_VISITED_DEWFORD_TOWN': ('FLAG_VISITED_DEWFORD_TOWN', 0x959),
-    'FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY': ('FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY', 0x2E3),
-    'FLAG_HIDE_BRINEYS_HOUSE_PEEKO': ('FLAG_HIDE_BRINEYS_HOUSE_PEEKO', 0x371),
-    'VAR_DEVON_CORP_3F_STATE': ('VAR_DEVON_CORP_3F_STATE', 0x408F),
-    'VAR_BRINEY_LOCATION': ('VAR_BRINEY_LOCATION', 0x4096),
 
     'FLAG_BADGE01_GET':    ('FLAG_BADGE01_GET', 2383),
     'FLAG_KANTO_BADGE_1':  ('FLAG_KANTO_BADGE_1', 2635),
@@ -237,21 +95,6 @@ JOHTO_TRAINER_BYTES = V['NUM_JOHTO_TRAINER_FLAG_BYTES']
 
 WARPS = ('location', 'continueGameWarp', 'dynamicWarp', 'lastHealLocation', 'escapeWarp')
 
-# --- v9 migration tables (mirrors src/load_save.c) -----------------------------
-# Each deleted twin sat directly AFTER its day map, so the removed index is always
-# MAP_NUM(day map) + 1 — derived exactly as sDeletedTwinMaps does, not hard-coded.
-DELETED_TWINS = [(V['MAP.goldenrod7F.group'], V['MAP.goldenrod7F.num']),
-                 (V['MAP.mtSilverDay.group'], V['MAP.mtSilverDay.num'])]
-# (group, num, oldX, oldY, newX, newY) — new coords from src/data/heal_locations.h.
-MOVED_HEALS = [
-    (V['MAP.violet.group'], V['MAP.violet.num'], 30, 18, 39, 46),   # Sprout Tower door -> PokeCenter
-    (V['MAP.route32.group'], V['MAP.route32.num'], 9, 40, 25, 85),
-    # Moved after v9 shipped (6fb180ccbd); the game repairs these on every load.
-    (V['MAP.azalea.group'], V['MAP.azalea.num'], 31, 15, 31, 16),
-    (V['MAP.goldenrod.group'], V['MAP.goldenrod.num'], 28, 36, 28, 37),
-    (V['MAP.safariGate.group'], V['MAP.safariGate.num'], 11, 15, 11, 16),
-]
-
 CHARMAP = {0x00: ' ', 0xFF: ''}
 for _i in range(10):
     CHARMAP[0xA1 + _i] = chr(ord('0') + _i)
@@ -269,16 +112,6 @@ PINS = [
      r'^#define SAVE_FORMAT_VERSION\s+(\d+)', SAVE_FORMAT_VERSION),
     ('SAVE_FORMAT_LAYOUT_MIN', 'include/constants/global.h',
      r'^#define SAVE_FORMAT_LAYOUT_MIN\s+(\d+)', SAVE_FORMAT_LAYOUT_MIN),
-    ('VAR_LITTLEROOT_INTRO_STATE', 'include/constants/vars.h',
-     r'^#define VAR_LITTLEROOT_INTRO_STATE\s+(0x[0-9A-Fa-f]+)', VAR_LITTLEROOT_INTRO_STATE),
-    ('VARS_START', 'include/constants/vars.h', r'^#define VARS_START\s+(0x[0-9A-Fa-f]+)',
-     VARS_START),
-    ('VAR_STARTER_MON', 'include/constants/vars.h',
-     r'^#define VAR_STARTER_MON\s+(0x[0-9A-Fa-f]+)', VAR_STARTER_MON),
-    ('VAR_STARTER_MON_FRLG', 'include/constants/vars_frlg.h',
-     r'^#define VAR_STARTER_MON_FRLG\s+VAR_KANTO_SLICE\((0x[0-9A-Fa-f]+)\)', KANTO_STARTER_SLOT),
-    ('VAR_STARTER_MON_JOHTO', 'include/constants/johto_vars.h',
-     r'^#define VAR_STARTER_MON_JOHTO\s+VAR_JOHTO_SLICE\((0x[0-9A-Fa-f]+)\)', JOHTO_STARTER_SLOT - 0x80),
     ('SECTOR_DATA_SIZE', 'include/save.h',
      r'^#define SECTOR_DATA_SIZE\s+(\d+)', SECTOR_DATA_SIZE),
     ('SAVE_BLOCK_3_CHUNK_SIZE', 'include/save.h',
@@ -363,64 +196,6 @@ def require_pins():
             sys.stderr.write(f'  - {b}\n')
         sys.stderr.write('Re-derive with --probe and update PROBED/PINS before touching a save.\n')
         raise SystemExit(2)
-
-
-def v10_clear_stale_hoenn_intro(had, intro_state, _current_region):
-    """Whether v9 -> v10 should clear hoennIntroDone. Must match src/load_save.c.
-
-    _current_region is not part of the predicate: introState == 0 already means no Hoenn
-    intro has run. The argument stays so --check can name the Slateport-stranded case.
-    """
-    return bool(had) and intro_state == 0
-
-
-def check_v10_hoenn_intro():
-    """#195 discrimination. introState == 0 means no Hoenn intro script has ever run.
-
-    The hub first-visit path sets VAR_LITTLEROOT_INTRO_STATE to 4 *before* warping, so a
-    genuine mid-intro file cannot sit at 0. introState 0 with currentRegion == REGION_HOENN
-    is the Slateport dump: they already took the returning-player warp on the stale bit.
-    Excluding that region would stamp v10 and make the repair unreachable.
-    """
-    cases = [
-        (True,  0, REGION_JOHTO, True,  'Johto-first, never visited Hoenn'),
-        (True,  7, REGION_JOHTO, False, 'finished Birch lab'),
-        (True,  0, REGION_HOENN, True,  'stranded in Slateport'),
-        (True,  4, REGION_HOENN, False, 'mid-intro (hub first-visit)'),
-        (True,  0, REGION_KANTO, True,  'Kanto-first, never visited Hoenn'),
-        (True,  0, REGION_NONE,  True,  'new hub file, never visited Hoenn'),
-        (False, 0, REGION_JOHTO, False, 'already clear'),
-        (False, 0, REGION_HOENN, False, 'already clear, standing in Hoenn'),
-    ]
-    bad = []
-    for had, intro, region, expect, label in cases:
-        got = bool(v10_clear_stale_hoenn_intro(had, intro, region))
-        if got != expect:
-            bad.append(f'v9->v10 {label}: had={int(had)} introState={intro} '
-                       f'region={region} -> {got}, want {expect}')
-    return bad
-
-
-def check_v10_c_mirrors():
-    """The C ladder must not re-introduce the region exclusion --check just proved wrong."""
-    path = os.path.join(REPO, 'src/load_save.c')
-    try:
-        with open(path, encoding='utf-8') as fh:
-            text = fh.read()
-    except OSError as e:
-        return [f'src/load_save.c: cannot read ({e})']
-    start = text.find('v9 -> v10: issue #195')
-    if start < 0:
-        return ['src/load_save.c: v9 -> v10 #195 block missing']
-    end = text.find('gSaveBlock2Ptr->saveVersion = SAVE_FORMAT_VERSION;', start)
-    block = text[start:end if end > start else start + 1200]
-    bad = []
-    if 'currentRegion != REGION_HOENN' in block:
-        bad.append('src/load_save.c v9->v10 excludes currentRegion==REGION_HOENN '
-                   '(that is the stranded Slateport victim, not mid-intro)')
-    if 'VarGet(VAR_LITTLEROOT_INTRO_STATE) == 0' not in block:
-        bad.append('src/load_save.c v9->v10 lost the introState==0 guard')
-    return bad
 
 
 def probe():
@@ -555,7 +330,7 @@ class Save:
                     counter = x.counter
             if not sig_valid:
                 status = 'EMPTY'
-            elif flags == (1 << SECTORS_PER_SLOT) - 1:
+            elif flags == (1 << SECTORS_PER_SLOT) - 1 and counter % NUM_SLOTS == s:
                 status = 'OK'
             else:
                 status = 'ERROR'
@@ -599,6 +374,24 @@ class Save:
             if n:
                 self.sb3[sec.id * SB3_CHUNK: sec.id * SB3_CHUNK + n] = sec.sb3[:n]
             self.holder[sec.id] = sec.phys
+
+    def intact_older_version(self):
+        """Identify an old slot whose last chunk no longer has the current size."""
+        for slot_index, slot in enumerate(self.slots):
+            sectors = slot['sectors']
+            if {sec.id for sec in sectors} != set(range(SECTORS_PER_SLOT)):
+                continue
+            counter = sectors[0].counter
+            if counter % NUM_SLOTS != slot_index or any(
+                    sec.signature != SIGNATURE or sec.counter != counter
+                    or sec.checksum != calc_checksum(sec.data, SECTOR_DATA_SIZE)
+                    for sec in sectors):
+                continue
+            header = next(sec for sec in sectors if sec.id == ID_SB2)
+            version = header.data[V['SB2.saveVersion']]
+            if version < SAVE_FORMAT_LAYOUT_MIN:
+                return version
+        return None
 
     def writeback(self):
         """Push the gathered blocks into the active slot's physical sectors and re-checksum.
@@ -649,51 +442,10 @@ class Save:
             return (self.sb3[base + idx // 8] >> (idx & 7)) & 1
         return (self.sb1[V['SB1.flags'] + fid // 8] >> (fid & 7)) & 1
 
-    def set_flag(self, fid, on):
-        """Inline SaveBlock1 flags only; the repairs below touch no banked flag."""
-        assert fid < V['FLAG_JOHTO_BASE']
-        o = V['SB1.flags'] + fid // 8
-        self.sb1[o] = (self.sb1[o] | (1 << (fid & 7))) if on else (self.sb1[o] & ~(1 << (fid & 7)) & 0xFF)
-
-    def var(self, vid):
-        return self.u16(self.sb1, V['SB1.vars'] + (vid - VARS_START) * 2)
-
-    def set_var(self, vid, value):
-        struct.pack_into('<H', self.sb1, V['SB1.vars'] + (vid - VARS_START) * 2, value)
-
-    def holds_key_item(self, item):
-        """Key Items pocket or item PC. A slot with an id always has a quantity (SetSlotData clears
-        both together), so the id alone answers it and no decryption is needed."""
-        size = V['ItemSlot.size']
-        for base, count in ((V['SB1.bagKeyItems'], V['BAG_KEYITEMS_COUNT']),
-                            (V['SB1.pcItems'], V['PC_ITEMS_COUNT'])):
-            if any(self.u16(self.sb1, base + i * size) == item for i in range(count)):
-                return True
-        return False
-
-    def region_width(self, version=None):
-        """The width struct RegionSave had when a save of this version was stamped.
-
-        v9 APPENDED johtoTrainerFlags, growing the struct 1200 -> 1232. Summing the v9 width over
-        a v7/v8 stamp reads 32 bytes the stamping build never covered -- the un-checksummed flash
-        tail the ladder is about to zero -- so an intact save reports MISMATCH and the main menu
-        warns "region save damaged". Mirrors RegionSaveWidthForVersion in src/load_save.c; every
-        future append needs an arm in both.
-        """
-        if version is None:
-            version = self.sb2[V['SB2.saveVersion']]
-        if version < 9:
-            return V['RS.johtoTrainerFlags']
-        if version < 11:
-            return V['RS.regionalTravel']
-        return REGION_SIZE
-
-    def region_checksum(self, width=None):
-        """RegionSaveChecksum (src/load_save.c): byte sum over the version's RegionSave width."""
-        if width is None:
-            width = self.region_width()
-        s = sum(self.sb3[SB3_REGION_OFF:SB3_REGION_OFF + width])
-        return (s + (s >> 16)) & 0xFFFF
+    def region_checksum(self):
+        """Mirror the current RegionSave checksum in src/load_save.c."""
+        total = sum(self.sb3[SB3_REGION_OFF:SB3_REGION_OFF + REGION_SIZE])
+        return (total + (total >> 16)) & 0xFFFF
 
     def money(self):
         return self.u32(self.sb1, V['SB1.money']) ^ self.u32(self.sb2, V['SB2.encryptionKey'])
@@ -721,206 +473,6 @@ class Save:
         return sum(self.flag(first + i) for i in range(8))
 
 
-# --- migration ----------------------------------------------------------------
-SUBSTRUCT_OFFSETS = (
-    (0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3),
-    (1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2),
-    (2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1),
-    (3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0),
-)
-
-
-def clear_regional_identity(buf, offset):
-    """Clear only v11's twenty bits in a checksummed eighty-byte BoxPokemon."""
-    personality, ot_id = struct.unpack_from('<II', buf, offset)
-    key = personality ^ ot_id
-    data = bytearray(struct.pack('<12I', *(word ^ key for word in
-                         struct.unpack_from('<12I', buf, offset + 32))))
-    checksum = sum(struct.unpack('<24H', data)) & 0xFFFF
-    if checksum != struct.unpack_from('<H', buf, offset + 28)[0]:
-        raise SystemExit(f'Pokemon at block offset 0x{offset:X} has an invalid checksum; '
-                         'refusing offline identity migration')
-    order = personality % 24
-    for substruct, at, mask in ((0, 2, 0xFC00), (0, 6, 0xE000), (0, 10, 0xC000),
-                               (1, 4, 0xF800), (1, 6, 0x3800), (3, 10, 0x1000)):
-        pos = SUBSTRUCT_OFFSETS[substruct][order] * 12 + at
-        word = struct.unpack_from('<H', data, pos)[0]
-        struct.pack_into('<H', data, pos, word & ~mask)
-    struct.pack_into('<H', buf, offset + 28, sum(struct.unpack('<24H', data)) & 0xFFFF)
-    struct.pack_into('<12I', buf, offset + 32,
-                     *(word ^ key for word in struct.unpack('<12I', data)))
-
-
-def migrate_regional_travel(sv):
-    owners = ((sv.sb1, V['SB1.playerParty'], V['PARTY_SIZE'], V['Pokemon.size']),
-              (sv.sb1, V['SB1.daycareMons'], V['DAYCARE_MON_COUNT'], V['DaycareMon.size']),
-              (sv.sb3, SB3_REGION_OFF + V['RS.route5DayCareMon'], 1, V['DaycareMon.size']),
-              (sv.pk, V['PK.boxes'], V['PC_MON_COUNT'], V['BoxPokemon.size']),
-              (sv.pk, V['PK.fusions'], V['MAX_FUSION_STORAGE'], V['Pokemon.size']))
-    for buf, start, count, stride in owners:
-        for index in range(count):
-            clear_regional_identity(buf, start + index * stride)
-    start = SB3_REGION_OFF + V['RS.regionalTravel']
-    sv.sb3[start:start + V['RegionalTravel.size']] = bytes(V['RegionalTravel.size'])
-    struct.pack_into('<I', sv.sb3, start, 1)
-
-
-def repair_cross_region_flags(sv):
-    """RestoreSharedBikeFlag + UndoPokegearPokenavFlag (src/load_save.c, v12 -> v13)."""
-    log = []
-    if not sv.flag(V['FLAG_RECEIVED_BIKE']) and (sv.holds_key_item(V['ITEM_MACH_BIKE'])
-                                                or sv.holds_key_item(V['ITEM_ACRO_BIKE'])):
-        sv.set_flag(V['FLAG_RECEIVED_BIKE'], True)
-        log.append('v12->v13 FLAG_RECEIVED_BIKE restored (a shop bike is in the Bag or PC)')
-
-    if (not sv.flag(V['FLAG_RECEIVED_POKENAV']) or sv.var(V['VAR_DEVON_CORP_3F_STATE']) != 0
-            or sv.flag(V['FLAG_VISITED_DEWFORD_TOWN'])):
-        return log
-    sv.set_flag(V['FLAG_RECEIVED_POKENAV'], False)
-    sv.set_var(V['VAR_BRINEY_LOCATION'], 0)
-    sv.set_flag(V['FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY'], True)
-    sv.set_flag(V['FLAG_HIDE_BRINEYS_HOUSE_PEEKO'], True)
-    cottage = (V['MAP.brineysHouse.group'], V['MAP.brineysHouse.num'])
-    cast = (V['LOCALID_BRINEYS_HOUSE_BRINEY'], V['LOCALID_BRINEYS_HOUSE_PEEKO'])
-    for i in range(V['OBJ.count']):
-        o = V['SB1.objectEvents'] + i * V['OBJ.stride']
-        if (sv.sb1[o] >> OBJ_ACTIVE_BIT) & 1 and sv.sb1[o + V['OBJ.localId']] in cast \
-                and (sv.sb1[o + V['OBJ.mapGroup']], sv.sb1[o + V['OBJ.mapNum']]) == cottage:
-            sv.sb1[o] &= ~(1 << OBJ_ACTIVE_BIT) & 0xFF
-    log.append('v12->v13 FLAG_RECEIVED_POKENAV cleared (the PokeGear set it; Devon never did) and '
-               'Mr. Briney returned to his pre-Devon state')
-    return log
-
-
-def _twin_mapnum(group, num):
-    """MigrateDeletedTwinMapNum — matches the first group only, exactly like the C."""
-    for g, day in DELETED_TWINS:
-        if group != g:
-            continue
-        deleted = day + 1
-        if num > deleted:
-            return num - 1
-        if num == deleted:
-            return day          # stood ON the deleted twin: fall back to its day map
-        return num
-    return num
-
-
-def migrate(sv):
-    """MigrateSaveFormatIfNeeded + ResyncClearedObstacleTable + StampRegionSaveChecksum,
-    against the gathered blocks. Returns a list of what it did."""
-    log = []
-    ver = sv.sb2[V['SB2.saveVersion']]
-    if ver < SAVE_FORMAT_LAYOUT_MIN:
-        raise SystemExit(f'saveVersion {ver} predates the v7 SaveBlock1 reshape; the game '
-                         f'refuses it outright (SAVE_FORMAT_LAYOUT_MIN={SAVE_FORMAT_LAYOUT_MIN}) '
-                         'and it cannot be migrated')
-    if ver > SAVE_FORMAT_VERSION:
-        raise SystemExit(f'saveVersion {ver} is NEWER than this tree ({SAVE_FORMAT_VERSION}); '
-                         'refusing to downgrade a save a later build wrote')
-
-    # Every load, like MigrateMovedHealLocations(): three moves landed after v9 and the repair
-    # after v12, so a current-version save can still hold an old door tile.
-    o = V['SB1.lastHealLocation']
-    hg, hm, _, hx, hy = sv.warp('lastHealLocation')
-    for g, m, ox, oy, nx, ny in MOVED_HEALS:
-        if (hg, hm, hx, hy) == (g, m, ox, oy):
-            struct.pack_into('<hh', sv.sb1, o + 4, nx, ny)
-            log.append(f'v{ver} lastHealLocation {g}/{m} ({ox},{oy}) -> ({nx},{ny})')
-            break
-
-    if ver == SAVE_FORMAT_VERSION:
-        log.append(f'saveVersion already {ver}: ladder is a no-op')
-    else:
-        # v7 -> v8: the POKeMON CENTER 1F layouts changed under mapView.
-        if ver < 8:
-            o, n = V['SB1.mapView'], V['SB1.mapViewSize']
-            was = sum(1 for b in sv.sb1[o:o + n] if b)
-            sv.sb1[o:o + n] = b'\0' * n
-            log.append(f'v7->v8 mapView zeroed ({was} non-zero bytes cleared)')
-
-        # v8 -> v9: zero the appended bank, renumber the deleted twins, repoint the heals.
-        if ver < 9:
-            o = SB3_REGION_OFF + V['RS.johtoTrainerFlags']
-            was = sum(1 for b in sv.sb3[o:o + JOHTO_TRAINER_BYTES] if b)
-            sv.sb3[o:o + JOHTO_TRAINER_BYTES] = b'\0' * JOHTO_TRAINER_BYTES
-            log.append(f'v8->v9 johtoTrainerFlags zeroed ({was}/{JOHTO_TRAINER_BYTES} '
-                       'bytes were non-zero)')
-
-            for field in WARPS:
-                o = V['SB1.' + field]
-                g, m = sv.sb1[o], sv.sb1[o + 1]
-                nm = _twin_mapnum(g, m)
-                if nm != m:
-                    sv.sb1[o + 1] = nm
-                    log.append(f'v8->v9 {field} {g}/{m} -> {g}/{nm}')
-            for i in range(V['OBJ.count']):
-                o = V['SB1.objectEvents'] + i * V['OBJ.stride']
-                g, m = sv.sb1[o + V['OBJ.mapGroup']], sv.sb1[o + V['OBJ.mapNum']]
-                nm = _twin_mapnum(g, m)
-                if nm != m:
-                    sv.sb1[o + V['OBJ.mapNum']] = nm
-                    log.append(f'v8->v9 objectEvents[{i}] {g}/{m} -> {g}/{nm}')
-
-        # v9 -> v10: clear a stale forced-TRUE hoennIntroDone (issue #195). Mirrors the step in
-        # src/load_save.c exactly; if the two ever disagree, a save patched here loads with the
-        # game's own ladder already satisfied and the repair silently skipped.
-        if ver < 10:
-            bits_off = V['SB2.saveVersion'] + 1          # the /*0x92*/ intro-bits byte
-            vars_off = V['SB1.vars'] + (VAR_LITTLEROOT_INTRO_STATE - VARS_START) * 2
-            intro = sv.u16(sv.sb1, vars_off)
-            region = sv.sb2[V['SB2.currentRegion']]
-            had = (sv.sb2[bits_off] >> HOENN_INTRO_DONE_BIT) & 1
-            if v10_clear_stale_hoenn_intro(had, intro, region):
-                sv.sb2[bits_off] &= ~(1 << HOENN_INTRO_DONE_BIT) & 0xFF
-                log.append('v9->v10 hoennIntroDone cleared (never played the Hoenn intro: '
-                           f'VAR_LITTLEROOT_INTRO_STATE=0, currentRegion={region})')
-            else:
-                log.append(f'v9->v10 hoennIntroDone left alone (set={had} '
-                           f'introState={intro} currentRegion={region})')
-
-        if ver < 11:
-            migrate_regional_travel(sv)
-            log.append('v10->v11 Pokemon identity bits cleared; regional teams and Centers start empty')
-
-        if ver < 12:
-            word = sv.u16(sv.sb2, FAMILY_OPTIONS_WORD)
-            struct.pack_into('<H', sv.sb2, FAMILY_OPTIONS_WORD, word & ~FAMILY_OPTIONS_MASK)
-            log.append('v11->v12 Encounter Rate and Money Loss initialized to 1x')
-
-        if ver < 13:
-            shared = sv.u16(sv.sb1, V['SB1.vars'] + (VAR_STARTER_MON - VARS_START) * 2)
-            for slot in (KANTO_STARTER_SLOT, JOHTO_STARTER_SLOT):
-                struct.pack_into('<H', sv.sb3, SB3_REGION_OFF + V['RS.regionVars'] + slot * 2, shared)
-            log.append(f'v12->v13 Kanto and Johto starter vars seeded from VAR_STARTER_MON={shared}')
-            log.extend(repair_cross_region_flags(sv))
-
-        sv.sb2[V['SB2.saveVersion']] = SAVE_FORMAT_VERSION
-        log.append(f'saveVersion {ver} -> {SAVE_FORMAT_VERSION}')
-
-    # Runs on every load, after the ladder.
-    h = sv.u32(sv.sb3, SB3_REGION_OFF + V['RS.obstacleTableHash'])
-    if h != V['CLEARED_OBSTACLE_TABLE_HASH']:
-        o = SB3_REGION_OFF + V['RS.clearedObstacleBits']
-        # Derived, not the literal 64: both offsets are pinned, so the width follows from them and
-        # cannot drift out of step with the struct the way a hard-coded size can.
-        nbits = V['RS.johtoTrainerFlags'] - V['RS.clearedObstacleBits']
-        sv.sb3[o:o + nbits] = b'\0' * nbits
-        struct.pack_into('<I', sv.sb3, SB3_REGION_OFF + V['RS.obstacleTableHash'],
-                         V['CLEARED_OBSTACLE_TABLE_HASH'])
-        log.append(f'obstacle table rehashed 0x{h:08X} -> '
-                   f'0x{V["CLEARED_OBSTACLE_TABLE_HASH"]:08X} (every obstacle regrows once)')
-
-    # Runs on every save, after the banks are final. SaveBlock3 is un-checksummed by the
-    # sector layer; this is the only thing standing between drift and a silent misread.
-    old = sv.u16(sv.sb2, V['SB2.regionChecksum'])
-    new = sv.region_checksum()
-    struct.pack_into('<H', sv.sb2, V['SB2.regionChecksum'], new)
-    if old != new:
-        log.append(f'regionChecksum restamped 0x{old:04X} -> 0x{new:04X}')
-    return log
-
-
 def self_test(path, slot=None):
     """Guard 2: a no-op round trip must be byte-identical. If it is not, the sector mapping
     or the checksum arithmetic is wrong for THIS file and nothing may be written. See the
@@ -939,17 +491,14 @@ def self_test(path, slot=None):
 
 
 def require_intact_slot(sv):
-    """Guard 3: migrating a slot that is missing a sector is unsound. gather() leaves that
-    sector's span zeroed, so the ladder would read zeros as real state — a zeroed
-    lastHealLocation reads as a legitimate 0/0 warp, not as absent — and act on them."""
+    """Require every sector of the selected slot to have a valid signature and checksum."""
     slot = sv.slots[sv.active]
     missing = [i for i in range(SECTORS_PER_SLOT) if i not in sv.holder]
     if missing:
         raise SystemExit(
             f'{sv.path}: slot {sv.active} is {slot["status"]} — logical sectors {missing} '
             'failed signature or checksum, so their bytes are absent from the gathered '
-            'blocks. Refusing to migrate a partial slot; inspect it, or use --slot to '
-            'migrate the intact one.')
+            'blocks. Select an intact slot.')
 
 
 # --- reporting ----------------------------------------------------------------
@@ -963,17 +512,25 @@ def describe(sv):
     for i, s in enumerate(sv.slots):
         p(f'  slot {i}         {s["status"]:6s} counter={s["counter"]:<6d} '
           f'sectors ok={bin(s["flags"]).count("1")}/{SECTORS_PER_SLOT}')
+    if sv.status == 'CORRUPT':
+        version = sv.intact_older_version()
+        if version is not None:
+            p(f'  saveVersion    {version} (refused: older than supported format {SAVE_FORMAT_VERSION})')
+            return '\n'.join(out)
     p(f'  overall        {sv.status}, reading slot {sv.active} (gSaveCounter={sv.save_counter})')
+    ver = sv.sb2[V['SB2.saveVersion']]
+    if sv.slots[sv.active]['status'] != 'OK':
+        return '\n'.join(out)
+    if ver < SAVE_FORMAT_LAYOUT_MIN or ver > SAVE_FORMAT_VERSION:
+        direction = 'older' if ver < SAVE_FORMAT_LAYOUT_MIN else 'newer'
+        p(f'  saveVersion    {ver} (refused: {direction} than supported format {SAVE_FORMAT_VERSION})')
+        return '\n'.join(out)
+    p(f'  saveVersion    {ver} (current)   currentRegion={sv.sb2[V["SB2.currentRegion"]]}')
     p(f'  trainer        {sv.name()!r} id={sv.u16(sv.sb2, V["SB2.playerTrainerId"]):05d} '
       f'{"F" if sv.sb2[V["SB2.playerGender"]] else "M"}')
     p(f'  play time      {sv.u16(sv.sb2, V["SB2.playTimeHours"])}h '
       f'{sv.sb2[V["SB2.playTimeMinutes"]]}m {sv.sb2[V["SB2.playTimeSeconds"]]}s'
       f'   saves={sv.game_stat(0)}')
-    ver = sv.sb2[V['SB2.saveVersion']]
-    note = ('current' if ver == SAVE_FORMAT_VERSION else
-            f'NEEDS MIGRATION to {SAVE_FORMAT_VERSION}' if ver >= SAVE_FORMAT_LAYOUT_MIN
-            else 'REFUSED BY THE GAME (predates the v7 reshape)')
-    p(f'  saveVersion    {ver} ({note})   currentRegion={sv.sb2[V["SB2.currentRegion"]]}')
     stored, calc = sv.u16(sv.sb2, V['SB2.regionChecksum']), sv.region_checksum()
     p(f'  regionChecksum stored=0x{stored:04X} computed=0x{calc:04X} '
       + ('match' if stored == calc else 'MISMATCH -> main menu warns "region save damaged"'))
@@ -993,8 +550,7 @@ def describe(sv):
     dirty = sum(1 for b in sv.sb3[SB3_REGION_OFF + V['RS.johtoTrainerFlags']:
                                   SB3_REGION_OFF + V['RS.johtoTrainerFlags'] + JOHTO_TRAINER_BYTES]
                 if b)
-    p(f'  johtoTrainerFlags  {dirty}/{JOHTO_TRAINER_BYTES} non-zero bytes'
-      + ('' if dirty == 0 else '  <- pre-defeated trainers until migrated'))
+    p(f'  johtoTrainerFlags  {dirty}/{JOHTO_TRAINER_BYTES} non-zero bytes')
     h = sv.u32(sv.sb3, SB3_REGION_OFF + V['RS.obstacleTableHash'])
     p(f'  obstacleTableHash  0x{h:08X} '
       + ('(matches the build)' if h == V['CLEARED_OBSTACLE_TABLE_HASH']
@@ -1003,15 +559,10 @@ def describe(sv):
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description='Inspect or migrate a PKMN-World battery save.',
-        epilog='Migration never writes in place: give --migrate an output path.')
+    ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('saves', nargs='*', help='.sav / .srm files')
-    ap.add_argument('--migrate', metavar='OUT',
-                    help='apply the format ladder to the single input save and write to OUT')
     ap.add_argument('--slot', type=int, choices=(0, 1),
                     help='read this slot instead of the one the game would pick')
-    ap.add_argument('--force', action='store_true', help='allow --migrate to overwrite OUT')
     ap.add_argument('--check', action='store_true',
                     help='verify this tool\'s constants still match the tree, then exit')
     ap.add_argument('--probe', action='store_true',
@@ -1030,12 +581,6 @@ def main():
                              'SavePatch.py must be updated (--probe re-derives them) before '
                              'it is used on a real save.\n')
             return 1
-        v10_bad = check_v10_hoenn_intro() + check_v10_c_mirrors()
-        for b in v10_bad:
-            sys.stderr.write(f'  FAIL {b}\n')
-        if v10_bad:
-            sys.stderr.write(f'{len(v10_bad)} v9->v10 hoennIntroDone check(s) failed.\n')
-            return 1
         if args.verbose:
             print(f'{len(PINS)}/{len(PINS)} constants match the tree')
         return 0
@@ -1046,30 +591,6 @@ def main():
     require_pins()
     if not args.saves:
         ap.error('nothing to do: pass a save, or --check / --probe')
-
-    if args.migrate:
-        if len(args.saves) != 1:
-            ap.error('--migrate takes exactly one input save')
-        out = args.migrate
-        if os.path.exists(out) and not args.force:
-            raise SystemExit(f'{out} exists; pass --force to overwrite')
-        src = args.saves[0]
-        if os.path.abspath(out) == os.path.abspath(src):
-            raise SystemExit('refusing to migrate a save onto itself; write to a new file')
-
-        sv = self_test(src, slot=args.slot)  # guard 2, on the slot actually being migrated
-        require_intact_slot(sv)              # guard 3
-        print(describe(sv))
-        print(f'\n--- migrating slot {sv.active} ---')
-        changes = migrate(sv)
-        for line in changes:
-            print(f'  {line}')
-        sv.writeback()
-        with open(out, 'wb') as fh:
-            fh.write(bytes(sv.flash) + sv.trailer)   # the file keeps its OWN trailer
-        print(f'\nwrote {out} ({FLASH_SIZE + len(sv.trailer)} bytes)')
-        print(describe(Save(out)))
-        return 0
 
     for path in args.saves:
         print(describe(Save(path, slot=args.slot)))

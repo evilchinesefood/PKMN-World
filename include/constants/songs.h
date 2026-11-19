@@ -616,9 +616,6 @@
 #define MUS_HG_ENCOUNTER_GIRL_2     674
 #define MUS_HG_ENCOUNTER_SUSPICIOUS_1 675
 #define MUS_HG_ENCOUNTER_SUSPICIOUS_2 676
-#define MUS_HG_ENCOUNTER_SAGE       677
-#define MUS_HG_ENCOUNTER_KIMONO_GIRL 678
-#define MUS_HG_ENCOUNTER_ROCKET     679
 
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 

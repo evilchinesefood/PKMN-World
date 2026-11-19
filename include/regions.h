@@ -56,7 +56,6 @@ void RequestJohtoDayNightRefresh(void);
 void ClearJohtoDayNightRefresh(void);
 void TryRefreshJohtoDayNightObjects(void);
 
-#if ALL_REGIONS
 // The active-campaign region: the region whose badges/obedience govern the traveling party.
 // This is the persisted SaveBlock2.currentRegion (mirrored at runtime by gCurrentRegion),
 // set at each hub gate-cross and restored on load. It is DISTINCT from GetCurrentRegion()
@@ -66,6 +65,5 @@ static inline enum Region GetActiveRegion(void)
 {
     return gCurrentRegion;
 }
-#endif // ALL_REGIONS
 
 #endif // GUARD_REGIONS_H

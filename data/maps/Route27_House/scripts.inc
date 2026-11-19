@@ -39,11 +39,6 @@ Route27_House_EventScript_WomanHighFriendship::
 	release
 	end
 
-Route27_Movement_FollowerJump:
-	jump_in_place_down
-	jump_in_place_down
-	step_end
-
 SandstormHouse_Text_Woman1:
     .string "Where are you off to with\n"
     .string "POKéMON?\p"
@@ -70,5 +65,3 @@ SandstormHouse_Text_DisloyalMon:
     .string "some more, it could be tough going.\p"
     .string "Trust is the tie that binds POKéMON\n"
     .string "and trainers.$"
-
-

@@ -432,14 +432,6 @@ GoldenrodUnderground_Text_PokemaniacDonaldAfterBattle:
 	.string "SHOP last night, I felt like I was\l"
 	.string "being watched from the rooftops…$"
 
-GoldenrodUnderground_Text_PokemaniacDonaldAfterBattleOld:
-    .string "Are you making a POKéDEX? Here's a\n"
-    .string "hot tip.\p"
-    .string "The HIKER on ROUTE 33, ANTHONY, is a\n"
-    .string "good guy.\p"
-    .string "He'll phone you if he sees any rare\n"
-    .string "POKéMON.$"
-
 GoldenrodUnderground_Text_DoorsLocked:
     .string "The door's locked…$"
 
@@ -448,6 +440,3 @@ GoldenrodUnderground_Text_DoorIsOpen:
 
 GoldenrodUnderground_Text_KeyOpenedDoor:
     .string "The BASEMENT KEY opened the door.$"
-
-GoldenrodUnderground_Text_NoEntry:
-    .string "NO ENTRY BEYOND THIS POINT$"

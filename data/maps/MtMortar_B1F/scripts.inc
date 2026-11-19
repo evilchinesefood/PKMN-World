@@ -1,10 +1,5 @@
 MtMortar_B1F_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, MtMortar_B1F_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-MtMortar_B1F_OnTransition: 
-	end
 
 MtMortar_B1F_EventScript_Item_HyperPotion::
     finditem ITEM_HYPER_POTION
@@ -77,6 +72,3 @@ MountMortar4_Text_KiyoGotTyrogue:
 	.string "Keep up the hard work.\n"
 	.string "I'll keep training too.\p"
 	.string "Farewell!$"
-
-MountMortar4_Text_KiyoFullParty:
-	.string "You have no room in your party!$"

@@ -299,16 +299,6 @@ GoldenrodCity_UndergroundSwitches_EventScript_RemoveWall5::
 	setmetatile 16, 12, 0x382, FALSE
 	return
 
-GoldenrodCity_UndergroundSwitches_EventScript_RemoveWall6::
-	setmetatile 23, 11, 0x378, FALSE
-	setmetatile 24, 11, 0x379, FALSE
-	setmetatile 25, 11, 0x37A, FALSE
-	
-	setmetatile 23, 12, 0x380, FALSE
-	setmetatile 24, 12, 0x381, FALSE
-	setmetatile 25, 12, 0x382, FALSE
-	return
-
 GoldenrodCity_UndergroundSwitches_EventScript_SilverTriggerTop::
 	lock
 	playse SE_EXIT
@@ -515,12 +505,6 @@ GoldenrodUnderground_Text_SilverAfter:
     .string "Not now. Not because of this.\p"
     .string "I won't give up my dream of becoming\n"
     .string "the world's best POKéMON trainer!$"
-
-GoldenrodUnderground_Text_SilverLoss:
-    .string "Humph. This is my real power, wimp.\p"
-    .string "I'll make TEAM ROCKET history.\p"
-    .string "And I'm going to grind that LANCE\n"
-    .string "under my heels.$"
 
 GoldenrodUnderground_Text_GruntM11Seen:
     .string "Open one shutter, another closes.\p"

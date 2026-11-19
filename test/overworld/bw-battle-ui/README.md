@@ -80,7 +80,7 @@ The gallery generator script was removed on 2026-11-16. It built the gallery fro
 
 ## Validation limits
 
-World currently compiles Cable Club rooms out (`LINK_CABLE_CLUB=FALSE`). A test-only two-core mGBA SIO harness attempted direct link battle startup. Both baseline and BW fail the same initial protocol checksum exchange, before battle presentation. No successful live link session or physical GBA timing profile is claimed. The port does not enable Cable Club or change link/save formats.
+World has removed the Cable Club link rooms. A test-only two-core mGBA SIO harness attempted direct link battle startup. Both baseline and BW fail the same initial protocol checksum exchange, before battle presentation. No successful live link session or physical GBA timing profile is claimed. The port does not enable Cable Club or change link/save formats.
 
 Snow/ice metadata environment IDs currently have no graphics assigned. Forcing those IDs reproduces the existing decompression failure; they are not used as pretend visual coverage. Captures instead enter actual Ice Path and snowy Mt. Silver maps and exercise the backgrounds World currently selects. New snow/ice art and palette work remains #327. The cancelled regional palette proposal, HnS Fuchsia tiles and compact menu digits remain excluded.
 

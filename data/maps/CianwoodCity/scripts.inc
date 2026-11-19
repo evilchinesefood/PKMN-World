@@ -6,12 +6,7 @@ CianwoodCity_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, CianwoodCity_EventScript_CityEnter
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, CianwoodCity_OnFrame
 	map_script MAP_SCRIPT_ON_LOAD, CianwoodCity_EventScript_InitializeSuicune
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-CianwoodCity_RemoveEusine::
-	setflag FLAG_HIDE_CIANWOOD_EUSINE
-	end
 
 @ VAR_TEMP_1 is the on-frame latch (cleared on map load). Latch first so a
 @ bag-full give cannot re-fire this every field tick. VAR_GETFLY stays 1 until
@@ -64,13 +59,6 @@ CianwoodCity_Movement_ChucksWife:
 	walk_left
 	face_up
 	step_end
-
-CianwoodCity_EventScript_Test::
-	lock
-	random 2
-	call_if_eq VAR_RESULT, 1, Johto_EventScript_NopReturn
-	release
-	end
 
 CianwoodCity_EventScript_ChucksWife::
 	lock

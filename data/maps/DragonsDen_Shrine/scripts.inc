@@ -2,12 +2,7 @@
 .set LOCALID_DRAGONSDEN3_ELDER, 1
 
 DragonsDen_Shrine_MapScripts::
-	@map_script MAP_SCRIPT_ON_FRAME_TABLE, DragonsDen_Shrine_OnFrame
 	.byte 0
-
-DragonsDen_Shrine_OnFrame::
-	map_script_2 VAR_BLACKTHORN_CITY_STATE, 2, DragonsDen_Shrine_Trigger_ElderQuizTop
-	.2byte 0
 
 DragonsDen_Shrine_EventScript_Elder::
 	lock
@@ -209,9 +204,6 @@ DragonsDen_Shrine_Text_Question5:
 DragonsDen_Shrine_Text_WrongAnswer1:
     .string "Hah? I didn't quite catch that…$"
 
-DragonsDen_Shrine_Text_WrongAnswer2:
-    .string "What was it you said?$"
-
 DragonsDen_Shrine_Text_RightAnswer:
     .string "Oh, I understand…$"
 
@@ -387,12 +379,6 @@ DragonsDen_Shrine_Text_Speechless:
 
 DragonsDen_Shrine_Text_ComeAgain:
     .string "Come again, if you so desire.$"
-
-DragonsDen_Shrine_Text_SilverIsInTraining:
-    .string "A boy close to your age is in\n"
-    .string "training here.\p"
-    .string "He is much like CLAIR when she was\n"
-    .string "younger. It is a little worrisome…$"
 
 DragonsDen_Shrine_EventScript_Elder2::
 	msgbox DragonsDen_Shrine_Text_Elder2, MSGBOX_NPC

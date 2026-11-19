@@ -27,7 +27,7 @@ BattleNet_EventScript_Director::
 	@ so already holding a ring still reports space.
 	setflag FLAG_BNET_DIRECTOR_INTRO
 @ The starter stone gets its OWN flag so declining it (or hitting a full pocket) leaves it
-@ claimable on a later talk. Re-entered from DirectorRepeat / DirectorRegiveRing.
+@ claimable on a later talk. Re-entered from DirectorRepeat.
 BattleNet_EventScript_DirectorStoneOffer::
 	msgbox BattleNet_Text_DirectorStoneOffer, MSGBOX_DEFAULT
 	@ Script-level multichoice, NOT a special: a menu opened from a special is asynchronous,
@@ -56,20 +56,7 @@ BattleNet_EventScript_DirectorRingBagFull::
 	release
 	end
 BattleNet_EventScript_DirectorRepeat::
-	@ Self-heal: a save from before the checkitemspace guard above could have had the ring
-	@ silently eaten while the intro flag was still set. Re-give it if it is missing.
-	checkitem ITEM_MEGA_RING, 1
-	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRegiveRing
 	@ Stone still unclaimed (declined, or a full pocket last time) -> re-offer it.
-	goto_if_unset FLAG_BNET_DIRECTOR_STONE, BattleNet_EventScript_DirectorStoneOffer
-	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
-	release
-	end
-
-BattleNet_EventScript_DirectorRegiveRing::
-	checkitemspace ITEM_MEGA_RING, 1
-	goto_if_eq VAR_RESULT, FALSE, BattleNet_EventScript_DirectorRingBagFull
-	giveitem ITEM_MEGA_RING
 	goto_if_unset FLAG_BNET_DIRECTOR_STONE, BattleNet_EventScript_DirectorStoneOffer
 	msgbox BattleNet_Text_DirectorRepeat, MSGBOX_DEFAULT
 	release

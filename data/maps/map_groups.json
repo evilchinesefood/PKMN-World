@@ -172,16 +172,14 @@
     "OldaleTown_House1",
     "OldaleTown_House2",
     "OldaleTown_PokemonCenter_1F",
-    "OldaleTown_PokemonCenter_2F",
     "OldaleTown_Mart"
   ],
   "gMapGroup_IndoorDewford": [
     "DewfordTown_House1",
     "DewfordTown_PokemonCenter_1F",
-    "DewfordTown_PokemonCenter_2F",
+    "DewfordTown_House2",
     "DewfordTown_Gym",
-    "DewfordTown_Hall",
-    "DewfordTown_House2"
+    "DewfordTown_Hall"
   ],
   "gMapGroup_IndoorLavaridge": [
     "LavaridgeTown_HerbShop",
@@ -189,8 +187,7 @@
     "LavaridgeTown_Gym_B1F",
     "LavaridgeTown_House",
     "LavaridgeTown_Mart",
-    "LavaridgeTown_PokemonCenter_1F",
-    "LavaridgeTown_PokemonCenter_2F"
+    "LavaridgeTown_PokemonCenter_1F"
   ],
   "gMapGroup_IndoorFallarbor": [
     "FallarborTown_Mart",
@@ -198,9 +195,8 @@
     "FallarborTown_BattleTentCorridor",
     "FallarborTown_BattleTentBattleRoom",
     "FallarborTown_PokemonCenter_1F",
-    "FallarborTown_PokemonCenter_2F",
-    "FallarborTown_CozmosHouse",
-    "FallarborTown_MoveRelearnersHouse"
+    "FallarborTown_MoveRelearnersHouse",
+    "FallarborTown_CozmosHouse"
   ],
   "gMapGroup_IndoorVerdanturf": [
     "VerdanturfTown_BattleTentLobby",
@@ -208,19 +204,17 @@
     "VerdanturfTown_BattleTentBattleRoom",
     "VerdanturfTown_Mart",
     "VerdanturfTown_PokemonCenter_1F",
-    "VerdanturfTown_PokemonCenter_2F",
+    "VerdanturfTown_House",
     "VerdanturfTown_WandasHouse",
-    "VerdanturfTown_FriendshipRatersHouse",
-    "VerdanturfTown_House"
+    "VerdanturfTown_FriendshipRatersHouse"
   ],
   "gMapGroup_IndoorPacifidlog": [
     "PacifidlogTown_PokemonCenter_1F",
-    "PacifidlogTown_PokemonCenter_2F",
+    "PacifidlogTown_House5",
     "PacifidlogTown_House1",
     "PacifidlogTown_House2",
     "PacifidlogTown_House3",
-    "PacifidlogTown_House4",
-    "PacifidlogTown_House5"
+    "PacifidlogTown_House4"
   ],
   "gMapGroup_IndoorPetalburg": [
     "PetalburgCity_WallysHouse",
@@ -228,7 +222,6 @@
     "PetalburgCity_House1",
     "PetalburgCity_House2",
     "PetalburgCity_PokemonCenter_1F",
-    "PetalburgCity_PokemonCenter_2F",
     "PetalburgCity_Mart"
   ],
   "gMapGroup_IndoorSlateport": [
@@ -244,7 +237,6 @@
     "SlateportCity_Harbor",
     "SlateportCity_House",
     "SlateportCity_PokemonCenter_1F",
-    "SlateportCity_PokemonCenter_2F",
     "SlateportCity_Mart"
   ],
   "gMapGroup_IndoorMauville": [
@@ -254,7 +246,6 @@
     "MauvilleCity_GameCorner",
     "MauvilleCity_House2",
     "MauvilleCity_PokemonCenter_1F",
-    "MauvilleCity_PokemonCenter_2F",
     "MauvilleCity_Mart"
   ],
   "gMapGroup_IndoorRustboro": [
@@ -264,7 +255,7 @@
     "RustboroCity_Gym",
     "RustboroCity_PokemonSchool",
     "RustboroCity_PokemonCenter_1F",
-    "RustboroCity_PokemonCenter_2F",
+    "RustboroCity_House3",
     "RustboroCity_Mart",
     "RustboroCity_Flat1_1F",
     "RustboroCity_Flat1_2F",
@@ -273,20 +264,18 @@
     "RustboroCity_House2",
     "RustboroCity_Flat2_1F",
     "RustboroCity_Flat2_2F",
-    "RustboroCity_Flat2_3F",
-    "RustboroCity_House3"
+    "RustboroCity_Flat2_3F"
   ],
   "gMapGroup_IndoorFortree": [
     "FortreeCity_House1",
     "FortreeCity_Gym",
     "FortreeCity_PokemonCenter_1F",
-    "FortreeCity_PokemonCenter_2F",
+    "FortreeCity_DecorationShop",
     "FortreeCity_Mart",
     "FortreeCity_House2",
     "FortreeCity_House3",
     "FortreeCity_House4",
-    "FortreeCity_House5",
-    "FortreeCity_DecorationShop"
+    "FortreeCity_House5"
   ],
   "gMapGroup_IndoorLilycove": [
     "LilycoveCity_CoveLilyMotel_1F",
@@ -296,7 +285,7 @@
     "LilycoveCity_ContestLobby",
     "LilycoveCity_ContestHall",
     "LilycoveCity_PokemonCenter_1F",
-    "LilycoveCity_PokemonCenter_2F",
+    "LilycoveCity_DepartmentStoreElevator",
     "LilycoveCity_UnusedMart",
     "LilycoveCity_PokemonTrainerFanClub",
     "LilycoveCity_Harbor",
@@ -310,29 +299,27 @@
     "LilycoveCity_DepartmentStore_3F",
     "LilycoveCity_DepartmentStore_4F",
     "LilycoveCity_DepartmentStore_5F",
-    "LilycoveCity_DepartmentStoreRooftop",
-    "LilycoveCity_DepartmentStoreElevator"
+    "LilycoveCity_DepartmentStoreRooftop"
   ],
   "gMapGroup_IndoorMossdeep": [
     "MossdeepCity_Gym",
     "MossdeepCity_House1",
     "MossdeepCity_House2",
     "MossdeepCity_PokemonCenter_1F",
-    "MossdeepCity_PokemonCenter_2F",
+    "MossdeepCity_GameCorner_B1F",
     "MossdeepCity_Mart",
     "MossdeepCity_House3",
     "MossdeepCity_StevensHouse",
     "MossdeepCity_House4",
     "MossdeepCity_SpaceCenter_1F",
     "MossdeepCity_SpaceCenter_2F",
-    "MossdeepCity_GameCorner_1F",
-    "MossdeepCity_GameCorner_B1F"
+    "MossdeepCity_GameCorner_1F"
   ],
   "gMapGroup_IndoorSootopolis": [
     "SootopolisCity_Gym_1F",
     "SootopolisCity_Gym_B1F",
     "SootopolisCity_PokemonCenter_1F",
-    "SootopolisCity_PokemonCenter_2F",
+    "SootopolisCity_MysteryEventsHouse_B1F",
     "SootopolisCity_Mart",
     "SootopolisCity_House1",
     "SootopolisCity_House2",
@@ -342,8 +329,7 @@
     "SootopolisCity_House6",
     "SootopolisCity_House7",
     "SootopolisCity_LotadAndSeedotHouse",
-    "SootopolisCity_MysteryEventsHouse_1F",
-    "SootopolisCity_MysteryEventsHouse_B1F"
+    "SootopolisCity_MysteryEventsHouse_1F"
   ],
   "gMapGroup_IndoorEverGrande": [
     "EverGrandeCity_SidneysRoom",
@@ -358,9 +344,7 @@
     "EverGrandeCity_Hall5",
     "EverGrandeCity_PokemonLeague_1F",
     "EverGrandeCity_HallOfFame",
-    "EverGrandeCity_PokemonCenter_1F",
-    "EverGrandeCity_PokemonCenter_2F",
-    "EverGrandeCity_PokemonLeague_2F"
+    "EverGrandeCity_PokemonCenter_1F"
   ],
   "gMapGroup_IndoorRoute104": [
     "Route104_MrBrineysHouse",
@@ -616,7 +600,7 @@
     "BattleFrontier_Lounge8",
     "BattleFrontier_Lounge9",
     "BattleFrontier_PokemonCenter_1F",
-    "BattleFrontier_PokemonCenter_2F",
+    "TrainerHill_Elevator",
     "BattleFrontier_Mart",
     "FarawayIsland_Entrance",
     "FarawayIsland_Interior",
@@ -649,8 +633,7 @@
     "NavelRock_Down09",
     "NavelRock_Down10",
     "NavelRock_Down11",
-    "NavelRock_Bottom",
-    "TrainerHill_Elevator"
+    "NavelRock_Bottom"
   ],
   "gMapGroup_IndoorRoute104Prototype": [
     "Route104_Prototype",
@@ -957,8 +940,7 @@
     "ViridianCity_Gym_Frlg",
     "ViridianCity_School_Frlg",
     "ViridianCity_Mart_Frlg",
-    "ViridianCity_PokemonCenter_1F_Frlg",
-    "ViridianCity_PokemonCenter_2F_Frlg"
+    "ViridianCity_PokemonCenter_1F_Frlg"
   ],
   "gMapGroup_IndoorPewter_Frlg": [
     "PewterCity_Museum_1F_Frlg",
@@ -967,7 +949,6 @@
     "PewterCity_Mart_Frlg",
     "PewterCity_House1_Frlg",
     "PewterCity_PokemonCenter_1F_Frlg",
-    "PewterCity_PokemonCenter_2F_Frlg",
     "PewterCity_House2_Frlg"
   ],
   "gMapGroup_IndoorCerulean_Frlg": [
@@ -975,31 +956,28 @@
     "CeruleanCity_House2_Frlg",
     "CeruleanCity_House3_Frlg",
     "CeruleanCity_PokemonCenter_1F_Frlg",
-    "CeruleanCity_PokemonCenter_2F_Frlg",
+    "CeruleanCity_House5_Frlg",
     "CeruleanCity_Gym_Frlg",
     "CeruleanCity_BikeShop_Frlg",
     "CeruleanCity_Mart_Frlg",
-    "CeruleanCity_House4_Frlg",
-    "CeruleanCity_House5_Frlg"
+    "CeruleanCity_House4_Frlg"
   ],
   "gMapGroup_IndoorLavender_Frlg": [
     "LavenderTown_PokemonCenter_1F_Frlg",
-    "LavenderTown_PokemonCenter_2F_Frlg",
+    "LavenderTown_Mart_Frlg",
     "LavenderTown_VolunteerPokemonHouse_Frlg",
     "LavenderTown_House1_Frlg",
-    "LavenderTown_House2_Frlg",
-    "LavenderTown_Mart_Frlg"
+    "LavenderTown_House2_Frlg"
   ],
   "gMapGroup_IndoorVermilion_Frlg": [
     "VermilionCity_House1_Frlg",
     "VermilionCity_PokemonCenter_1F_Frlg",
-    "VermilionCity_PokemonCenter_2F_Frlg",
+    "VermilionCity_PortInside",
     "VermilionCity_PokemonFanClub_Frlg",
     "VermilionCity_House2_Frlg",
     "VermilionCity_Mart_Frlg",
     "VermilionCity_Gym_Frlg",
-    "VermilionCity_House3_Frlg",
-    "VermilionCity_PortInside"
+    "VermilionCity_House3_Frlg"
   ],
   "gMapGroup_IndoorCeladon_Frlg": [
     "CeladonCity_DepartmentStore_1F_Frlg",
@@ -1015,13 +993,12 @@
     "CeladonCity_Condominiums_Roof_Frlg",
     "CeladonCity_Condominiums_RoofRoom_Frlg",
     "CeladonCity_PokemonCenter_1F_Frlg",
-    "CeladonCity_PokemonCenter_2F_Frlg",
+    "CeladonCity_Hotel_Frlg",
     "CeladonCity_GameCorner_Frlg",
     "CeladonCity_GameCorner_PrizeRoom_Frlg",
     "CeladonCity_Gym_Frlg",
     "CeladonCity_Restaurant_Frlg",
-    "CeladonCity_House1_Frlg",
-    "CeladonCity_Hotel_Frlg"
+    "CeladonCity_House1_Frlg"
   ],
   "gMapGroup_IndoorFuchsia_Frlg": [
     "FuchsiaCity_SafariZone_Entrance_Frlg",
@@ -1030,10 +1007,9 @@
     "FuchsiaCity_Gym_Frlg",
     "FuchsiaCity_House1_Frlg",
     "FuchsiaCity_PokemonCenter_1F_Frlg",
-    "FuchsiaCity_PokemonCenter_2F_Frlg",
+    "FuchsiaCity_House3_Frlg",
     "FuchsiaCity_WardensHouse_Frlg",
-    "FuchsiaCity_House2_Frlg",
-    "FuchsiaCity_House3_Frlg"
+    "FuchsiaCity_House2_Frlg"
   ],
   "gMapGroup_IndoorCinnabar_Frlg": [
     "CinnabarIsland_Gym_Frlg",
@@ -1042,12 +1018,10 @@
     "CinnabarIsland_PokemonLab_ResearchRoom_Frlg",
     "CinnabarIsland_PokemonLab_ExperimentRoom_Frlg",
     "CinnabarIsland_PokemonCenter_1F_Frlg",
-    "CinnabarIsland_PokemonCenter_2F_Frlg",
     "CinnabarIsland_Mart_Frlg"
   ],
   "gMapGroup_IndoorIndigoPlateau_Frlg": [
-    "IndigoPlateau_PokemonCenter_1F_Frlg",
-    "IndigoPlateau_PokemonCenter_2F_Frlg"
+    "IndigoPlateau_PokemonCenter_1F_Frlg"
   ],
   "gMapGroup_IndoorSaffron_Frlg": [
     "SaffronCity_CopycatsHouse_1F_Frlg",
@@ -1057,9 +1031,8 @@
     "SaffronCity_House_Frlg",
     "SaffronCity_Mart_Frlg",
     "SaffronCity_PokemonCenter_1F_Frlg",
-    "SaffronCity_PokemonCenter_2F_Frlg",
-    "SaffronCity_MrPsychicsHouse_Frlg",
-    "SaffronCity_PokemonTrainerFanClub_Frlg"
+    "SaffronCity_PokemonTrainerFanClub_Frlg",
+    "SaffronCity_MrPsychicsHouse_Frlg"
   ],
   "gMapGroup_IndoorRoute2_Frlg": [
     "Route2_ViridianForest_SouthEntrance_Frlg",
@@ -1068,8 +1041,7 @@
     "Route2_ViridianForest_NorthEntrance_Frlg"
   ],
   "gMapGroup_IndoorRoute4_Frlg": [
-    "Route4_PokemonCenter_1F_Frlg",
-    "Route4_PokemonCenter_2F_Frlg"
+    "Route4_PokemonCenter_1F_Frlg"
   ],
   "gMapGroup_IndoorRoute5_Frlg": [
     "Route5_PokemonDayCare_Frlg",
@@ -1085,8 +1057,7 @@
     "Route8_WestEntrance_Frlg"
   ],
   "gMapGroup_IndoorRoute10_Frlg": [
-    "Route10_PokemonCenter_1F_Frlg",
-    "Route10_PokemonCenter_2F_Frlg"
+    "Route10_PokemonCenter_1F_Frlg"
   ],
   "gMapGroup_IndoorRoute11_Frlg": [
     "Route11_EastEntrance_1F_Frlg",
@@ -1121,56 +1092,49 @@
     "SevenIsland_House_Room2_Frlg",
     "SevenIsland_Mart_Frlg",
     "SevenIsland_PokemonCenter_1F_Frlg",
-    "SevenIsland_PokemonCenter_2F_Frlg",
     "SevenIsland_Harbor_Frlg"
   ],
   "gMapGroup_IndoorOneIsland_Frlg": [
     "OneIsland_PokemonCenter_1F_Frlg",
-    "OneIsland_PokemonCenter_2F_Frlg",
+    "OneIsland_Harbor_Frlg",
     "OneIsland_House1_Frlg",
-    "OneIsland_House2_Frlg",
-    "OneIsland_Harbor_Frlg"
+    "OneIsland_House2_Frlg"
   ],
   "gMapGroup_IndoorTwoIsland_Frlg": [
     "TwoIsland_JoyfulGameCorner_Frlg",
     "TwoIsland_House_Frlg",
     "TwoIsland_PokemonCenter_1F_Frlg",
-    "TwoIsland_PokemonCenter_2F_Frlg",
     "TwoIsland_Harbor_Frlg"
   ],
   "gMapGroup_IndoorThreeIsland_Frlg": [
     "ThreeIsland_House1_Frlg",
     "ThreeIsland_PokemonCenter_1F_Frlg",
-    "ThreeIsland_PokemonCenter_2F_Frlg",
+    "ThreeIsland_House5_Frlg",
     "ThreeIsland_Mart_Frlg",
     "ThreeIsland_House2_Frlg",
     "ThreeIsland_House3_Frlg",
-    "ThreeIsland_House4_Frlg",
-    "ThreeIsland_House5_Frlg"
+    "ThreeIsland_House4_Frlg"
   ],
   "gMapGroup_IndoorFourIsland_Frlg": [
     "FourIsland_PokemonDayCare_Frlg",
     "FourIsland_PokemonCenter_1F_Frlg",
-    "FourIsland_PokemonCenter_2F_Frlg",
+    "FourIsland_Mart_Frlg",
     "FourIsland_House1_Frlg",
     "FourIsland_LoreleisHouse_Frlg",
     "FourIsland_Harbor_Frlg",
-    "FourIsland_House2_Frlg",
-    "FourIsland_Mart_Frlg"
+    "FourIsland_House2_Frlg"
   ],
   "gMapGroup_IndoorFiveIsland_Frlg": [
     "FiveIsland_PokemonCenter_1F_Frlg",
-    "FiveIsland_PokemonCenter_2F_Frlg",
+    "FiveIsland_House2_Frlg",
     "FiveIsland_Harbor_Frlg",
-    "FiveIsland_House1_Frlg",
-    "FiveIsland_House2_Frlg"
+    "FiveIsland_House1_Frlg"
   ],
   "gMapGroup_IndoorSixIsland_Frlg": [
     "SixIsland_PokemonCenter_1F_Frlg",
-    "SixIsland_PokemonCenter_2F_Frlg",
+    "SixIsland_Mart_Frlg",
     "SixIsland_Harbor_Frlg",
-    "SixIsland_House_Frlg",
-    "SixIsland_Mart_Frlg"
+    "SixIsland_House_Frlg"
   ],
   "gMapGroup_IndoorThreeIslandRoute_Frlg": [
     "ThreeIsland_Harbor_Frlg"
@@ -1438,17 +1402,13 @@
     "SafariZoneGate",
     "SafariZoneGate_PokemonCenter",
     "SafariZoneGate_SafariZoneEntrance",
-    "SafariZoneIndoor",
+    "SafariZone_Top_Left",
     "SafariZone_Enterance",
     "SafariZone_Low_Left",
     "SafariZone_Low_Mid",
     "SafariZone_Low_Right",
     "SafariZone_Top_Mid",
-    "SafariZone_Top_Right",
-    "SafariZone1",
-    "SafariZone2",
-    "SafariZone3",
-    "SafariZone_Top_Left"
+    "SafariZone_Top_Right"
   ],
   "gMapGroup_MtSilver": [
     "MtSilver_Outside",

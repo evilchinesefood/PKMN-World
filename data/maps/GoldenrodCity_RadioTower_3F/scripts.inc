@@ -165,27 +165,12 @@ GoldenrodCity_RadioTower_3F_Text_SuperNerd:
 	.string "found.\p"
 	.string "We must have about 400 kinds.$"
 
-GoldenrodCity_RadioTower_3F_Text_GymGuideRockets:
-	.string "To trainers, POKéMON are their\n"
-	.string "beloved partners.\p"
-	.string "It's terrible how TEAM ROCKET is\n"
-	.string "trying to control POKéMON.$"
-
-GoldenrodCity_RadioTower_3F_Text_GymGuide:
-	.string "We run 24 hours a day to broadcast\n"
-	.string "entertaining programs.\p"
-	.string "I'll do my best to run around the\n"
-	.string "clock too!$"
-
 GoldenrodCity_RadioTower_3F_Text_CooltrainerFPleaseSave:
 	.string "The TEAM ROCKET boss has locked\n"
 	.string "himself in.\p"
 	.string "But the DIRECTOR can open it.\p"
 	.string "He's up on the fifth floor.\p"
 	.string "Please save him!$"
-
-GoldenrodCity_RadioTower_3F_Text_CooltrainerFDirectorSafe:
-	.string "Is the DIRECTOR safe?$"
 
 GoldenrodCity_RadioTower_3F_Text_CooltrainerFHeroGift:
 	.string "Thank you! You're my hero!\p"
@@ -244,4 +229,3 @@ GoldenrodCity_RadioTower_3F_Text_ScientistMarcAfter:
 	.string "Bwahahaha…\p"
 	.string "I can transmit as strong a signal\n"
 	.string "as I need from here.$"
-

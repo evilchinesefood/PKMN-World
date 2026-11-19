@@ -65,7 +65,7 @@ TEST("Regional Centers cover all campaign nurse locations with distinct stable i
     EXPECT_EQ(RegionalCenter_ForMap(MAP_GROUP(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F)), 16);
     EXPECT_EQ(RegionalCenter_ForMap(MAP_GROUP(MAP_REGION_HUB), MAP_NUM(MAP_REGION_HUB)), 0);
     EXPECT_EQ(RegionalCenter_ForMap(MAP_GROUP(MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F), MAP_NUM(MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F)), 0);
-    EXPECT_EQ(RegionalCenter_ForMap(MAP_GROUP(MAP_OLDALE_TOWN_POKEMON_CENTER_2F), MAP_NUM(MAP_OLDALE_TOWN_POKEMON_CENTER_2F)), 0);
+    EXPECT_EQ(RegionalCenter_ForMap(MAP_GROUP(MAP_OLDALE_TOWN_MART), MAP_NUM(MAP_OLDALE_TOWN_MART)), 0);
 }
 
 TEST("Regional Centers reject invalid IDs without changing destination output")

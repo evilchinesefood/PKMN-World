@@ -5,25 +5,11 @@ RuinsOfAlph_Lab_MapScripts::
 	.byte 0
 
 RuinsOfAlph_Lab_OnTransition:
-	call RuinsOfAlph_Lab_EventScript_AdoptSharedFossil
 	call_if_eq VAR_ALPH_FOSSIL_STATE, 1, RuinsOfAlph_Lab_EventScript_SetFossilReady
 	end
 
 RuinsOfAlph_Lab_EventScript_SetFossilReady::
 	setvar VAR_ALPH_FOSSIL_STATE, 2
-	return
-
-@ Before this lab had its own pair it kept a fossil in Devon's VAR_FOSSIL_* vars. Only Johto's
-@ fossils (3 to 5) can be told apart from one handed in at Devon, so those come back here; a
-@ Root or Claw Fossil stays with Devon, which revives those too.
-RuinsOfAlph_Lab_EventScript_AdoptSharedFossil::
-	goto_if_eq VAR_FOSSIL_RESURRECTION_STATE, 0, RuinsOfAlph_Lab_EventScript_AdoptSharedFossilDone
-	goto_if_lt VAR_WHICH_FOSSIL_REVIVED, 3, RuinsOfAlph_Lab_EventScript_AdoptSharedFossilDone
-	copyvar VAR_ALPH_FOSSIL_STATE, VAR_FOSSIL_RESURRECTION_STATE
-	copyvar VAR_ALPH_WHICH_FOSSIL, VAR_WHICH_FOSSIL_REVIVED
-	setvar VAR_FOSSIL_RESURRECTION_STATE, 0
-	setvar VAR_WHICH_FOSSIL_REVIVED, 0
-RuinsOfAlph_Lab_EventScript_AdoptSharedFossilDone::
 	return
 
 RuinsOfAlph_Lab_EventScript_Scientist1::
@@ -64,7 +50,6 @@ RuinsOfAlph_Lab_Text_Fossils:
 RuinsOfAlph_Lab_EventScript_FossilScientist::
 	lock
 	faceplayer
-	call RuinsOfAlph_Lab_EventScript_AdoptSharedFossil
 	goto_if_eq VAR_ALPH_FOSSIL_STATE, 2, RuinsOfAlph_Lab_EventScript_FossilMonReady
 	goto_if_eq VAR_ALPH_FOSSIL_STATE, 1, RuinsOfAlph_Lab_EventScript_StillRegenerating
 	msgbox RuinsOfAlph_Lab_Text_DevelopDeviceToResurrectFossils, MSGBOX_DEFAULT
@@ -290,8 +275,6 @@ RuinsOfAlph_Lab_EventScript_ReceiveLileep::
 
 RuinsOfAlph_Lab_EventScript_ReceiveLileepParty::
 	call RuinsOfAlph_Lab_EventScript_ReceivedLileepFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveLileepParty_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_FinishReceivingLileep
 	call Common_EventScript_GetGiftMonPartySlot
@@ -299,27 +282,14 @@ RuinsOfAlph_Lab_EventScript_ReceiveLileepParty::
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingLileep
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveLileepParty_Nuzlocke::
-	call Common_EventScript_GetGiftMonPartySlot
-	call Common_EventScript_NameReceivedPartyMon
-	goto RuinsOfAlph_Lab_EventScript_FinishReceivingLileep
-	end
-
 RuinsOfAlph_Lab_EventScript_ReceiveLileepPC::
 	call RuinsOfAlph_Lab_EventScript_ReceivedLileepFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveLileepPC_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_TransferLileepToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RuinsOfAlph_Lab_EventScript_TransferLileepToPC
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveLileepPC_Nuzlocke::
-	call Common_EventScript_NameReceivedBoxMon
-	goto RuinsOfAlph_Lab_EventScript_TransferLileepToPC
-	end
-	
 RuinsOfAlph_Lab_EventScript_TransferLileepToPC::
 	call Common_EventScript_TransferredToPC
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingLileep
@@ -395,8 +365,6 @@ RuinsOfAlph_Lab_EventScript_ReceiveOmanyte::
 
 RuinsOfAlph_Lab_EventScript_ReceiveOmanyteParty::
 	call RuinsOfAlph_Lab_EventScript_ReceivedOmanyteFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveOmanyteParty_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte
 	call Common_EventScript_GetGiftMonPartySlot
@@ -404,27 +372,14 @@ RuinsOfAlph_Lab_EventScript_ReceiveOmanyteParty::
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveOmanyteParty_Nuzlocke::
-	call Common_EventScript_GetGiftMonPartySlot
-	call Common_EventScript_NameReceivedPartyMon
-	goto RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte
-	end
-
 RuinsOfAlph_Lab_EventScript_ReceiveOmanytePC::
 	call RuinsOfAlph_Lab_EventScript_ReceivedOmanyteFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveOmanytePC_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_TransferOmanyteToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RuinsOfAlph_Lab_EventScript_TransferOmanyteToPC
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveOmanytePC_Nuzlocke::
-	call Common_EventScript_NameReceivedBoxMon
-	goto RuinsOfAlph_Lab_EventScript_TransferOmanyteToPC
-	end
-	
 RuinsOfAlph_Lab_EventScript_TransferOmanyteToPC::
 	call Common_EventScript_TransferredToPC
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingOmanyte
@@ -464,8 +419,6 @@ RuinsOfAlph_Lab_EventScript_GiveLateKabuto::
 
 RuinsOfAlph_Lab_EventScript_ReceiveKabutoParty::
 	call RuinsOfAlph_Lab_EventScript_ReceivedKabutoFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveKabutoParty_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_FinishReceivingKabuto
 	call Common_EventScript_GetGiftMonPartySlot
@@ -473,27 +426,14 @@ RuinsOfAlph_Lab_EventScript_ReceiveKabutoParty::
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingKabuto
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveKabutoParty_Nuzlocke::
-	call Common_EventScript_GetGiftMonPartySlot
-	call Common_EventScript_NameReceivedPartyMon
-	goto RuinsOfAlph_Lab_EventScript_FinishReceivingKabuto
-	end
-
 RuinsOfAlph_Lab_EventScript_ReceiveKabutoPC::
 	call RuinsOfAlph_Lab_EventScript_ReceivedKabutoFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveKabutoPC_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_TransferKabutoToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RuinsOfAlph_Lab_EventScript_TransferKabutoToPC
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveKabutoPC_Nuzlocke::
-	call Common_EventScript_NameReceivedBoxMon
-	goto RuinsOfAlph_Lab_EventScript_TransferKabutoToPC
-	end
-	
 RuinsOfAlph_Lab_EventScript_TransferKabutoToPC::
 	call Common_EventScript_TransferredToPC
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingKabuto
@@ -524,8 +464,6 @@ RuinsOfAlph_Lab_EventScript_ReceiveAero::
 
 RuinsOfAlph_Lab_EventScript_ReceiveAeroParty::
 	call RuinsOfAlph_Lab_EventScript_ReceivedAeroFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveAeroParty_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_FinishReceivingAero
 	call Common_EventScript_GetGiftMonPartySlot
@@ -533,27 +471,14 @@ RuinsOfAlph_Lab_EventScript_ReceiveAeroParty::
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingAero
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveAeroParty_Nuzlocke::
-	call Common_EventScript_GetGiftMonPartySlot
-	call Common_EventScript_NameReceivedPartyMon
-	goto RuinsOfAlph_Lab_EventScript_FinishReceivingAero
-	end
-
 RuinsOfAlph_Lab_EventScript_ReceiveAeroPC::
 	call RuinsOfAlph_Lab_EventScript_ReceivedAeroFanfare
-	specialvar VAR_RESULT, IsNuzlockeNicknamingActive
-	goto_if_eq VAR_RESULT, TRUE, RuinsOfAlph_Lab_EventScript_ReceiveAeroPC_Nuzlocke
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, RuinsOfAlph_Lab_EventScript_TransferAeroToPC
 	call Common_EventScript_NameReceivedBoxMon
 	goto RuinsOfAlph_Lab_EventScript_TransferAeroToPC
 	end
 
-RuinsOfAlph_Lab_EventScript_ReceiveAeroPC_Nuzlocke::
-	call Common_EventScript_NameReceivedBoxMon
-	goto RuinsOfAlph_Lab_EventScript_TransferAeroToPC
-	end
-	
 RuinsOfAlph_Lab_EventScript_TransferAeroToPC::
 	call Common_EventScript_TransferredToPC
 	goto RuinsOfAlph_Lab_EventScript_FinishReceivingAero
@@ -623,54 +548,6 @@ RuinsOfAlph_Lab_EventScript_CancelFossilSelect::
 	release
 	end
 
-RuinsOfAlph_Lab_EventScript_WorkOnNext::
-	msgbox RuinsOfAlph_Lab_Text_WhatToWorkOnNext, MSGBOX_DEFAULT
-	release
-	end
-
-RuinsOfAlph_Lab_Text_DeviceForTalkingToPokemon:
-	.string "We're developing a device for talking\n"
-	.string "with POKéMON.\p"
-	.string "But we haven't had much success…$"
-
-RuinsOfAlph_Lab_Text_DevelopingNewBalls:
-	.string "I'm developing new kinds of\n"
-	.string "POKé BALLS…\p"
-	.string "But I haven't made much headway…$"
-
-RuinsOfAlph_Lab_Text_WeFinallyMadeNewBalls:
-	.string "We finally made new kinds of\n"
-	.string "POKé BALLS!\p"
-	.string "The REPEAT BALL makes it easier to\n"
-	.string "catch POKéMON you've caught before.\p"
-	.string "The TIMER BALL gets better at catching\n"
-	.string "POKéMON the longer a battle runs.\p"
-	.string "Both are proudly developed by\n"
-	.string "the DEVON CORPORATION.\p"
-	.string "Please give them a try!$"
-
-RuinsOfAlph_Lab_Text_IMadePokenav:
-	.string "I made the POKéNAV!\p"
-	.string "As an engineer, I feel blessed to have\n"
-	.string "made something so great!$"
-
-RuinsOfAlph_Lab_Text_WowThatsAPokenav:
-	.string "Oh, wow!\n"
-	.string "That's a POKéNAV!\p"
-	.string "It came about as a result of our\n"
-	.string "PRESIDENT's desire to learn about\l"
-	.string "the feelings of POKéMON.\p"
-	.string "Would you like me to describe its\n"
-	.string "features in detail?\p"
-	.string "No, no. I think you'll find out just by\n"
-	.string "trying the POKéNAV out.$"
-
-RuinsOfAlph_Lab_Text_DeviceToVisualizePokemonDreams:
-	.string "I'm trying to develop a device that\n"
-	.string "visually reproduces the dreams of\l"
-	.string "POKéMON…\p"
-	.string "But it's not going well.$"
-
 RuinsOfAlph_Lab_Text_DevelopDeviceToResurrectFossils:
 	.string "I've been trying to build a device that\n"
 	.string "resurrects POKéMON from fossils…\p"
@@ -725,23 +602,3 @@ RuinsOfAlph_Lab_Text_FossilizedMonBroughtBackToLife:
 RuinsOfAlph_Lab_Text_ReceivedMonFromResearcher:
 	.string "{PLAYER} received {STR_VAR_2} from\n"
 	.string "the RESEARCHER.$"
-
-@ Unused
-RuinsOfAlph_Lab_Text_TooManyPokemon:
-	.string "Uh-oh, you've got too many POKéMON.\n"
-	.string "You have no room for this one.$"
-
-RuinsOfAlph_Lab_Text_DevelopNewPokenavFeature:
-	.string "I'm trying to develop a new feature\n"
-	.string "for the POKéNAV…\p"
-	.string "But it's not going well.$"
-
-RuinsOfAlph_Lab_Text_WhatToWorkOnNext:
-	.string "Well, now what shall I work on\n"
-	.string "developing next?\p"
-	.string "Our company allows us to make our\n"
-	.string "inspirations into reality.\p"
-	.string "One couldn't ask for a better\n"
-	.string "environment as an engineer.$"
-
-

@@ -1,10 +1,5 @@
 Route31_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, Route31_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-Route31_OnTransition: 
-	end
 
 Route31_EventScript_Bugcatcher_Wade::
 	trainerbattle_single TRAINER_WADE_JT, Route31_Text_BugCatcherWade1_Seen, Route31_Text_BugCatcherWade1_Beaten

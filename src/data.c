@@ -229,17 +229,11 @@ const union AnimCmd *const gAnims_Trainer[] ={
 #if !TESTING
 const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 {
-#if IS_FRLG
-#include "data/trainers_frlg.h"
-#else
 #include "data/trainers.h"
-#if ALL_REGIONS
 // Region merge (E5-1): Kanto (FRLG) parties resident at the id block after Johto -
 // opponents_frlg.h rebases every TRAINER_* by KANTO_TRAINER_ID_OFFSET, so these
 // designated initializers land at ids 1097..1719.
 #include "data/trainers_frlg.h"
-#endif
-#endif
 };
 #endif
 
@@ -247,7 +241,6 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 // Adding a TRAINER_* past TRAINERS_COUNT previously failed only at runtime (a debug assert);
 // and an ALL_REGIONS build must resolve to the Emerald trainer count, not the FRLG one.
 STATIC_ASSERT(TRAINER_LANCE_2 < TRAINERS_COUNT, KantoJohtoTrainerIdsExceedTrainersCount);
-#if ALL_REGIONS
 STATIC_ASSERT(!IS_FRLG, AllRegionsBuildMustNotFoldToFrlgTrainerCount);
 // Kanto trainer block geometry (E5-1): starts right after Johto, ends where the Johto
 // route/dungeon block (v9) begins - it is no longer the last block, so it is measured against
@@ -257,6 +250,5 @@ STATIC_ASSERT(TRAINER_ROCKET_JAMES_2 == JOHTO_EXT_TRAINER_ID_OFFSET - 1, KantoTr
 // Johto route/dungeon/gym block geometry (v9): starts right after Kanto, ends at TRAINERS_COUNT-1.
 STATIC_ASSERT(TRAINER_WAYNE_JT == JOHTO_EXT_TRAINER_ID_OFFSET, JohtoExtBlockMustStartAtItsOffset);
 STATIC_ASSERT(TRAINER_KIYO_JT == TRAINERS_COUNT - 1, JohtoExtBlockMustEndAtTrainersCount);
-#endif
 
 #include "data/text/follower_messages.h"

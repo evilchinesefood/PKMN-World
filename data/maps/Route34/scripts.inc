@@ -2,7 +2,6 @@
 
 Route34_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, Route34_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
 
 Route34_OnTransition: 
@@ -150,10 +149,6 @@ Route34_Text_OfficerKeith_After:
 	.string "Yep, nothing wrong today.\p"
 	.string "Be good and stay out of trouble.$"
 
-Route34_Text_OfficerKeith_Daytime:
-	.string "I'm on patrol for suspicious\n"
-	.string "individuals.$"
-
 Route34_Text_PokefanBrandon_Seen:
 	.string "I just got my POKéMON back from\n"
 	.string "DAY-CARE.\p"
@@ -165,10 +160,6 @@ Route34_Text_PokefanBrandon_Beaten:
 Route34_Text_PokefanBrandon_After:
 	.string "My POKéMON came back with new moves.\p"
 	.string "That confounded me to no end!$"
-
-Route34_Text_Sign_IlexForest:
-	.string "ILEX FOREST\n"
-	.string "THROUGH THE GATE$"
 
 Route34_Text_Sign_Route34:
 	.string "ROUTE 34\n"
@@ -188,10 +179,6 @@ Route34_Text_CooltrainerIrene_Seen:
 Route34_Text_CooltrainerIrene_Beaten:
 	.string "IRENE: Ohhh! You're too strong!$"
 
-Route34_Text_CooltrainerIrene_After1:
-	.string "IRENE: My sister KATE will get you\n"
-	.string "for this!$"
-
 Route34_Text_CooltrainerIrene_After2:
 	.string "IRENE: Isn't this beach great?\p"
 	.string "It's our secret little getaway!$"
@@ -203,10 +190,6 @@ Route34_Text_CooltrainerJenn_Seen:
 Route34_Text_CooltrainerJenn_Beaten:
 	.string "JENN: So sorry, IRENE! Dear Sis!$"
 
-Route34_Text_CooltrainerJenn_After1:
-	.string "JENN: Don't get cocky! My sister\n"
-	.string "KATE is tough!$"
-
 Route34_Text_CooltrainerJenn_After2:
 	.string "JENN: Sunlight makes your body\n"
 	.string "stronger.$"
@@ -217,11 +200,6 @@ Route34_Text_CooltrainerKate_Seen:
 
 Route34_Text_CooltrainerKate_Beaten:
 	.string "KATE: No! I can't believe I lost.$"
-
-Route34_Text_CooltrainerKate_GiveSoftSand:
-	.string "KATE: You are so strong.\n"
-	.string "We lost with no excuses…\p"
-	.string "Here, take this!$"
 
 Route34_Text_CooltrainerKate_After:
 	.string "KATE: I'm sorry we jumped you.\p"

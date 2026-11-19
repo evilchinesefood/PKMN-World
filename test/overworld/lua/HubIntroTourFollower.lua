@@ -19,15 +19,11 @@ local F = require("lib").new(require("symbols"), "HubIntroTourFollower")
 local FLAG_HUB_INTRO_TOUR_DONE = 0xDCF
 local CURATOR = 13                  -- LOCALID_REGION_HUB_CURATOR
 local FOLLOWER = 0xFE               -- OBJ_EVENT_ID_FOLLOWER
-local CREST = { 16, 4 }
 local STOPS = { { 21, 3 }, { 16, 3 }, { 11, 3 }, { 4, 3 }, { 2, 2 }, { 2, 7 }, { 13, 12 },
                 { 9, 11 }, { 4, 13 } }
 
 local function flagAddr(id) return F.sb1() + S.SaveBlock1.flags + math.floor(id / 8) end
 local function flagGet(id) return (F.r8(flagAddr(id)) & (1 << (id % 8))) ~= 0 end
-local function flagClear(id)
-  F.w8(flagAddr(id), F.r8(flagAddr(id)) & ~(1 << (id % 8)) & 0xFF)
-end
 -- ACTIVE IS NOT VISIBLE. ScriptHideFollower (src/scrcmd.c) pockets the follower by running
 -- EnterPokeballMovement and setting objectEvent->invisible; the object stays ACTIVE in
 -- gObjectEvents, parked at whatever tile it was last on. An active-only check therefore reads a
@@ -74,9 +70,17 @@ end
 -- presses Down to test the menu, which moves a 2-row yes/no cursor off YES, and
 -- Menu_MoveCursorNoWrapAround will not bring it back. Drive the cursor in BOTH directions,
 -- verified against sMenu.cursorPos each step, so YES and NO are equally reachable.
+local function menuLiveBothWays()
+  local c0 = F.mcur()
+  F.press("Down", 2); F.idle(10)
+  if F.mcur() ~= c0 then return true end
+  F.press("Up", 2); F.idle(10)
+  return F.mcur() ~= c0
+end
+
 local function answer(row, tag)
   for _ = 1, 30 do
-    if F.menuLive() then
+    if menuLiveBothWays() then
       for _ = 1, 8 do
         local c = F.mcur()
         if c == row then
@@ -145,30 +149,13 @@ F.run(function()
   F.shot("follower_out")
   if fol == nil then F.finish(); return end
 
-  -- Re-arm the tour and take it from the crest.
-  flagClear(FLAG_HUB_INTRO_TOUR_DONE)
-  F.check("tour flag cleared for the escort run", not flagGet(FLAG_HUB_INTRO_TOUR_DONE))
-  local px, py = F.pos()
-  F.L(string.format("  standing at (%d,%d) after the reload", px, py))
-  if px ~= CREST[1] or py ~= CREST[2] then
-    F.check("route back to the crest", F.route({ { CREST[1], CREST[2] } }, "toCrest"))
-  else
-    -- already on the crest: step off and back on so the coord_event fires
-    F.step("Right"); F.idle(30); F.step("Left")
-  end
-  F.idle(400)
-  local g = obj(CURATOR)
-  F.check("the guide comes over for the offer", g ~= nil and g.x == 17 and g.y == 4, at(g))
+  F.check("reach the Curator with a follower", F.route({ { 22, 4 }, { 22, 6 } }, "curator"))
+  F.face("Down")
+  F.press("A", 2); F.idle(60)
   F.check("accept the tour", answer(0, "tour-yes"))
 
-  -- WHAT "no desync" MEANS HERE. `ScrCmd_applymovement` calls ScriptHideFollower() whenever the
-  -- movement target is not the follower, FLAG_SAFE_FOLLOWER_MOVEMENT is clear (nothing sets it on
-  -- this map) and the movement data sits outside Common_Movement_FollowerSafeStart..End (ours
-  -- does). So the engine's own answer to a long scripted escort is to pocket the follower for the
-  -- duration and bring it back at the release, and that is the SAFE path. The failure to catch is
-  -- a follower that is genuinely ON SCREEN and drifting, so the gap is only measured over frames
-  -- where it is active AND not invisible. Both counts are logged: if a future engine change stops
-  -- pocketing it, `visible` jumps off zero and the gap assertion starts doing real work.
+  -- The replay from the Curator keeps the follower visible. Sample both the
+  -- visibility bit and the distance so a hidden or stranded follower fails.
   local seen, idx = {}, 1
   local maxGap, gapAt, visible, activeSamples = 0, "", 0, 0
   for f = 1, 20000 do
@@ -219,12 +206,9 @@ F.run(function()
   if fe then fx, fy = fe.x, fe.y end
   F.check("the follower is beside the player at the end", fe ~= nil and (math.abs(fx - ex) + math.abs(fy - ey)) <= 1,
     string.format("player (%d,%d) follower (%d,%d)", ex, ey, fx, fy))
-  F.check("the follower never desynced during the escort (pocketed, or kept within one tile)",
-    visible == 0 or maxGap <= 1,
-    string.format("%d active samples, %d visible, max on-screen gap %d %s", activeSamples, visible, maxGap, gapAt))
-  -- Record the mechanism, so a future run that stops pocketing is visible as a CHANGE rather than
-  -- quietly passing the check above for a different reason.
-  F.check("the engine pocketed the follower for the scripted escort", visible == 0 and activeSamples > 0,
+  F.check("the visible follower stays within one tile throughout the replay", maxGap <= 1,
+    string.format("%d samples, max gap %d %s", visible, maxGap, gapAt))
+  F.check("the follower stays visible during the Curator replay", visible == activeSamples and visible > 0,
     string.format("%d active samples, %d visible", activeSamples, visible))
   -- The #59 tour ends at (4,13), eighteen columns from the guide's (22,7) post,
   -- and the Depart walk carries him outside the object-spawn window where the

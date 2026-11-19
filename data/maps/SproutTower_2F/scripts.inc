@@ -1,10 +1,5 @@
 SproutTower_2F_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, SproutTower_2F_OnTransition
-	map_script MAP_SCRIPT_ON_RESUME, SetTimeEncounters
 	.byte 0
-
-SproutTower_2F_OnTransition: 
-	end
 
 SproutTower_2F_EventScript_SageNico::
 	trainerbattle_single TRAINER_NICO SproutTower_Text_SageNico_Seen, SproutTower_Text_SageNico_Beaten

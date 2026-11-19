@@ -2,8 +2,7 @@
 -- species seen, each request must name an enabled base species, and showing that species must
 -- earn the reward. Five rounds: talk, read the request, put the base species in the party, talk
 -- again, then leave the house and come back, which is how the game clears her "just fulfilled"
--- temp flag. A last case loads the form request an unfixed ROM leaves in a save: Selphy must
--- replace it, because the request has no other way to change.
+-- temp flag.
 --
 -- Setup writes the seen Pokedex, Selphy's at-home state and the shown Pokemon through RAM and the
 -- debug menu. The requests come from her own script and the `SampleResortGorgeousMonAndReward`
@@ -21,7 +20,6 @@ local FLAG_TEMP_2 = 0x2
 local FLAG_HIDE_RESORT_GORGEOUS_INSIDE_SELPHY = 0xA40 + 0x95
 local VAR_REQUESTED, VAR_REWARD, VAR_SCENE = 0xA011, 0xA016, 0xA05D
 local GEN3_DEX = 386
-local SPECIES_PONYTA_GALAR = 975
 local ROUNDS = 5
 local MON = S.Pokemon.size
 
@@ -165,17 +163,5 @@ F.run(function()
     F.check(tag .. " re-entry clears the just-fulfilled flag", not flag(FLAG_TEMP_2))
   end
 
-  -- A save from before the fix can hold a form request, and nothing else ever replaces it.
-  -- 975 is Galarian Ponyta, the first request the unfixed ROM made in this suite.
-  var(VAR_REQUESTED, SPECIES_PONYTA_GALAR)
-  F.check("old save: party holds plain Ponyta", giveOnly(dexOf(SPECIES_PONYTA_GALAR)))
-  F.dismiss(10)
-  assert(toSelphy(), "Could not return to Selphy for the old request")
-  local ok, crashes = talk("old_request")
-  local want = var(VAR_REQUESTED)
-  F.L(string.format("old request %d replaced by %d", SPECIES_PONYTA_GALAR, want))
-  F.check("old save: Selphy replaces the form request with a base form she can be shown",
-    ok and crashes == 0 and want ~= SPECIES_PONYTA_GALAR and enabled(want) and baseOf(want) == want and seen(dexOf(want)),
-    string.format("request=%d crash screens=%d", want, crashes))
   F.finish()
 end)

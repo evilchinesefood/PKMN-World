@@ -56,6 +56,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -167,12 +168,17 @@ class Tree:
         return " ".join(users) if users else None
 
     # --- data tables ------------------------------------------------------------------------
-    def designated(self, path, prefix):
+    def designated(self, path, prefix, defines=()):
         """[PREFIX_X] = { ... } blocks of one C table file -> name -> block text."""
         out = {}
         if not os.path.exists(path):
             return out
-        text = strip_c_comments(read(path))
+        if defines:
+            # The original Kanto table contains both editions in one initializer.
+            # Expand the selected branch before collecting fields with the same name.
+            text = subprocess.check_output(["cc", "-E", "-P", "-x", "c", *defines, path], text=True)
+        else:
+            text = strip_c_comments(read(path))
         for m in re.finditer(r"\[(%s\w+)\]\s*=\s*\{" % prefix, text):
             depth, i = 1, m.end()
             while depth and i < len(text):
@@ -185,7 +191,8 @@ class Tree:
         out = {}
         table = next((p for p in (self.path("src/data/trade.h"), self.path("src/data/ingame_trades.h"))
                       if os.path.exists(p)), "")
-        for name, block in self.designated(table, "INGAME_TRADE_").items():
+        defines = ("-DFIRERED",) if os.path.basename(table) == "ingame_trades.h" else ()
+        for name, block in self.designated(table, "INGAME_TRADE_", defines).items():
             f = dict(re.findall(r"\.(\w+)\s*=\s*([^,\n]+)", block))
             out[name] = " ".join(f.get(k, "?").strip() for k in ("species", "requestedSpecies"))
         return out

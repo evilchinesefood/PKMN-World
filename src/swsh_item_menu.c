@@ -70,8 +70,6 @@
 #include "constants/party_menu.h"
 #endif
 
-#if SWSH_ITEM_MENU
-
 #define TAG_POCKET_SCROLL_ARROW  110
 #define TAG_BAG_SCROLL_ARROW     111
 #define TAG_ITEM_CURSOR          112
@@ -695,19 +693,6 @@ static const struct YesNoFuncTable sYesNoTossFunctions = {ConfirmToss, CancelTos
 
 static const struct YesNoFuncTable sYesNoSellItemFunctions = {ConfirmSell, CancelSell};
 
-static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate = {
-    .firstArrowType = SCROLL_ARROW_LEFT,
-    .firstX = 28,
-    .firstY = 16,
-    .secondArrowType = SCROLL_ARROW_RIGHT,
-    .secondX = 100,
-    .secondY = 16,
-    .fullyUpThreshold = -1,
-    .fullyDownThreshold = -1,
-    .tileTag = TAG_BAG_SCROLL_ARROW,
-    .palTag = TAG_BAG_SCROLL_ARROW,
-    .palNum = 0,
-};
 
 static const u8 sRegisteredSelect_Gfx[]         = INCGFX_U8("graphics/bag/swsh/select_button.png", ".4bpp");
 #if I_KEY_ITEM_WHEEL
@@ -933,10 +918,6 @@ static const struct SpriteTemplate sSpriteTemplate_Cursor =
     .anims = sAnims_Cursor,
 };
 
-static const struct SpritePalette sSpritePalette_Cursor = {
-    .data = sCursor_Pal,
-    .tag = TAG_ITEM_CURSOR
-};
 
 static const struct CompressedSpriteSheet sSpriteSheet_SwapCursor =
 {
@@ -4526,10 +4507,6 @@ static void BagMenu_Print(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top
     AddTextPrinterParameterized4(windowId, fontId, left, top, letterSpacing, lineSpacing, sFontColorTable[colorIndex], speed, str);
 }
 
-static u8 UNUSED BagMenu_GetWindowId(u8 windowType)
-{
-    return gBagMenu->windowIds[windowType];
-}
 
 static u8 BagMenu_AddWindow(u8 windowType)
 {
@@ -7137,7 +7114,7 @@ static void BagMenu_UseRareCandy(u8 taskId)
     sBagItemUseState->savedExitCallback = gBagPosition.exitCallback;
     sBagItemUseState->moveLearnContinue = BagMenu_RareCandyDoLearnMoveStep;
 
-    if (B_RARE_CANDY_CAP && initialLevel >= GetCurrentLevelCap())
+    if (initialLevel >= MAX_LEVEL)
     {
         cannotUse = TRUE;
     }
@@ -8607,11 +8584,9 @@ static s16 BagMenu_ComputeMultiUseMax(u8 taskId)
 
         if (holdEffectParam == 0)
         {
-            if (B_RARE_CANDY_CAP && level >= GetCurrentLevelCap())
-                return 0;
             if (level >= MAX_LEVEL)
                 return 0;
-            return B_RARE_CANDY_CAP ? (s16)min(bagQty, GetCurrentLevelCap() - level) : bagQty;
+            return (s16)min(bagQty, MAX_LEVEL - level);
         }
         else
         {
@@ -9021,5 +8996,3 @@ static void BagMenu_UseItem(u8 taskId)
 }
 
 #endif // SWSH_ITEM_MENU_ACTION_IN_BAG
-
-#endif // SWSH_ITEM_MENU

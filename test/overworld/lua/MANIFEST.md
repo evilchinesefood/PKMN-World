@@ -1068,6 +1068,17 @@ keys) and logs how long they took: 167 to 240 frames to the field each time. A f
 keys alone left a level 50 debug party pressing A on whatever move the mash had selected, never
 damaging the 1 HP foe. Measured **331/331** at `PW_DBL_SEED` 0, 1, 777, 48879 and 65537.
 
+Potion foes (stress pass 10). At `PW_DBL_SEED` 2718281 "potion then cancel partner" scored 326/331.
+The refund had passed (Bag at 3 after the partner's B). The left Zigzagoon is held at 5 HP through
+the FIGHT turn after the cancel, and the wild Wurmple and Zigzagoon fainted it there, so it never
+got the menu to pick the Potion again. The trace shows the battle still turning: Magikarp Splashed
+until its 40 PP ran out, then Struggled, until the 20,000-frame budget ended. The wild pair are now
+level 3 Magikarp, which know only Splash, so no damage roll decides the scenario, and the heal is
+asserted exact (5 to 25 HP). Two game mutations in the partner-cancel refund
+(`HandleInputChooseAction`) each fail two potion checks, 329/331 at seed 2718281: refunding two
+Potions (Bag 4 after the cancel, 3 at the end) and refunding none (2, then 1). Measured **331/331** at `PW_DBL_SEED`
+2718281, 7919, 104729, 4242, 65537 and 1618033.
+
 ### `BugContestFullPC.lua`
 
 The Bug-Catching Contest's judging with every PC box full, which no earlier suite reached: the

@@ -1352,17 +1352,19 @@ F.run(function()
   -- panel) is removed from the Bag at selection (BagMenu_BattleApplyItem). If the right-hand
   -- Pokemon then presses B to go back to the left one, the controller must hand the Potion back
   -- (the B_ACTION_CANCEL_PARTNER refund), exactly once. Then the same use is let through, and the
-  -- Potion must be spent and the Pokemon healed.
+  -- Potion must be spent and the Pokemon healed by exactly 20.
+  -- The wild pair are level 3 Magikarp, which know only Splash. The left Pokemon is held at 5 HP
+  -- through the FIGHT turn after the cancel, and at PW_DBL_SEED 2718281 a Wurmple and a Zigzagoon
+  -- fainted it there, leaving it no menu to pick the Potion from again.
   scenario("potion then cancel partner", function()
     ensureParty(catchParty)
     fastBattles(true)
     clearBag(); scriptAddItem(ITEM_POTION, 3)
-    if not F.check("potion: a wild double started", startWildDouble("potion", SPECIES_WURMPLE, 3, SPECIES_ZIGZAGOON, 3)) then return end
+    if not F.check("potion: a wild double started", startWildDouble("potion", SPECIES_MAGIKARP, 3, SPECIES_MAGIKARP, 3)) then return end
     local step, polls, qtyAtCancel, qtyAfterCancel, partnerHp0, healedHp = "bag", 0, -1, -1, 0, -1
     local cancelled, used = false, false
     local res, at = drive("potion", 20000, {
       frame = function(i)
-        if bhp(2) > 0 then setBhp(2, bmax(2)) end
         -- Keep the left Pokemon hurt until the real use, so the Potion has something to heal.
         -- Both copies: the Bag checks the party struct, the battle reads gBattleMons.
         if (step == "bag" or step == "cancelled" or step == "bag2") and inBattle() and bhp(0) > 5 then
@@ -1409,7 +1411,7 @@ F.run(function()
     F.check("potion: the Potion left the Bag when it was picked", qtyAtCancel == 2, "qty at cancel=" .. qtyAtCancel)
     F.check("potion: B on the partner's menu handed it back, once", cancelled and qtyAfterCancel == 3,
       "qty after cancel=" .. qtyAfterCancel)
-    F.check("potion: used for real the second time, the Pokemon was healed", used and healedHp > partnerHp0,
+    F.check("potion: used for real the second time, the Pokemon was healed", used and healedHp == partnerHp0 + 20,
       string.format("hp %d -> %d", partnerHp0, healedHp))
     checkBattleEnd("potion", res, at, { OUT_RAN })
     F.check("potion: exactly one Potion was spent", itemQty(ITEM_POTION) == 2, "qty=" .. itemQty(ITEM_POTION))

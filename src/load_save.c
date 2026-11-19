@@ -195,6 +195,10 @@ STATIC_ASSERT(offsetof(struct SaveBlock1, pokeblocks) == 2924, SaveBlock1Pokeblo
 // PalaceLobbyCancel.lua reads the party SavePlayerParty keeps here to prove it is stale.
 STATIC_ASSERT(offsetof(struct SaveBlock1, playerPartyCount) == 564, SaveBlock1PlayerPartyCountMoved_RegenLuaSymbols);
 STATIC_ASSERT(offsetof(struct SaveBlock1, playerParty) == 568, SaveBlock1PlayerPartyMoved_RegenLuaSymbols);
+// VsSeekerRematch.lua and MatchCallRematch.lua read the shared rematch step counter and the saved
+// rematch states here. Probe-verified under the repo CFLAGS.
+STATIC_ASSERT(offsetof(struct SaveBlock1, trainerRematchStepCounter) == 3308, SaveBlock1RematchStepCounterMoved_RegenLuaSymbols);
+STATIC_ASSERT(offsetof(struct SaveBlock1, trainerRematches) == 3310, SaveBlock1TrainerRematchesMoved_RegenLuaSymbols);
 
 void CheckForFlashMemory(void)
 {

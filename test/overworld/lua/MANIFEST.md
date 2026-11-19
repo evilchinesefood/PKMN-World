@@ -4926,3 +4926,51 @@ header) measure a day change through `--rtc`: 13/13, and the same save on the sa
 `PW_MIRAGE_SEED`, `PW_MIRAGE_TEXT`, `PW_MIRAGE_FEMALE=1` and `PW_MIRAGE_ONLY` are knobs. Coverage, no
 defect found: **106/106** at seed 0x5EED; 105/105 at seeds 24301, 7, 99991 and 31337 (the last as the
 female character with slow text at 22:00) before the final tower check was added.
+### `VsSeekerRematch.lua`
+
+Kanto VS Seeker rematches, which no suite had used. The Vermilion Pokemon Center woman gives the
+seeker (a second talk gives none). On Route 3, with its trainers beaten and three Kanto badges, SELECT
+uses it: uncharged first (no offer, count untouched), charged by 100 Kanto steps, used at the east end
+with nobody in range (charge kept), then among Ben, Colton and Janice with a seeded mash of every
+button under the animation (`PW_SEED`, default 4207). Ben and Colton are talked into rematches: the
+stage-1 parties (`BEN_2`, `COLTON_2`), paid once, only that trainer's offer cleared, the party recorded
+beaten, and a second talk starts nothing. 100 steps after the use the charge runs out, control returns
+and Janice's untouched offer lapses. The charged seeker then walks three steps in the World Transit hub
+and three on Hoenn's Route 104 and must still be charged back on Route 3. With an empty party (what the
+Hub Pass leaves) a talk to Janice is refused and keeps her offer; with the party back she battles
+`JANICE_2`. Without a Repel the seeker is charged among the wild Pokemon (battles fled) and used under a
+mash with an overworld wild Pokemon within three tiles and the follower out. A Hoenn champion stays on
+Kanto's Normal tier; as Kanto champion (Hard tier) Ben's next rematch is `BEN_3`. Last, a Start-menu
+save with Colton's and Janice's offers pending, a soft reset in the middle of Colton's approach and
+Continue: the offers and charging window are cleared (as on any map load), the saved charge is kept,
+and 100 steps later both are offered again. `PW_INSTANT=1` sets Instant text.
+**Discrimination:** unfixed 53/55 (the hub's steps pushed the shared rematch byte past 100 and the
+next map load zeroed it, so the seeker said "The battery isn't charged enough" and found nobody; the
+empty-party block needs that offer and is skipped).
+
+### `MatchCallRematch.lua`
+
+Hoenn Match Call rematches, which no suite had fought. With five Hoenn badges, the PokeNav and Match
+Call, and Calvin beaten and registered, 150 steps on Route 104 and a walk across the connection into
+Petalburg must keep Emerald's rematch step count. Petalburg fills it to 255 and each crossing into
+Route 102 rolls for Calvin while each crossing back keeps the full count. Once Calvin asks (by the
+roll or a Match Call), talking to him fields `CALVIN_2`, pays once, consumes the request and keeps him
+registered; a second talk starts nothing. As Hoenn champion, with Roxanne's PokeNav call asking for a
+rematch (the state `UpdateGymLeaderRematch` leaves), she is refused once (NO: no battle, no money) and
+then fought: `ROXANNE_1`'s Hard team (level 59), control back, and her request consumed so the PokeNav
+call no longer says the gym is ready. Last, all 64 Hoenn trainers and 8 leaders are registered and the
+72-contact list is walked with a seeded mash (`PW_SEED`, default 5113). `PW_INSTANT=1` sets Instant
+text. **Discrimination:** unfixed 29/32 (the step count read 1 after Petalburg's map load; Roxanne's
+request stayed set and her call still said "My GYM is ready!" after the champion rematch).
+
+### `LeaderRematchRegions.lua`
+
+Champion gym rematches in all three regions, each gated on its own region's championship. Brock,
+Falkner and Roxanne are left beaten with their TMs given. As Hoenn champion only, Brock and Falkner
+offer nothing and start no battle (their regions on the Normal tier), while Roxanne offers her
+rematch: refused once (NO: no battle, no money), then fought on the Hard team and paid, and offered
+again on the next talk. The Kanto championship opens Brock's Hard rematch (refused once, then fought)
+and still not Falkner's; the Johto championship opens Falkner's, and Roxanne's still works for a
+three-region champion. Prompts are answered explicitly and texts paged with a seeded mix of A and B
+(`PW_SEED`, default 6151); `PW_INSTANT=1` sets Instant text. Coverage, no defect found: 43/43 on the
+unfixed and fixed ROMs, and 43/43 at Instant text, seed 31337 and a night clock.

@@ -3662,7 +3662,13 @@ wait alone scores **82/82**, and freezing the text printers once that battle is 
 check. Elsewhere the A cadence locked into a 120-frame loop: A opened the Bag from the start menu, B
 closed it, and the next B fell in the fade before the start menu came back. The default seed scored
 **81/82** (Silph Co) and `PW_CHAOS_BASE=31337` **78/82**. With both changes the default seed, 104729,
-7 and 31337 all score **82/82** on master `ab414c43dd`. Manual because the noise makes the route a function of every frame count, so any
+7 and 31337 all score **82/82** on master `ab414c43dd`. On the pass-10 integration ROM
+`PW_CHAOS_BASE=1618033` scored **81/84**: the walk left Sky Pillar 1F onto the outside door at (14,5)
+while the door was still closed (`MB_SKY_PILLAR_CLOSED_DOOR`, a solid block), because the debug warp
+into the pillar skipped `FLAG_WALLACE_GOES_TO_SKY_PILLAR`. In the game the Cave of Origin sets that
+flag before anyone can enter, and the door opens on load from then on, so the setup now sets it.
+Replayed from its savestate with only that flag set, the location walks out through the open door and
+passes. Manual because the noise makes the route a function of every frame count, so any
 build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
 `PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
 one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.

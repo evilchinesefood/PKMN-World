@@ -3,7 +3,8 @@
 --
 -- Each location starts from a debug warp onto one of its warps with a Lv100 party (Lapras leads
 -- with Surf and Ice Beam, so a mashed A ends a fight) under a long Repel, every badge and the HM
--- tools, with the Mach Bike on Select (or the Sky Charm for the "sky" locations). A walker reads
+-- tools, the Sky Pillar door open (as after the Cave of Origin, the only way into the pillar), and
+-- the Mach Bike on Select (or the Sky Charm for the "sky" locations). A walker reads
 -- the live map grid and the map header's warps, picks a random warp or open tile (any tile while
 -- flying), plans a path and holds each step's direction, while a seeded noise source taps A, B,
 -- Start, Select, L and R. It goes through doors, ladders, stairs, ice, spinners, warp pads and cave
@@ -34,6 +35,7 @@ local VAR_REPEL_STEP_COUNT = 0x4021
 local ITEM_MACH_BIKE = 707
 local ITEM_SKY_CHARM = 891
 local AVATAR_BIKES = 0x06
+local FLAG_WALLACE_GOES_TO_SKY_PILLAR = 0x137
 
 local seed = BASE
 local function rnd()
@@ -409,6 +411,7 @@ F.run(function()
     F.finish(); return
   end
   for i = 0, 7 do setFlag(0x94F + i); setFlag(0xA40 + 0x0B + i); setFlag(0x6000 + 0x3F8 + i) end
+  setFlag(FLAG_WALLACE_GOES_TO_SKY_PILLAR)
   for id = 875, 880 do addItem(id, 1) end
   addItem(ITEM_MACH_BIKE, 1)
   addItem(ITEM_SKY_CHARM, 1)

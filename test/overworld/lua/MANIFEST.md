@@ -4730,3 +4730,28 @@ flipped. **Oracle:** the printer may charge only if the card back draws icon til
 and the sticker man may announce a sticker only if the back draws one (BG3 320 to 331); both talks
 must hand control back. **Measured:** unfixed **6/8** (charged 50 with 0 icon cells; the sticker
 line printed with 0 sticker cells); fixed **8/8**, also with a night clock.
+
+### `ServiceNpcStress.lua`
+
+The service NPCs that inspect and change a Pokemon, in all three regions, with real input at Instant
+text: Hoenn's Fury Cutter and Rollout tutors and Kanto's Seismic Toss tutor, the Lilycove, Fuchsia and
+Blackthorn Move Deleters, the Fallarbor, Two Island and Blackthorn Move Relearners, and the Slateport,
+Lavender and Goldenrod Name Raters. Mew comes from the debug Give menu with its moves, PP, PP Ups, OT
+and nickname written into the party or a PC box; fees come from an additem script. **Tutors** teach
+into a full moveset over a Psychic with three PP Ups (16 PP), over a Metronome with no PP left, and
+for a boxed Mew picked in the storage chooser; **relearners** over the same Psychic. **Deleters:** NO at
+the offer, B in the chooser, an Egg, a one-move Mew, B mashed on the move list, NO at the final
+question, deleting the second move, deleting Surf (an HM: all three source games and
+`P_CAN_FORGET_HIDDEN_MOVE` allow it), and in Lilycove a boxed Mew. **Name Raters:** the Egg, NO to a
+better name, a twelve-letter nickname, an empty one, and a Mew traded in from another OT, which
+Slateport and Lavender refuse and Goldenrod offers to rename (pokemonHnS commented that check out).
+**Oracle:** the new move has its base PP and that slot's PP Ups are cleared; a deleted move's
+followers move up with their own PP and PP Ups; the nickname bytes, all twelve, are the typed ones and
+an empty entry keeps them; exactly one fee is taken; every other slot keeps its moves, PP, PP Ups,
+nickname, OT and checksum; the NPC printed the expected lines; no crash; control returns.
+**Discrimination:** the Hoenn tutors resume their learning task after the summary screen
+(`Task_ReturnToFieldWhileLearningMove`, `src/field_specials.c`), and the resumed task lost
+`tRecoverPp`, so `LearnMove` kept the forgotten move's PP whenever it was not above the new move's
+base PP. Unfixed 411/414 (Fury Cutter 16/20, Rollout 0/20, the boxed Mew's Fury Cutter 16/20), fixed
+414/414. The Kanto tutor (party menu, `SetMonMoveSlot`) and the relearners (which set the bit on every
+init) are the controls and pass both ways.

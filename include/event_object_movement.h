@@ -154,6 +154,7 @@ void ObjectEventClearHeldMovementIfActive(struct ObjectEvent *objectEvent);
 struct Pokemon *GetFirstLiveMon(void);
 u32 GetFollowerSlot(void);
 void SetFollowerSlot(u32 slot);
+void SyncFollowerSlotForSave(void);
 enum Species GetOverworldWeatherSpecies(enum Species species);
 void UpdateFollowingPokemon(void);
 void RemoveFollowingPokemon(void);

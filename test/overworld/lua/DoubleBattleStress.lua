@@ -200,6 +200,7 @@ end
 -- policy knows what each move slot does. A player-OT mon also obeys at any level, which the debug
 -- party's Wobbuffet (a trainer-OT mon) does not without badges.
 local MOVE_FLAMETHROWER, MOVE_SPLASH, MOVE_CELEBRATE, MOVE_TACKLE, MOVE_PROTECT = 53, 150, 606, 33, 182
+local MOVE_FINAL_GAMBIT = 515
 local function scriptGiveMon(species, level, moves)
   local b = { 0x23 }; le32(b, S.ScrCmd_createmon | 1)
   b[#b + 1] = 0; b[#b + 1] = PARTY_SIZE
@@ -1203,21 +1204,27 @@ F.run(function()
 
   -- Both player Pokemon faint in the same turn with two members on the bench: two forced
   -- replacements back to back, then the replacements win.
+  -- Both Magikarp faint themselves with Final Gambit in the first turn (held at 1 HP, each deals 1
+  -- damage) against Magikarp that only Splash. Left to a wild Poochyena and Zigzagoon, at
+  -- PW_DBL_SEED 8675309 only one Magikarp fell in that turn, and after eight turns of Howl and
+  -- Tail Whip a Tackle knocked out a full-HP bench Pokemon and the battle was lost.
   scenario("both faint in one turn", function()
     ensureParty(function()
-      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
-      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_FINAL_GAMBIT })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_FINAL_GAMBIT })
       scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_FLAMETHROWER, MOVE_TACKLE })
       scriptGiveMon(SPECIES_POOCHYENA, 10, { MOVE_TACKLE })
     end)
     fastBattles(true)
-    if not F.check("both faint: a wild double started", startWildDouble("bothfaint", SPECIES_POOCHYENA, 8, SPECIES_ZIGZAGOON, 8)) then return end
+    if not F.check("both faint: a wild double started", startWildDouble("bothfaint", SPECIES_MAGIKARP, 8, SPECIES_MAGIKARP, 8)) then return end
     local live, bothDown, phase = false, false, "sacrifice"
     local res, at = drive("bothfaint", 30000, {
       frame = function(i)
         if not live or not inBattle() then return end
         if bhp(0) == 0 and bhp(2) == 0 and not absent(0) and not absent(2) then bothDown = true end
-        if phase == "sacrifice" and partyIndex(0) >= 2 and partyIndex(2) >= 2 then phase = "win" end
+        if phase == "sacrifice" and partyIndex(0) >= 2 and partyIndex(2) >= 2 and partyIndex(0) ~= partyIndex(2) then
+          phase = "win"
+        end
         if i % 5 == 0 then
           for _, b in ipairs({ 0, 2 }) do
             if phase == "sacrifice" and partyIndex(b) < 2 and bhp(b) > 1 then setBhp(b, 1) end

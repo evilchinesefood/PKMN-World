@@ -344,16 +344,6 @@ Movement_PlayerEnterLinkRoom:
 	walk_up
 	step_end
 
-@ Unused
-EventScript_CableBoxResults::
-	lockall
-	setvar VAR_0x8004, 0
-	special ShowLinkBattleRecords
-	waitbuttonpress
-	special RemoveRecordsWindow
-	releaseall
-	end
-
 EventScript_BattleColosseum_2P_PlayerSpot0::
 	setvar VAR_0x8005, 0
 	special ColosseumPlayerSpotTriggered

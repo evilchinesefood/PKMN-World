@@ -34,14 +34,14 @@ Route111_Text_WhatColorBerriesToLookForToday:
 	.string "I wonder what color BERRIES I'll look\n"
 	.string "for today?$"
 
-Route114_Text_LoveUsingBerryCrushShareBerry:
-	.string "I love using the BERRY CRUSH machine,\n"
+Route114_Text_LoveUsingBerryBlenderShareBerry:
+	.string "I love using the BERRY BLENDER,\n"
 	.string "so I'm collecting BERRIES.\p"
 	.string "I'll share one with you, if you'd like.$"
 
-Route114_Text_TryBerryCrushWithFriends:
-	.string "You should try the BERRY CRUSH\n"
-	.string "machine with your friends.$"
+Route114_Text_TryBerryBlendersAtContestHall:
+	.string "You should try the BERRY BLENDERS\n"
+	.string "at LILYCOVE's CONTEST HALL.$"
 
 Route114_Text_FunToThinkAboutBerries:
 	.string "Which BERRY should be planted?\n"

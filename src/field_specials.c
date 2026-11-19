@@ -2209,11 +2209,13 @@ bool32 PlayerNotAtTrainerHillEntrance(void)
     return TRUE;
 }
 
+// Battle Tower link multis are sealed, so the daily rotation steps over that mode.
 void UpdateFrontierManiac(u16 daysSince)
 {
     u16 *var = GetVarPointer(VAR_FRONTIER_MANIAC_FACILITY);
-    *var += daysSince;
-    *var %= FRONTIER_MANIAC_FACILITY_COUNT;
+    u32 slot = *var - (*var > FRONTIER_MANIAC_TOWER_LINK);
+    slot = (slot + daysSince) % (FRONTIER_MANIAC_FACILITY_COUNT - 1);
+    *var = slot + (slot >= FRONTIER_MANIAC_TOWER_LINK);
 }
 
 void ShowFrontierManiacMessage(void)

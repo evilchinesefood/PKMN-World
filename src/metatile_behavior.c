@@ -513,14 +513,6 @@ bool8 MetatileBehavior_IsPC(u8 metatileBehavior)
         return FALSE;
 }
 
-bool8 MetatileBehavior_IsCableBoxResults1(u8 metatileBehavior)
-{
-    if (metatileBehavior == MB_CABLE_BOX_RESULTS_1)
-        return TRUE;
-    else
-        return FALSE;
-}
-
 bool8 MetatileBehavior_IsOpenSecretBaseDoor(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_SECRET_BASE_SPOT_RED_CAVE_OPEN
@@ -1393,16 +1385,6 @@ bool8 MetatileBehavior_IsPlayerFacingWirelessBoxResults(u8 tile, u8 playerDir)
     if (playerDir != CONNECTION_NORTH) // if the player isn't facing north, forget about it.
         return FALSE;
     else if (tile == MB_WIRELESS_BOX_RESULTS) // is the player's north tile the monitor with results?
-        return TRUE;
-    else
-        return FALSE;
-}
-
-bool8 MetatileBehavior_IsCableBoxResults2(u8 tile, u8 playerDir)
-{
-    if (playerDir != CONNECTION_NORTH) // if the player isn't facing north, forget about it.
-        return FALSE;
-    else if (tile == MB_CABLE_BOX_RESULTS_2) // is the player's north tile the monitor with results?
         return TRUE;
     else
         return FALSE;

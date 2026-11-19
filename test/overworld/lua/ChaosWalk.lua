@@ -345,14 +345,20 @@ local function location(tag, g, m, w, sky)
   if frozen then return end
   F.check(tag .. ": no field invariant broke", issues == startIssues, (issues - startIssues) .. " issue(s)")
   -- Back to the field: control held for a second with no input, B to dismiss anything left open.
-  local calm = 0
-  for i = 1, 8000 do
+  -- A battle the walk started may still have all of its turns to go: a two-trainer double on
+  -- Route 118, met on the walk's last step, took 8,477 frames to hand back the field.
+  local calm, still, last = 0, 0, ""
+  for i = 1, 30000 do
     if hasControl() then calm = calm + 1 else calm = 0 end
     if calm >= 60 then break end
     if inBattle() then assistBattle(i) end
-    -- Mostly B; every fourth press A, for messages that only take A (the Bag's error messages).
+    local now = state()
+    if now == last then still = still + 1 else still, last = 0, now end
+    -- B, and A once three B presses have changed nothing, for messages that only take A (the
+    -- Bag's error messages). A on every fourth press locked into a loop: A opened the Bag from the
+    -- start menu, B closed it, and the next B fell in the fade before the start menu came back.
     local k = inBattle() and (i % 8 < 2 and "A" or nil)
-      or ((not hasControl() and i % 30 < 2) and ((i // 30) % 4 == 3 and "A" or "B") or nil)
+      or ((not hasControl() and i % 30 < 2) and (still >= 90 and "A" or "B") or nil)
     joypad.set(k and { [k] = true } or {})
     emu.frameadvance()
   end

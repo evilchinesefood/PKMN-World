@@ -4717,6 +4717,7 @@ static void Task_ReturnToFieldWhileLearningMove(u8 taskId)
         gTasks[taskId].tState = GetLearnMoveResumeAfterSummaryScreenState();
         gTasks[taskId].tPartyIndex = gSpecialVar_0x8000;
         gTasks[taskId].tMove = gSpecialVar_0x8001;
+        gTasks[taskId].tRecoverPp = TRUE;
     }
 }
 

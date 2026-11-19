@@ -186,6 +186,7 @@ is clean; keep it that way.
 | [`FrostyGrassFieldEffect.lua`](#frostygrassfieldeffectlua) | fresh new game | The grass rustle, the overworld wild encounter grass hop and DexNav's shaking grass on Mt. Silver's frosty grass take the frosted palette by day and under the night tint; Route 101 keeps the green one. Cut on that grass throws frosted clippings and leaves snow, and Cut on Route 101 and Route 30 changes nothing outside its reach. |
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
 | [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
+| [`LinkEraRemnants.lua`](#linkeraremnantslua) | fresh new game | No reachable tile, NPC or daily line still offers the retired link features: the Johto gym-sign doorsteps, the Frontier Maniac's daily rotation and the Route 114 berry man. |
 | [`RefuseOldSave.lua`](#refuseoldsavelua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
@@ -4504,3 +4505,18 @@ both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks
 party-restoring cancels fail.
 Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
 with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.
+### `LinkEraRemnants.lua`
+
+Link-era features retired by the single-player merge, reached through every entry point the player
+still has. The floor tile in front of the Olivine, Cianwood, Mahogany and Blackthorn gym signs is a
+pokemonHnS metatile tagged `MB_CABLE_BOX_RESULTS_1`, the Cable Club's results monitor, so pressing A
+at it opened the LINK BATTLE RESULTS table on the street. The suite walks up to each tile and presses
+A, then steps onto it and reads the sign as the positive control. The Frontier Maniac in Lounge 2
+names one Battle Tower mode or facility per day; nine real `UpdatePerDay` runs (VAR_DAYS one behind
+the clock at each map load) and nine talks follow his rotation from Battle Tower MULTI. The Route 114
+berry man gives his daily berry. **Oracle:** `gStringVar4` across each talk: no WIN/LOSE/DRAW table at
+the doorsteps and the sign text behind them; no MULTI-LINK day and every other mode named once in nine
+days; a berry and no BERRY CRUSH. Every talk hands control back, the field is walkable and no crash
+screen appears. PW_SEED reseeds the mash and PW_TEXT picks the text speed. **Discrimination:**
+unfixed 85/92 (four link tables, the MULTI-LINK day and its missing rotation slot, the BERRY CRUSH
+line).

@@ -75,10 +75,10 @@ Use debug setup to reach the scene, then trigger the behavior under test with pl
 For a regression, run the same suite against the original and fixed ROMs, each with its matching
 ELF. For input-mash failures, record the seed and scenario order so a timing change can be
 replayed. For visual changes, compare screenshots after the fade or weather transition settles.
-For a commit that deletes map scripts or events, `python3 test/overworld/MapScriptRemovalDiff.py <old>
-<new> --maps <regex> --live-only` reads both revisions from git and lists only what the old tree could
-reach: changed labels, removed live labels with their reference path, shifted event indices, labels
-whose fall-through target changed, and specials retargeted under a surviving caller.
+For a commit that deletes scripts or map events, `python3 test/overworld/ScriptRemovalDiff.py <old>
+<new> [--maps <regex>] [--elf <old.elf> <new.elf>]` reads both revisions from git and lists changed and
+removed labels with their old-tree reachability, removed identifiers with each reachable use, map.json
+event index shifts, and, with the ELFs, script commands or specials whose handler changed.
 
 On the integrated build, run the full Lua battery, `make check`, the host validators
 (`python3 test/validate-host.py`), and both [world campaign orders](world-playthrough/README.md#post-game)

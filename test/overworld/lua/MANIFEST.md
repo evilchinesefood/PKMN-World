@@ -189,6 +189,7 @@ is clean; keep it that way.
 | [`CutGrassKantoJohto.lua`](#cutgrasskantojohtolua) | fresh new game | CUT from the party screen clears tall grass, long grass and wheat in Kanto (Viridian Forest, Route 13) and Johto (Routes 29, 33 and 39, National Park) to stubble on the ground under it, changes nothing outside its reach, and the grass grows back when the map reloads; Route 101 is the control. |
 | [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
 | [`RefuseOldSave.lua`](#refuseoldsavelua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
+| [`TrimmedJohtoScenes.lua`](#trimmedjohtosceneslua) | fresh new game | The hub Curator, Mr. Pokemon's egg scene, Olivine's ticket woman, the S.S. Aqua cabin bed and the Safari Zone Gate incense clerk under seeded mashes, after 5ac8745870 cut their dead branches. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
 discrimination check was run it is recorded in the entry. (The other tier the harness
@@ -4536,3 +4537,21 @@ both stale cases in each mode drop the fifth Pokemon, and all 24 follower checks
 party-restoring cancels fail.
 Johto's PROF. BIRCH contact removed: unfixed 65/69 (Elm set the flag, the PokeGear offered Match Call
 with the cursor on it, and the Johto player arrived in Hoenn already registered), fixed 69/69.
+### `TrimmedJohtoScenes.lua`
+
+The reachable Johto and hub scripts whose bodies 5ac8745870 rewrote and that no other suite plays.
+`test/overworld/ScriptRemovalDiff.py 5ac8745870^ 5ac8745870` lists every surviving label whose body
+changed, every removed label, macro, flag, special and opcode with its uses in scripts the old tree
+could reach, and the map event changes by index; with `--elf` it resolves `gScriptCmdTable` and
+`gSpecials` by index on two builds. Each cut branch sat behind a stub that returned FALSE, a flag
+nothing sets, or state a new game cannot hold. The suite plays what is left with real input and a
+seeded mash (`PW_TRIM_SEED`): the Curator twice after the declined arrival tour (control returns,
+one Hub Pass unless the mash replays the tour, the guide is home at (22,7), the tour flag stays set);
+walking into Mr. Pokemon's house with `VAR_CHERRYGROVE_CITY_STATE` 1 (one Mystery Egg, the egg and
+Pokedex flags, Cherrygrove 2 and lab 4); Olivine's ticket woman for a Kanto champion (one Aurora
+Ticket and the Birth Island ship flag, nothing more on a second talk); the S.S. Aqua cabin bed (a
+Pokemon at 1 HP is healed); the Safari Zone Gate incense clerk (the BUY list opens, B leaves, money
+unchanged). Every scene ends with a walkable field. **Discrimination:** no defect was found, so
+there is no unfixed build. The same suite on the pre-removal ROM (run from a worktree at
+`5ac8745870^`, whose own `GenLuaSymbols.py` matches its SaveBlock3 layout) and on master scored
+32/32, 35/35 and 35/35 for seeds 1, 77 and 31337 on both builds; seed 1 replays the tour on both.

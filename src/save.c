@@ -749,8 +749,10 @@ u8 HandleSavingData(u8 saveType)
         WriteSaveSectorOrSlot(FULL_SAVE_SLOT, gRamSaveSectorLocations);
         break;
     case SAVE_OVERWRITE_DIFFERENT_FILE:
-        // Erase Hall of Fame
-        for (i = SECTOR_ID_HOF_1; i < SECTORS_COUNT; i++)
+        // Erase Hall of Fame. Erase both slots of a file this build refused as well:
+        // an old layout's slot fails today's checksums, so it would otherwise outlive
+        // the new game's first save as a "corrupted" previous save.
+        for (i = gSaveVersionRefusal != SAVE_VERSION_REFUSAL_NONE ? 0 : SECTOR_ID_HOF_1; i < SECTORS_COUNT; i++)
             EraseFlashSector(i);
 
         // Overwrite save slot

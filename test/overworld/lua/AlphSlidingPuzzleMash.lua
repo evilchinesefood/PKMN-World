@@ -208,8 +208,10 @@ local function correct(r, c)
   local want, id = SOLVED[r + 1][c + 1], cell(r, c)
   return want == 0 or (id ~= 0 and sdata(id, 4) == want and sdata(id, 5) == 0)
 end
+-- Edge slots first, then any free slot. The Ho-Oh board starts with every edge slot taken, so a
+-- tile a swap knocks out of the middle can have nowhere else to go.
 local function dropHeld()
-  for _, c in ipairs({ 0, 5 }) do for r = 0, 3 do
+  for _, c in ipairs({ 0, 5, 1, 2, 3, 4 }) do for r = 0, 3 do
     if cell(r, c) == 0 then moveTo(r, c); press("A"); return held() == 0 end
   end end
   return false

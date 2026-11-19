@@ -200,6 +200,7 @@ end
 -- policy knows what each move slot does. A player-OT mon also obeys at any level, which the debug
 -- party's Wobbuffet (a trainer-OT mon) does not without badges.
 local MOVE_FLAMETHROWER, MOVE_SPLASH, MOVE_CELEBRATE, MOVE_TACKLE, MOVE_PROTECT = 53, 150, 606, 33, 182
+local MOVE_FINAL_GAMBIT = 515
 local function scriptGiveMon(species, level, moves)
   local b = { 0x23 }; le32(b, S.ScrCmd_createmon | 1)
   b[#b + 1] = 0; b[#b + 1] = PARTY_SIZE
@@ -555,8 +556,9 @@ local function ensureParty(builder)
 end
 
 -- A catch battle against two copies of `species`. Party slot 0 is a Zigzagoon with Flamethrower
--- then Celebrate (a single-target hit, then a move that touches nobody), slot 1 a Magikarp that
--- only Splashes.
+-- then Celebrate (a single-target hit, then a move that touches nobody) and Final Gambit last (it
+-- faints the user, for scenarios that need the left slot empty), slot 1 a Magikarp that only
+-- Splashes.
 --   phase "two":   both wild Pokemon stand. Each battler presses R (the last-used-ball shortcut)
 --                  once, which must throw nothing, then Zigzagoon Flamethrowers the LEFT target
 --                  (battler 1) through the target cursor and Magikarp Splashes.
@@ -566,7 +568,7 @@ end
 -- the Bag.
 local ACTION_THROW_BALL = 21
 local function catchParty()
-  scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_FLAMETHROWER, MOVE_CELEBRATE, MOVE_SPLASH })
+  scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_FLAMETHROWER, MOVE_CELEBRATE, MOVE_SPLASH, MOVE_FINAL_GAMBIT })
   scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
 end
 -- `ko` picks which wild battler is knocked out first (1 left, the default, or 3 right) and
@@ -1203,21 +1205,27 @@ F.run(function()
 
   -- Both player Pokemon faint in the same turn with two members on the bench: two forced
   -- replacements back to back, then the replacements win.
+  -- Both Magikarp faint themselves with Final Gambit in the first turn (held at 1 HP, each deals 1
+  -- damage) against Magikarp that only Splash. Left to a wild Poochyena and Zigzagoon, at
+  -- PW_DBL_SEED 8675309 only one Magikarp fell in that turn, and after eight turns of Howl and
+  -- Tail Whip a Tackle knocked out a full-HP bench Pokemon and the battle was lost.
   scenario("both faint in one turn", function()
     ensureParty(function()
-      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
-      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_FINAL_GAMBIT })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_FINAL_GAMBIT })
       scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_FLAMETHROWER, MOVE_TACKLE })
       scriptGiveMon(SPECIES_POOCHYENA, 10, { MOVE_TACKLE })
     end)
     fastBattles(true)
-    if not F.check("both faint: a wild double started", startWildDouble("bothfaint", SPECIES_POOCHYENA, 8, SPECIES_ZIGZAGOON, 8)) then return end
+    if not F.check("both faint: a wild double started", startWildDouble("bothfaint", SPECIES_MAGIKARP, 8, SPECIES_MAGIKARP, 8)) then return end
     local live, bothDown, phase = false, false, "sacrifice"
     local res, at = drive("bothfaint", 30000, {
       frame = function(i)
         if not live or not inBattle() then return end
         if bhp(0) == 0 and bhp(2) == 0 and not absent(0) and not absent(2) then bothDown = true end
-        if phase == "sacrifice" and partyIndex(0) >= 2 and partyIndex(2) >= 2 then phase = "win" end
+        if phase == "sacrifice" and partyIndex(0) >= 2 and partyIndex(2) >= 2 and partyIndex(0) ~= partyIndex(2) then
+          phase = "win"
+        end
         if i % 5 == 0 then
           for _, b in ipairs({ 0, 2 }) do
             if phase == "sacrifice" and partyIndex(b) < 2 and bhp(b) > 1 then setBhp(b, 1) end
@@ -1248,14 +1256,16 @@ F.run(function()
   -- The forced switch with its Send Out / Summary / Cancel box opened on the fainted Pokemon, by
   -- A on the slot the menu opens on. The box takes Down for its own cursor and the list refuses
   -- B, so the replacement goes out only after the box is closed and the cursor moved.
+  -- Magikarp faints itself with Final Gambit in the first turn, against Magikarp that only Splash,
+  -- so no wild move choice decides when it falls.
   scenario("forced switch from the fainted Pokemon's box", function()
     ensureParty(function()
-      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_FINAL_GAMBIT })
       scriptGiveMon(SPECIES_ZIGZAGOON, 10, { MOVE_TACKLE })
       scriptGiveMon(SPECIES_POOCHYENA, 10, { MOVE_TACKLE })
     end)
     fastBattles(true)
-    if not F.check("fainted box: a wild double started", startWildDouble("faintbox", SPECIES_POOCHYENA, 8, SPECIES_ZIGZAGOON, 8)) then return end
+    if not F.check("fainted box: a wild double started", startWildDouble("faintbox", SPECIES_MAGIKARP, 8, SPECIES_MAGIKARP, 8)) then return end
     local live, boxAt, boxDetail, sentAt = false, nil, "", nil
     local res, at = drive("faintbox", 30000, {
       frame = function()
@@ -1302,7 +1312,8 @@ F.run(function()
   end)
 
   -- The left Pokemon fainted with nobody to replace it, so the right-hand one throws: the ball
-  -- comes from battler 2, not the usual thrower.
+  -- comes from battler 2, not the usual thrower. Zigzagoon knocks out the Wurmple, then faints
+  -- itself with Final Gambit unless the Beldum's Tackle got there first.
   scenario("catch by the right-hand Pokemon", function()
     ensureParty(catchParty)
     fastBattles(true)
@@ -1330,7 +1341,7 @@ F.run(function()
           end
           return steer(b, 0)
         end
-        if kind == "move" then return moveTo(b, (bhp(3) == 0 or absent(3)) and 1 or 0) end
+        if kind == "move" then return moveTo(b, (bhp(3) == 0 or absent(3)) and 3 or 0) end
         if kind == "target" then
           if F.r8(S.gMultiUsePlayerCursor) == 3 or bhp(3) == 0 or absent(3) then return "A" end
           return "Left"
@@ -1502,7 +1513,8 @@ F.run(function()
       rightB and leftAfter >= 1, string.format("rightB=%s leftMenusAfter=%d", tostring(rightB), leftAfter))
     checkBattleEnd("instant", res, at, { OUT_RAN })
 
-    -- Left Pokemon down, no replacement: the right one's B flees.
+    -- Left Pokemon down, no replacement: the right one's B flees. Zigzagoon, faster than both wild
+    -- Pokemon, faints itself with Final Gambit in the first turn.
     ensureParty(catchParty)
     if not F.check("instant alone: a wild double started", startWildDouble("instant2", SPECIES_WURMPLE, 3, SPECIES_ZIGZAGOON, 3)) then
       setRunShortcut(RUN_SHORTCUT_CURSOR); return
@@ -1521,7 +1533,7 @@ F.run(function()
           if b == 2 and absent(0) then fledFromRight = true; return "B" end
           return steer(b, 0)
         end
-        if kind == "move" then return moveTo(b, 1) end
+        if kind == "move" then return moveTo(b, 3) end
         return fightKey(b, kind, n)
       end,
     })
@@ -1648,13 +1660,15 @@ F.run(function()
   -- The level-up and evolution again, this time on the RIGHT-hand Pokemon of a wild double after
   -- the left one fainted with nobody to replace it. Cmd_getexp always sends the EXP update
   -- through battler 0's controller, which is then an absent battler.
+  -- Magikarp faints itself with Final Gambit in the first turn. The wild pair are Magikarp that only
+  -- Splash, because a faster wild Poochyena or Zigzagoon could Sand Attack first and make it miss.
   scenario("right-hand Pokemon levels and evolves alone", function()
     ensureParty(function()
-      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_SPLASH })
+      scriptGiveMon(SPECIES_MAGIKARP, 5, { MOVE_FINAL_GAMBIT })
       scriptGiveMon(SPECIES_CATERPIE, 6, { MOVE_TACKLE })
     end)
     fastBattles(true)
-    if not F.check("right evo: a wild double started", startWildDouble("rightevo", SPECIES_POOCHYENA, 12, SPECIES_ZIGZAGOON, 12)) then return end
+    if not F.check("right evo: a wild double started", startWildDouble("rightevo", SPECIES_MAGIKARP, 12, SPECIES_MAGIKARP, 12)) then return end
     local live, phase, box, evo, alone = false, "sacrifice", false, false, false
     local res, at = drive("rightevo", 30000, {
       frame = function(i)

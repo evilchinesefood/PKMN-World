@@ -348,3 +348,6 @@ CeladonCoinCaseRegions	lua/CeladonCoinCaseRegions.lua	fresh	0	required
 GameCornerOwnedTms	lua/GameCornerOwnedTms.lua	fresh	0	required
 KantoTrainerCardExtras	lua/KantoTrainerCardExtras.lua	fresh	0	required
 ServiceNpcStress	lua/ServiceNpcStress.lua	fresh	0	required
+SecretBaseTerrains	lua/SecretBaseTerrains.lua	fresh	0	required
+TrickHouseOddPaths	lua/TrickHouseOddPaths.lua	fresh	0	required
+MirageOddPaths	lua/MirageOddPaths.lua	fresh	0	required

@@ -3723,7 +3723,17 @@ passable block, and a shown follower stands next to the player on a passable blo
 spin-tile follower freeze (`SpinTileFollowerMenu`, #645): master `d3b55bb` scores **26/27** (the
 game frozen in Viridian Gym) and the battery stops there; with the fix it scores **82/82**. It also
 found a follower left standing in a Mauville Gym barrier that a switch turned on behind the player
-(`MauvilleGymFollowerBarrier`); that case now fails like any other walled follower. Manual because the noise makes the route a function of every frame count, so any
+(`MauvilleGymFollowerBarrier`); that case now fails like any other walled follower. Each location
+ends by waiting up to 30,000 frames for the field with control. It presses B to close what is open
+and presses A only after three B presses have changed nothing. The old wait (8,000 frames, A on every
+fourth press) failed games that were still running. With `PW_CHAOS_BASE=104729` the walk met Rose and
+Deandre's double on Route 118 on its last step, and the battle needed 8,477 frames to hand back the
+field. The old wait ran out in Rose's defeat text (**81/82**, the pre-removal ROM too). The longer
+wait alone scores **82/82**, and freezing the text printers once that battle is won still fails the
+check. Elsewhere the A cadence locked into a 120-frame loop: A opened the Bag from the start menu, B
+closed it, and the next B fell in the fade before the start menu came back. The default seed scored
+**81/82** (Silph Co) and `PW_CHAOS_BASE=31337` **78/82**. With both changes the default seed, 104729,
+7 and 31337 all score **82/82** on master `ab414c43dd`. Manual because the noise makes the route a function of every frame count, so any
 build change re-rolls it. `PW_CHAOS_ONLY`, `PW_CHAOS_BASE`, `PW_CHAOS_HOPS`, `PW_CHAOS_FRAMES`,
 `PW_CHAOS_SAVE` (a savestate before each location) and `PW_CHAOS_LOAD` (replay one location from
 one) are documented in the file. The whole battery needs `--env PW_MAX_FRAMES=900000`.

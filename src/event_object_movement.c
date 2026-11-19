@@ -5,6 +5,7 @@
 #include "battle_pyramid.h"
 #include "battle_util.h"
 #include "berry.h"
+#include "bug_contest.h"
 #include "data.h"
 #include "debug.h"
 #include "decoration.h"
@@ -2307,6 +2308,13 @@ static void RememberFollowerChoice(u32 slot)
     sFollowerChoice.known = GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE;
 }
 
+// Frontier challenges and the Bug-Catching Contest stand a temporary party in for the real one,
+// which waits in SaveBlock1 until they end, so a chosen Pokemon missing from it has not left.
+static bool32 IsPartyStandingIn(void)
+{
+    return gSaveBlock2Ptr->frontier.challengeStatus != 0 || GetBugContestFlag();
+}
+
 // slot is a party index + 1, or 0 for the lead.
 void SetFollowerSlot(u32 slot)
 {
@@ -2339,8 +2347,17 @@ u32 GetFollowerSlot(void)
             return i + 1;
         }
     }
-    SetFollowerSlot(0);
+    if (!IsPartyStandingIn())
+        SetFollowerSlot(0);
     return 0;
+}
+
+// A save stores only the slot, so it must name the chosen Pokemon in the party being written,
+// not a stand-in's slot. Frontier and contest saves load the real party before writing it.
+void SyncFollowerSlotForSave(void)
+{
+    if (GetFollowerSlot() == 0)
+        SetFollowerSlot(0);
 }
 
 // Return address of the chosen follower party mon if eligible,

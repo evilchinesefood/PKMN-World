@@ -24,15 +24,12 @@ local VAR_KANTO_SAFARI_SCENE = 0xA000 + 0x47
 local SAFARI_BALLS = 30
 local ITEM_FRESH_WATER, ITEM_SODA_POP, ITEM_LEMONADE, ITEM_MOOMOO_MILK = 35, 36, 37, 38
 local ITEM_RAGE_CANDY_BAR, ITEM_LAVA_COOKIE = 58, 59
-local ITEM_POKEBLOCK_CASE = 722
+local ITEM_POKEBLOCK_CASE, ITEM_COIN_CASE = 722, 718
 local FLAG_RECEIVED_6_SODA_POP, FLAG_DELIVERED_DEVON_GOODS = 0x8C, 0x95
 local FLAG_HIDE_MT_CHIMNEY_TEAM_AQUA, FLAG_HIDE_MT_CHIMNEY_TEAM_MAGMA = 0x39E, 0x39F
 local FLAG_HIDE_MT_CHIMNEY_LAVA_COOKIE_LADY = 0x3E2
-local FLAG_GOT_COIN_CASE = 0xA40 + 0x243
 local VAR_SLATEPORT_MUSEUM_1F_STATE = 0x40AA
 local VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F = 0xA000 + 0x3A
-local VAR_TRAINER_CARD_MON_ICON_TINT_IDX, VAR_TRAINER_CARD_MON_ICON_1 = 0xA000 + 0x1D, 0xA000 + 0x1E
-local MON_ICON_TINT_BLACK = 1
 local VAR_MAHOGANY_TOWN_STATE, VAR_ROUTE39_BARN = 0xA080 + 0x11, 0xA080 + 0x23
 local ROW_GIVE, ROW_MON_BASIC = 3, 1
 local DAYCARE_MON_SIZE = 140       -- struct DaycareMon
@@ -599,23 +596,12 @@ SINKS[#SINKS + 1] = counter({
   answers = { "yes", "yes" }, read = function() return qty(ITEM_MOOMOO_MILK) end,
   ready = function() setVar(VAR_ROUTE39_BARN, 5) end,
 })
--- Celadon Game Corner: the photo printer charges before the tint menu (B is ignored there), then
--- writes the party icons and the tint to the trainer card vars.
-SINKS[#SINKS + 1] = counter({
-  tag = "celadon photo", price = 50, comfortable = 1000, what = "photo", unit = 1,
-  warp = { 0, 4, 4, 0, 1, 4, 0, 0, 0 }, g = 44, m = 14, path = { { 16, 13 } }, face = "Right",
-  answers = { "yes", MON_ICON_TINT_BLACK },
-  read = function()
-    return (getVar(VAR_TRAINER_CARD_MON_ICON_1) ~= 0 and getVar(VAR_TRAINER_CARD_MON_ICON_TINT_IDX) == MON_ICON_TINT_BLACK) and 1 or 0
-  end,
-  ready = function() setVar(VAR_TRAINER_CARD_MON_ICON_1, 0); setVar(VAR_TRAINER_CARD_MON_ICON_TINT_IDX, 0) end,
-})
 for row, c in ipairs({ { 50, 1000 }, { 500, 10000 }, { 5000, 100000 } }) do
   SINKS[#SINKS + 1] = counter({
     tag = "celadon coins " .. c[1], price = c[2], what = "coins", unit = c[1],
     warp = { 0, 4, 4, 0, 1, 4, 0, 0, 0 }, g = 44, m = 14, path = { { 8, 13 }, { 8, 4 }, { 6, 4 } }, face = "Up",
     answers = { row - 1 }, read = coins,
-    ready = function() flag(FLAG_GOT_COIN_CASE, true); setCoins(0) end,
+    ready = function() giveKeyItem(ITEM_COIN_CASE); setCoins(0) end,
   })
 end
 

@@ -274,6 +274,8 @@ MauvilleCity_GameCorner_EventScript_TMIceBeam::
 	goto MauvilleCity_GameCorner_EventScript_ConfirmTMPrize
 
 MauvilleCity_GameCorner_EventScript_ConfirmTMPrize::
+	checkitem VAR_0x8004
+	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_GameCorner_EventScript_AlreadyHaveTM
 	special BufferTMHMMoveName
 	msgbox MauvilleCity_GameCorner_Text_SoYourChoiceIsTheTMX, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_GameCorner_EventScript_CancelTMSelect
@@ -347,6 +349,11 @@ MauvilleCity_GameCorner_EventScript_BuyTMIceBeam::
 	updatecoinsbox 1, 1
 	playse SE_SHOP
 	msgbox MauvilleCity_GameCorner_Text_HereYouGo, MSGBOX_DEFAULT
+	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
+	end
+
+MauvilleCity_GameCorner_EventScript_AlreadyHaveTM::
+	msgbox MauvilleCity_GameCorner_Text_AlreadyHaveTM, MSGBOX_DEFAULT
 	goto MauvilleCity_GameCorner_EventScript_ReturnToChooseTMPrize
 	end
 
@@ -672,6 +679,10 @@ MauvilleCity_GameCorner_Text_SendToYourHomePC:
 
 MauvilleCity_GameCorner_Text_NotEnoughCoins:
 	.string "You don't have enough COINS.$"
+
+MauvilleCity_GameCorner_Text_AlreadyHaveTM:
+	.string "You already have {STR_VAR_1}.\n"
+	.string "A TM can be used again and again.$"
 
 @ Unused
 MauvilleCity_GameCorner_Text_NoRoomForPlacingDecor:

@@ -228,6 +228,8 @@ WANT = [
     "gFieldEffectObjectTemplate_UnusedGrass", "sSpriteTemplate_CutGrass",
     "CB2_InitTitleScreen", "CB2_InitMainMenu", "CB2_MainMenu", "MainCB2_Intro",
     "Task_DisplayMainMenu", "Task_HandleMainMenuInput", "gSaveFileStatus", "gSaveVersionRefusal",
+    # SaveGateStress.lua: the main menu's save-error window and the flash slot layout it forges.
+    "Task_WaitForSaveFileErrorWindow", "gRamSaveSectorLocations", "gRegionSaveCorrupt",
     "sCurrItemAndOptionMenuCheck", "sGpuRegBuffer",
     "MainCB2_WorldTitleScreen", "gBattle_BG1_Y", "gScanlineEffect",
     "CB2_InitClearSaveDataScreen", "CB2_InitResetRtcScreen",

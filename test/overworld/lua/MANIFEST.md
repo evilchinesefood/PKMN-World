@@ -190,6 +190,7 @@ is clean; keep it that way.
 | [`CutGrassStubble.lua`](#cutgrassstubblelua) | fresh new game | CUT leaves stubble (the ground with short stalks of its own grass) in Hoenn, Kanto and Johto, including Fortree's long grass roots, the wheat and Mt. Silver's frosty grass; no step on stubble starts a wild battle while steps on the grass beside it do; the stubble survives a battle and a save and Continue on the same map (also with the cut on the saved view's last row, where Continue must cut the roots below again), crosses a map seam while on screen, and the grass grows back after leaving and returning. |
 | [`RefuseOldSave.lua`](#refuseoldsavelua) | `fixtures/v3.srm`, `fixtures/v13.srm` | The historical v3 and outgoing v13 saves are refused at load. |
 | [`TrimmedJohtoScenes.lua`](#trimmedjohtosceneslua) | fresh new game | The hub Curator, Mr. Pokemon's egg scene, Olivine's ticket woman, the S.S. Aqua cabin bed and the Safari Zone Gate incense clerk under seeded mashes, after 5ac8745870 cut their dead branches. |
+| [`SaveGateStress.lua`](#savegatestresslua) | fresh new game | Forged flash images (older, newer, damaged) each get their own main menu verdict, and NEW GAME over a refused cart replaces it cleanly, power cuts included. |
 
 Every entry below is **`evidence`**: it asserts a real, load-bearing contract, and where a
 discrimination check was run it is recorded in the entry. (The other tier the harness
@@ -739,6 +740,39 @@ The sweep runs this suite against two raw 128 KiB flash images. Each must reach 
 - `v13.srm` exercises the exact boundary. A fresh game on the outgoing v13 ROM (MD5 `dc182bb9fe4a366175c701234d440c20`) saved once from the Start menu at the World Transit hub. The fixture contains its flash bytes without mGBA's RTC trailer. The smoke profile includes this case.
 
 When a release requires a clean save, raise the layout floor and capture a refusal fixture on the outgoing build before changing it. Preserve the historical fixture hashes in NativeRunner.
+
+### `SaveGateStress.lua`
+
+Save format v14's load gate, played through the main menu. A fresh game saves twice in the hub and
+its own flash bytes are forged into images, which the suite swaps into the cartridge with
+`client.loadsave` (a `mgba_shim.lua` wrapper for mGBA's `loadSaveFile`) before a reset. Each
+image must get its own load status, version refusal, error window and menu rows: intact (OK), the
+newest slot with a bad checksum, a cleared signature, the wrong counter parity, a duplicated sector
+or a damaged PC sector (the previous save loads), both slots damaged (erased), all 0x00 and all
+0xFF (blank), a damaged Hall of Fame (OK), the version byte above `SAVE_FORMAT_VERSION` (newer), a
+v13 slot newer than the v14 one (older) or older than it (OK), and the tracked v3 and v13 images
+(older). Alternate cases page the error window with screenshots; the rest mash it with A, B,
+Start and Select. Surviving slots Continue onto their own tile. Then NEW GAME over refused carts:
+text speed set on the title Options of a refused v13 cart reaches the new game, whose first save
+loads cleanly; a v3 cart saved twice; a v3 cart saved once with its first save cut between each
+pair of sectors; and a power cut in a normal v14 save, which must load the save before it.
+
+Two bugs. A v3 cart saved twice kept its other slot through the new game's first save, and that
+old layout fails today's chunk checksums, so the next boot said "The save file is corrupted. The
+previous save file will be loaded." A v3 cart saved once has counter 1 at rotation 1, and a cart
+refused through `IsIntactOlderSlot` restarts at counter 0, so the new game's first save used the
+same counter and rotation: a cut after sector 4 left a slot that validated with the old PC
+sectors, loaded as OK, and Continue showed the old cartridge's box wallpaper. The first save of a
+new game now erases both slots when the cartridge was refused. A reset at a frame edge reaches the
+gap between two sectors only when the sector timing lines up (a probe reproduced it at frames 90,
+91, 109, 127, ..., 235 of a 253-frame write), so the suite rebuilds each such cut from the
+cartridge's own flash: the image at the write's first frame plus the sectors written before the
+cut. Measured **52/52** fixed and **49/52** on the unfixed ROM (the twice-saved reboot, and cuts
+after sectors 4 to 12 loading with the old wallpaper).
+
+The refusal messages also lost their warning. "will erase this save file." was a third row in the
+two-row window, so it never drew; `ValidateTextWidth.py` now checks the main menu's save-error
+strings and caught both.
 
 ## Host-side validators
 

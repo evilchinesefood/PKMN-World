@@ -167,6 +167,8 @@ client = {
   savestate   = function(path) return core:saveStateFile(path, (C.SAVESTATE and C.SAVESTATE.ALL) or 31) end,
   readRegister = function(name) return core:readRegister(name) end,
   loadstate   = function(path) return core:loadStateFile(path, (C.SAVESTATE and C.SAVESTATE.ALL) or 31) end,
+  -- Swap the cartridge's flash for a raw image file, which then takes the game's writes.
+  loadsave    = function(path) return core:loadSaveFile(path, false) end,
 }
 
 -- ---- the coroutine bridge --------------------------------------------------------------------

@@ -1786,10 +1786,11 @@ salesman (500); Safari Zone entry in Kanto, Hoenn and Johto (500 for Safari mode
 zone); every drink in the Lilycove and Celadon vending machines (200, 300, 350); the Route 109
 Seashore House Soda Pop (300); the Mt. Chimney Lava Cookie (200); the Slateport and Pewter museum
 fees (50); the Mahogany RageCandyBar merchant when talked to and when he stops the player (300);
-Route 39 Moomoo Milk (500, where a second bottle meets the emptied wallet); the Celadon photo
-printer (50) and all three coin desk rows (1,000, 10,000, 100,000); and the Goldenrod haircut
+Route 39 Moomoo Milk (500, where a second bottle meets the emptied wallet); all three Celadon coin
+desk rows (1,000, 10,000, 100,000), with the COIN CASE in the Bag; and the Goldenrod haircut
 brothers by day and by night (500, 300). The Route 43 toll, the Hub mart and the Mauville coin desk
-are covered by `Route43Toll` and `EconomyStress`. Measured **405/405**; no defect found. With the
+are covered by `Route43Toll` and `EconomyStress`. The Celadon photo printer is out of order
+(`KantoTrainerCardExtras`). Measured **389/389** (405/405 while the printer still charged); no defect found. With the
 Magikarp salesman's `checkmoney` lowered to 499 the suite failed on that sink alone, **402/405**:
 499 bought a Magikarp and left 0, and that extra Magikarp filled the party so the comfortable
 purchase went to the PC. `--env PW_SINK_ONLY=<text>` runs matching sinks (`daycare`, `safari`).

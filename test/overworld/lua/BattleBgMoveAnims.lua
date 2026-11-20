@@ -86,6 +86,28 @@ local function giveMon(species)
   F.spin(v // 100, (v // 10) % 10, v % 10); F.idle(20); F.spin(0, 0, 5); F.idle(60); F.bOut(4)
 end
 
+-- A visible wild Pokemon that wanders into the player between cases starts a battle of its own,
+-- which swallows the debug-menu inputs below. Win it outright and let the warp try again.
+local function endStrayBattle()
+  for _ = 1, 600 do
+    if inBattle() or hasControl() then break end
+    F.idle(1)
+  end
+  if not inBattle() then return end
+  for i = 1, 1500 do
+    if isActionB(0) then break end
+    F.idle(1)
+    if i % 30 == 0 then F.press("A", 2) end
+  end
+  F.w8(S.gBattleOutcome, 1)
+  for i = 1, 1500 do
+    if hasControl() then break end
+    F.idle(1)
+    if i % 20 == 0 then F.press("A", 2) end
+  end
+  F.idle(60)
+end
+
 local function warpToCoords(grp, map, x, y, tag)
   for _ = 1, 4 do
     F.dbg(); F.sel(0); F.sel(1); F.idle(20)
@@ -100,6 +122,7 @@ local function warpToCoords(grp, map, x, y, tag)
       if F.ow() and F.grp() == grp and F.mapn() == map and px == x and py == y then F.idle(90); return true end
     end
     F.bOut(5)
+    endStrayBattle()
   end
   F.shot(tag .. "_warpfail")
   return false

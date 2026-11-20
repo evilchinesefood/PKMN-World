@@ -59,6 +59,14 @@ commits are in this build and are credited here:
 - **Andrew Strauss** — flicker when moving a Pokémon from box to party
   ([#10313](https://github.com/rh-hideout/pokeemerald-expansion/pull/10313))
 
+The battle weather indicator is adapted from two upstream pull requests that this build does not
+otherwise carry:
+
+- **hedara90** — weather indicator shown during action selection
+  ([#10911](https://github.com/rh-hideout/pokeemerald-expansion/pull/10911))
+- **purrfectdoodle** — the weather indicator icons, with the snowflake by **Turtleye** and code by
+  **PCG** and **Miriam** ([#10930](https://github.com/rh-hideout/pokeemerald-expansion/pull/10930))
+
 **Alex** ([AlexOn1ine](https://github.com/AlexOn1ine)) and **Miriam**
 ([miriamlefae](https://github.com/miriamlefae)) also appear in this repo's history and are already
 credited — Alex in the table above, Miriam as the author of the graphical start menu below.

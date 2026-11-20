@@ -1,9 +1,11 @@
 #include "global.h"
+#include "main.h"
 #include "malloc.h"
 #include "battle.h"
 #include "pokemon.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
+#include "battle_main.h"
 #include "battle_z_move.h"
 #include "graphics.h"
 #include "sprite.h"
@@ -3309,3 +3311,266 @@ void CategoryIcons_LoadSpritesGfx(void)
     LoadCompressedSpriteSheet(&gSpriteSheet_CategoryIcons);
     LoadSpritePalette(&gSpritePal_CategoryIcons);
 }
+
+// Weather indicator shown while the player chooses actions.
+// Adapted from rh-hideout/pokeemerald-expansion #10911 (code) and #10930 (art).
+#define tState    data[0]
+#define tSpriteId data[1]
+#define tIcon     data[2]
+#define TAG_WEATHER_INDICATOR 0x7825
+#define WEATHER_INDICATOR_NONE BATTLE_WEATHER_COUNT
+// The BW UI's first opposing doubles healthbox ends at x=112, so the tab sits one tile right of centre.
+#define WEATHER_INDICATOR_X (BW_BATTLE_UI ? 128 : 120)
+#define WEATHER_INDICATOR_Y_HIDDEN (-8)
+#define WEATHER_INDICATOR_Y_SHOWN  8
+
+enum WeatherIndicatorState
+{
+    INDICATOR_STATE_SLIDE_IN,
+    INDICATOR_STATE_WAIT,
+    INDICATOR_STATE_SLIDE_OUT,
+};
+
+static const u32 sRainIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/rain.png", ".4bpp.smol");
+static const u16 sRainIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/rain.png", ".gbapal");
+static const u32 sHeavyRainIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/heavy_rain.png", ".4bpp.smol");
+static const u16 sHeavyRainIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/heavy_rain.png", ".gbapal");
+static const u32 sSunIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/sun.png", ".4bpp.smol");
+static const u16 sSunIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/sun.png", ".gbapal");
+static const u32 sIntenseSunIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/intense_sun.png", ".4bpp.smol");
+static const u16 sIntenseSunIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/intense_sun.png", ".gbapal");
+static const u32 sSandstormIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/sandstorm.png", ".4bpp.smol");
+static const u16 sSandstormIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/sandstorm.png", ".gbapal");
+static const u32 sHailIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/hail.png", ".4bpp.smol");
+static const u16 sHailIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/hail.png", ".gbapal");
+static const u32 sSnowIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/snow.png", ".4bpp.smol");
+static const u16 sSnowIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/snow.png", ".gbapal");
+static const u32 sFogIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/fog.png", ".4bpp.smol");
+static const u16 sFogIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/fog.png", ".gbapal");
+static const u32 sStrongWindIndicatorGfx[] = INCGFX_U32("graphics/battle_interface/weather_indicators/strong_wind.png", ".4bpp.smol");
+static const u16 sStrongWindIndicatorPal[] = INCGFX_U16("graphics/battle_interface/weather_indicators/strong_wind.png", ".gbapal");
+
+static const struct
+{
+    const u32 *gfx;
+    const u16 *pal;
+} sWeatherIndicators[BATTLE_WEATHER_COUNT] =
+{
+    [BATTLE_WEATHER_RAIN]          = {sRainIndicatorGfx, sRainIndicatorPal},
+    [BATTLE_WEATHER_RAIN_PRIMAL]   = {sHeavyRainIndicatorGfx, sHeavyRainIndicatorPal},
+    [BATTLE_WEATHER_RAIN_DOWNPOUR] = {sRainIndicatorGfx, sRainIndicatorPal},
+    [BATTLE_WEATHER_SUN]           = {sSunIndicatorGfx, sSunIndicatorPal},
+    [BATTLE_WEATHER_SUN_PRIMAL]    = {sIntenseSunIndicatorGfx, sIntenseSunIndicatorPal},
+    [BATTLE_WEATHER_SANDSTORM]     = {sSandstormIndicatorGfx, sSandstormIndicatorPal},
+    [BATTLE_WEATHER_HAIL]          = {sHailIndicatorGfx, sHailIndicatorPal},
+    [BATTLE_WEATHER_SNOW]          = {sSnowIndicatorGfx, sSnowIndicatorPal},
+    [BATTLE_WEATHER_FOG]           = {sFogIndicatorGfx, sFogIndicatorPal},
+    [BATTLE_WEATHER_STRONG_WINDS]  = {sStrongWindIndicatorGfx, sStrongWindIndicatorPal},
+};
+
+static const struct OamData sOamData_WeatherIndicator =
+{
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x16),
+    .size = SPRITE_SIZE(32x16),
+    .priority = 0,
+};
+
+// Also identifies the sprite: see GetWeatherIndicatorSprite.
+static void SpriteCB_WeatherIndicator(struct Sprite *sprite)
+{
+}
+
+static const struct SpriteTemplate sSpriteTemplate_WeatherIndicator =
+{
+    .tileTag = TAG_WEATHER_INDICATOR,
+    .paletteTag = TAG_WEATHER_INDICATOR,
+    .oam = &sOamData_WeatherIndicator,
+    .anims = gDummySpriteAnimTable,
+    .callback = SpriteCB_WeatherIndicator,
+};
+
+// Local weather flags are (1 << enum BattleWeather) with rain at bit 0, so the icon is chosen
+// by an explicit priority list rather than upstream's "GetBattleWeather(weather) - 1".
+static u32 GetWeatherIndicatorIcon(u32 weather)
+{
+    static const u8 sPriority[] =
+    {
+        BATTLE_WEATHER_RAIN_PRIMAL,
+        BATTLE_WEATHER_SUN_PRIMAL,
+        BATTLE_WEATHER_STRONG_WINDS,
+        BATTLE_WEATHER_RAIN,
+        BATTLE_WEATHER_RAIN_DOWNPOUR,
+        BATTLE_WEATHER_SUN,
+        BATTLE_WEATHER_SANDSTORM,
+        BATTLE_WEATHER_HAIL,
+        BATTLE_WEATHER_SNOW,
+        BATTLE_WEATHER_FOG,
+    };
+
+    for (u32 i = 0; i < ARRAY_COUNT(sPriority); i++)
+    {
+        if (weather & (1u << sPriority[i]))
+            return sPriority[i];
+    }
+    return WEATHER_INDICATOR_NONE;
+}
+
+// The sprite id stored in the task is only trusted while that slot still holds this sprite.
+// ResetSpriteData (Bag/Party return) can hand the slot to something else.
+static struct Sprite *GetWeatherIndicatorSprite(u32 taskId)
+{
+    u32 spriteId = gTasks[taskId].tSpriteId;
+
+    if (spriteId >= MAX_SPRITES || !gSprites[spriteId].inUse || gSprites[spriteId].callback != SpriteCB_WeatherIndicator)
+        return NULL;
+    return &gSprites[spriteId];
+}
+
+static void RemoveWeatherIndicator(u32 taskId)
+{
+    struct Sprite *sprite = GetWeatherIndicatorSprite(taskId);
+
+    if (sprite != NULL)
+        DestroySprite(sprite);
+    FreeSpriteTilesByTag(TAG_WEATHER_INDICATOR);
+    FreeSpritePaletteByTag(TAG_WEATHER_INDICATOR);
+    DestroyTask(taskId);
+}
+
+static void Task_WeatherIndicatorHandler(u8 taskId)
+{
+    struct Sprite *sprite = GetWeatherIndicatorSprite(taskId);
+
+    if (sprite == NULL)
+    {
+        RemoveWeatherIndicator(taskId);
+        return;
+    }
+
+    switch (gTasks[taskId].tState)
+    {
+    case INDICATOR_STATE_SLIDE_IN:
+        if (sprite->y < WEATHER_INDICATOR_Y_SHOWN)
+            sprite->y++;
+        else
+            gTasks[taskId].tState = INDICATOR_STATE_WAIT;
+        break;
+    case INDICATOR_STATE_WAIT:
+        break;
+    case INDICATOR_STATE_SLIDE_OUT:
+        if (sprite->y > WEATHER_INDICATOR_Y_HIDDEN)
+            sprite->y--;
+        else
+            RemoveWeatherIndicator(taskId);
+        break;
+    }
+}
+
+// FindTaskIdByFunc is not used: task ids start at 0, so only an active slot with this func counts.
+static u32 FindWeatherIndicatorTask(void)
+{
+    for (u32 i = 0; i < NUM_TASKS; i++)
+    {
+        if (gTasks[i].isActive && gTasks[i].func == Task_WeatherIndicatorHandler)
+            return i;
+    }
+    return TASK_NONE;
+}
+
+static bool32 HasFreeTask(void)
+{
+    for (u32 i = 0; i < NUM_TASKS; i++)
+    {
+        if (!gTasks[i].isActive)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+void ShowWeatherIndicator(bool32 instant)
+{
+    if (TESTING || !B_SHOW_WEATHER_INDICATOR)
+        return;
+
+    u32 icon = GetWeatherIndicatorIcon(GetWeather());
+    u32 taskId = FindWeatherIndicatorTask();
+
+    if (taskId != TASK_NONE)
+    {
+        if (gTasks[taskId].tIcon == icon && GetWeatherIndicatorSprite(taskId) != NULL)
+        {
+            // Already up for this weather. Cancel a slide-out that has not finished.
+            if (gTasks[taskId].tState == INDICATOR_STATE_SLIDE_OUT)
+                gTasks[taskId].tState = INDICATOR_STATE_SLIDE_IN;
+            return;
+        }
+        RemoveWeatherIndicator(taskId);
+    }
+
+    if (icon == WEATHER_INDICATOR_NONE)
+        return;
+
+    // Only build it on a settled battle screen. Mid-transition (Bag/Party open or reshow) the sprite
+    // palette table is being torn down or rebuilt, and a slot taken then is reused by a battler.
+    // Action selection calls this every frame, so the indicator appears once the screen is ready.
+    if (gMain.callback2 != BattleMainCB2 || gPaletteFade.active)
+        return;
+
+    // The indicator is optional. If any resource is unavailable, release what was taken and skip it.
+    // CreateTask returns 0 on exhaustion (a live slot) and CreateSprite asserts, so check first.
+    if (!HasFreeTask())
+        return;
+
+    struct CompressedSpriteSheet sheet = {sWeatherIndicators[icon].gfx, 0x100, TAG_WEATHER_INDICATOR};
+    struct SpritePalette palette = {sWeatherIndicators[icon].pal, TAG_WEATHER_INDICATOR};
+
+    LoadCompressedSpriteSheet(&sheet);
+    if (GetSpriteTileStartByTag(TAG_WEATHER_INDICATOR) == 0xFFFF)
+        return;
+    if (LoadSpritePalette(&palette) == 0xFF)
+    {
+        FreeSpriteTilesByTag(TAG_WEATHER_INDICATOR);
+        return;
+    }
+
+    u32 spriteId = CreateSpriteUnchecked(&sSpriteTemplate_WeatherIndicator, WEATHER_INDICATOR_X,
+                                         instant ? WEATHER_INDICATOR_Y_SHOWN : WEATHER_INDICATOR_Y_HIDDEN, 0);
+    if (spriteId >= MAX_SPRITES)
+    {
+        FreeSpriteTilesByTag(TAG_WEATHER_INDICATOR);
+        FreeSpritePaletteByTag(TAG_WEATHER_INDICATOR);
+        return;
+    }
+
+    taskId = CreateTask(Task_WeatherIndicatorHandler, 1);
+    gTasks[taskId].tState = instant ? INDICATOR_STATE_WAIT : INDICATOR_STATE_SLIDE_IN;
+    gTasks[taskId].tSpriteId = spriteId;
+    gTasks[taskId].tIcon = icon;
+}
+
+void HideWeatherIndicator(bool32 instant)
+{
+    if (TESTING || !B_SHOW_WEATHER_INDICATOR)
+        return;
+
+    u32 taskId = FindWeatherIndicatorTask();
+
+    if (taskId == TASK_NONE)
+        return;
+    if (instant)
+        RemoveWeatherIndicator(taskId);
+    else
+        gTasks[taskId].tState = INDICATOR_STATE_SLIDE_OUT;
+}
+
+#undef tState
+#undef tSpriteId
+#undef tIcon
+#undef TAG_WEATHER_INDICATOR
+#undef WEATHER_INDICATOR_NONE
+#undef WEATHER_INDICATOR_X
+#undef WEATHER_INDICATOR_Y_HIDDEN
+#undef WEATHER_INDICATOR_Y_SHOWN

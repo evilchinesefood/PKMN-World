@@ -258,6 +258,8 @@ Radio Tower and Route 118. Each is a one-time battle against both of them at onc
 - **Black/White-style interface** with type-effectiveness hints, move descriptions on L and the
   last-used ball on R.
 - **Backgrounds** match the location and the time of day.
+- **Weather indicator.** A tab at the top of the screen shows the active battle weather while
+  you choose an action.
 - **Quiet level-ups.** No mid-battle level-up box. One "Your team grew stronger!" summary after
   the battle lists every level gained.
 - **Shared Exp** gives every party member the same base EXP as the one that fought.

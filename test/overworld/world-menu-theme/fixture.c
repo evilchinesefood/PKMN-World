@@ -190,6 +190,26 @@ void VisualFeatureFixture(void)
     case 12:
         ClearBag();
         break;
+    case 43: // Weather-indicator suite: an obedient lead with four weather moves.
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][0];
+        u32 value = GetMonData(mon, MON_DATA_MAX_HP);
+        SetMonData(mon, MON_DATA_HP, &value);
+        value = GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_MAX_HP);
+        SetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_HP, &value);
+        value = 0;
+        SetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_STATUS, &value);
+        FlagSet(FLAG_BADGE08_GET);
+        SetMonMoveSlot(mon, MOVE_RAIN_DANCE, 0);
+        SetMonMoveSlot(mon, MOVE_SUNNY_DAY, 1);
+        SetMonMoveSlot(mon, MOVE_HAIL, 2);
+        SetMonMoveSlot(mon, MOVE_SANDSTORM, 3);
+        // Layout facts the suite needs, taken from the compiler rather than assumed.
+        gSpecialVar_0x8005 = offsetof(struct BattlePokemon, ability);
+        gSpecialVar_0x8006 = sizeof(struct BattlePokemon);
+        gSpecialVar_0x8007 = sizeof(struct Sprite);
+        break;
+    }
     case 13:
         CreateWildMon(SPECIES_MAGIKARP, 2);
         if (arg == 0)

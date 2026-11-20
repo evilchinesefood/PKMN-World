@@ -5,6 +5,10 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+### Battles
+
+- **Weather indicator** (#661). While you choose an action, a small tab at the top of the battle screen shows the active weather: rain, heavy rain, sun, harsh sun, sandstorm, hail, snow, fog or strong winds. It slides away when the turn starts and shows nothing when weather is absent or suppressed by Cloud Nine or Air Lock.
+
 ## v1.8 — 2026-11-19
 
 **Save format v14 requires a new game.** The main menu explains why older saves cannot load. Back up your save and keep its ROM if you want to continue that playthrough.

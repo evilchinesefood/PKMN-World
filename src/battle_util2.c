@@ -4,6 +4,7 @@
 #include "battle_bg.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
+#include "battle_interface.h"
 #include "malloc.h"
 #include "pokemon.h"
 #include "trainer_hill.h"
@@ -30,6 +31,7 @@ static void FreeBattleGfxResources(void)
 
 void CloseMainBattleScreen(void)
 {
+    HideWeatherIndicator(TRUE);
     BattleUI_ResetGraphics();
     FreeBattleGfxResources();
     FreeAllWindowBuffers();
@@ -73,6 +75,7 @@ void AllocateBattleResources(void)
 
 void FreeBattleResources(void)
 {
+    HideWeatherIndicator(TRUE);
     ResetBattlePresentation();
     BattleUI_ResetGraphics();
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)

@@ -151,3 +151,7 @@ Pass 10 campaigns ran on integration commit `77faf483fa` (ROM MD5 `cf6d1be37dd4a
 used `--postgame --sevii` as the girl at a night clock; world B used `--postgame` as the boy at a morning clock with
 Instant text. Both finished with zero retries. Before any fix, master `ab414c43dd` scored 438/438 (A) and 405/405 (B).
 The host count is lower than pass 9 because the save-format and content retirement before this pass removed four checks.
+
+After the rematch fixes in [#730](https://github.com/evilchinesefood/PKMN-World/pull/730), both campaigns were rerun with
+the same settings on master `ba5610eb82` (ROM MD5 `d1522e2e1ae706e0818a853d9189110e`). World A scored 438/438 in
+35,963 steps and world B 406/406 in 31,951 steps, both with zero retries.

@@ -5,6 +5,8 @@ All notable player-facing changes. For the full feature reference see
 
 ## Unreleased
 
+## v1.8 — 2026-11-19
+
 **Save format v14 requires a new game.** The main menu explains why older saves cannot load. Back up your save and keep its ROM if you want to continue that playthrough.
 
 ### Family options

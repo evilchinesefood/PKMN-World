@@ -293,7 +293,7 @@ static const u8 gText_ContinueMenuBadges[] = _("BADGES");
 // The fallback below covers a source drop with no .git, and it is what clangd sees
 // when it parses this file through compile_flags.txt, which carries no -DPW_VERSION.
 #ifndef PW_VERSION
-#define PW_VERSION "v1.7"
+#define PW_VERSION "v1.8"
 #endif
 
 static const u8 sText_BuildStamp[] = _(PW_VERSION);

@@ -19,6 +19,7 @@ Run from the repo root:
   python3 test/overworld/AuditEngineRegionText.py --check  # exit 1 on an unreviewed or stale entry
 """
 import bisect
+import fnmatch
 import os
 import re
 import subprocess
@@ -179,8 +180,15 @@ def region_hits(s):
 
 def tracked(*patterns):
     """Committed files only: build outputs (map events, generated headers) differ between checkouts."""
-    out = subprocess.run(["git", "ls-files", "-z", "--", *patterns], cwd=ROOT, capture_output=True, check=True).stdout
-    return sorted(p for p in out.decode().split("\0") if p and os.path.isfile(os.path.join(ROOT, p)))
+    try:
+        out = subprocess.run(["git", "ls-files", "-z", "--", *patterns], cwd=ROOT, capture_output=True, check=True).stdout
+        names = out.decode().split("\0")
+    except (OSError, subprocess.CalledProcessError):
+        # The release gate checks a built source snapshot with no .git. test/verify.py lists the
+        # snapshot's source files there; like a git pathspec, fnmatch lets `*` cross directories.
+        with open(os.path.join(ROOT, ".tracked-files"), encoding="utf-8") as fh:
+            names = [n for n in fh.read().split("\n") if any(fnmatch.fnmatch(n, pat) for pat in patterns)]
+    return sorted(p for p in names if p and os.path.isfile(os.path.join(ROOT, p)))
 
 
 def load():

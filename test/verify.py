@@ -69,6 +69,8 @@ def source_snapshot(destination):
         target.write_bytes(data)
         shutil.copymode(source, target)
     (destination / '.histignore').touch()
+    # Host audits that must skip build outputs read this where the snapshot has no .git.
+    (destination / '.tracked-files').write_text('\n'.join(names))
     dirty = bool(git('status', '--porcelain', '--untracked-files=normal'))
     if untracked and not version.endswith('-dirty'):
         version += '-dirty'
